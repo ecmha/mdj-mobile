@@ -1,10 +1,10 @@
-import { Text } from 'react-native';
-import DefaultLayout from '@/layouts/DefaultLayout';
+import MText from '@/components/Text';
+import HomeLayout from '@/layouts/HomeLayout';
 
 export default function Home() {
   return (
-    <DefaultLayout>
-      <Text>Home</Text>
-    </DefaultLayout>
+    <HomeLayout>
+      <MText>Home</MText>
+    </HomeLayout>
   );
 }

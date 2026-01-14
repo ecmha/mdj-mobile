@@ -5,13 +5,15 @@
  * @format
  */
 
-import { StatusBar, useColorScheme } from 'react-native';
+import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Navigation from './src/Navigation';
 import { ThemeProvider } from './src/contexts/themeProvider';
+import { useTheme } from '@/hooks/useTheme';
 
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+  const theme = useTheme();
+  const isDarkMode = theme === 'dark';
 
   return (
     <ThemeProvider>

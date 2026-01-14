@@ -1,7 +1,8 @@
 import Icon from '../Icon';
 import styles from './styles';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import MText from '@/components/Text';
 
 export default function Header({ title }: { title: string }) {
   const navigation = useNavigation();
@@ -13,7 +14,7 @@ export default function Header({ title }: { title: string }) {
       >
         <Icon name="arrow-back" color="default" size={25} />
       </TouchableOpacity>
-      <Text style={styles.title}>{title}</Text>
+      <MText style={styles.title}>{title}</MText>
     </View>
   );
 }

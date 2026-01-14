@@ -1,5 +1,8 @@
+import { ColorSchemeName } from "react-native";
+
 declare type Palette = {
   background: string;
+  background_light: string;
   foreground: string;
   divider: string;
   focus: string;

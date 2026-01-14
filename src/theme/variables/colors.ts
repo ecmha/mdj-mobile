@@ -1,6 +1,8 @@
+import { Palette } from "../types"
 
 export const light: Palette = {
-    background: "#f2d7a0ff",
+    background: "#f5f0e7ff",
+    background_light: "#e8e4dfff",
     foreground: "#11181C",
     divider: "#11111126",
     focus: "#006FEE",
@@ -8,7 +10,7 @@ export const light: Palette = {
     content_2: "#f4f4f5",
     content_3: "#e4e4e7",
     content_4: "#d4d4d8",
-    default: "#d4d4d8",
+    default: "#11181C",
     secondary: "#006FEE",
     primary: "#624a03ff",
     primary_light: "rgba(224, 161, 24, 0.7)",
@@ -19,7 +21,8 @@ export const light: Palette = {
 }
 
 export const dark: Palette = {
-    background: "#0a0531ff",
+    background: "#00001A",
+    background_light: "#292c34",
     foreground: "#ECEDEE",
     divider: "#ffffff26",
     focus: "#006FEE",
@@ -27,7 +30,7 @@ export const dark: Palette = {
     content_2: "#27272a",
     content_3: "#3f3f46",
     content_4: "#52525b",
-    default: "#3f3f46",
+    default: "#ECEDEE",
     secondary: "#006FEE",
     primary: "#9353d3",
     primary_light: "rgba(105, 84, 243, 0.4)",

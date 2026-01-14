@@ -1,6 +1,6 @@
 import {colors} from "@/theme/variables/colors";
 
-export const bgColorDefault = (theme: ThemeType) => ({
+export const bgColorDefault = (theme: "light" | "dark") => ({
   backgroundColor: colors[theme].background,
 });
 
@@ -12,8 +12,8 @@ export const bgPrimary = (theme: "light" | "dark") => ({
   backgroundColor: colors[theme].primary,
 });
 
-export const bgPrimaryLight = (theme: "light" | "dark") => ({
-  backgroundColor: colors[theme].primary_light,
+export const bgLight = (theme: "light" | "dark") => ({
+  backgroundColor: colors[theme].background_light,
 });
 
 export const bgSecondary = (theme: "light" | "dark") => ({
@@ -21,7 +21,7 @@ export const bgSecondary = (theme: "light" | "dark") => ({
 });
 
 export const bgDefault = (theme: "light" | "dark") => ({
-  backgroundColor: colors[theme].default,
+  backgroundColor: colors[theme].background,
 });
 
 export const bgSuccess = (theme: "light" | "dark") => ({

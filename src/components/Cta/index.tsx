@@ -9,9 +9,10 @@ import {
 
 import styles from './styles';
 import Icon, { IconNameType } from '../Icon';
-import { colors } from '@/theme/variables/colors';
 import { useTheme } from '@/hooks/useTheme';
-import { bgPrimaryLight } from '@/theme';
+import { bgLight } from '@/theme';
+import { ColorType } from '@/theme/types';
+import { colors } from '@/theme/variables/colors';
 
 type CTAPropsType = {
   onPress: () => void;
@@ -31,16 +32,19 @@ export default function CTA({
   color,
   style,
 }: CTAPropsType) {
-  const theme = useTheme() ?? 'light';
+  const theme = useTheme();
   return (
     <Touchable
       onPress={onPress}
       disabled={disabled}
       style={style}
-      background={TouchableNativeFeedback.Ripple('#624a03ff', false)}
+      background={TouchableNativeFeedback.Ripple(
+        colors[theme][color as ColorType],
+        false,
+      )}
     >
-      <View style={[styles.cta, bgPrimaryLight(theme)]}>
-        <Icon name={icon} color={colors[theme][color]} size={25} />
+      <View style={[styles.cta, bgLight(theme)]}>
+        <Icon name={icon} color={color} size={25} />
       </View>
     </Touchable>
   );
