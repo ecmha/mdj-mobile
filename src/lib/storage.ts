@@ -6,6 +6,7 @@ export default class Storage {
   static SESSION_KEY = "user_id";
   static THEME_KEY = "theme";
   static LANGUAGE_KEY = "language";
+  static SHOW_WELCOME_KEY = "show_welcome";
   static SECURE_STORAGE = null;
   static ASYNC_STORAGE = AsyncStorage;
 

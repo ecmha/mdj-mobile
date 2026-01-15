@@ -71,7 +71,7 @@ export default function Settings() {
               icon: 'chatbubble-ellipses-outline',
               label: 'Faire une suggestion',
               onPress: () => {
-                //TODO: mail to support
+                navigation.navigate('Suggestion');
               },
             },
             {

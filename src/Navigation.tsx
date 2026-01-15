@@ -5,6 +5,10 @@ import Settings from './pages/Settings';
 import Supremat from './pages/Supremat';
 import ThemeSetting from './pages/ThemeSetting';
 import LanguageSetting from './pages/LanguageSetting';
+import Suggestion from './pages/Suggestion';
+import Welcome from './pages/Welcome';
+import { useContext } from 'react';
+import { WelcomeContext } from './contexts/welcomeProvider';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -12,15 +16,22 @@ export type RootStackParamList = {
   Supremat: undefined;
   ThemeSetting: undefined;
   LanguageSetting: undefined;
+  Suggestion: undefined;
+  Welcome: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function Navigation() {
+  const { showWelcome } = useContext(WelcomeContext);
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator
+        screenOptions={{ headerShown: false }}
+        initialRouteName={showWelcome ? 'Welcome' : 'Home'}
+      >
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen
           name="Settings"
           component={Settings}
@@ -39,6 +50,11 @@ export default function Navigation() {
         <Stack.Screen
           name="LanguageSetting"
           component={LanguageSetting}
+          options={{ animation: 'slide_from_left' }}
+        />
+        <Stack.Screen
+          name="Suggestion"
+          component={Suggestion}
           options={{ animation: 'slide_from_left' }}
         />
       </Stack.Navigator>
