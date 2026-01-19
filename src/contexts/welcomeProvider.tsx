@@ -18,14 +18,6 @@ export const WelcomeContext = createContext<WelcomeContextProps>({
 export const WelcomeProvider = ({ children }: ProviderProps) => {
   const [showWelcome, setShowWelcome] = useState<boolean>(true);
 
-  useEffect(() => {
-    Storage.retrieve(Storage.SHOW_WELCOME_KEY).then(showWelcome => {
-      if (showWelcome !== null) {
-        setShowWelcome(JSON.parse(showWelcome));
-      }
-    });
-  }, []);
-
   const updateShowWelcome = (showWelcome: boolean) => {
     setShowWelcome(showWelcome);
     Storage.save(Storage.SHOW_WELCOME_KEY, JSON.stringify(showWelcome));

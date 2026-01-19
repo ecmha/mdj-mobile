@@ -2,10 +2,7 @@ import CTA from '@/components/Cta';
 import { View, StyleSheet } from 'react-native';
 import { bgDefault, STATUS_BAR_HEIGHT } from '@/theme';
 import { useTheme } from '@/hooks/useTheme';
-import { useNavigation } from '@react-navigation/native';
-
-import { RootStackParamList } from '@/Navigation';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@/hooks/useNavigation';
 import { StatusBar } from 'react-native';
 
 export default function HomeLayout({
@@ -14,8 +11,7 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   const theme = useTheme() ?? 'light';
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation();
 
   return (
     <View style={[styles.container, bgDefault(theme)]}>

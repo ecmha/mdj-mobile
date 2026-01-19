@@ -15,14 +15,11 @@ import {
 } from '@/theme';
 import { useTheme } from '@/hooks/useTheme';
 import LinksGroup from '@/components/LinksGroup';
-import { useNavigation } from '@react-navigation/native';
-import { RootStackParamList } from '@/Navigation';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@/hooks/useNavigation';
 
 export default function Settings() {
   const theme = useTheme() ?? 'light';
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation();
   return (
     <DefaultLayout pageTitle="Paramètres">
       <ScrollView contentContainerStyle={[styles.container, px(10)]}>

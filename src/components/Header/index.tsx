@@ -1,7 +1,7 @@
 import Icon from '../Icon';
 import styles from './styles';
 import { View, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@/hooks/useNavigation';
 import MText from '@/components/Text';
 
 export default function Header({ title }: { title: string }) {

@@ -7,6 +7,7 @@ import ThemeSetting from './pages/ThemeSetting';
 import LanguageSetting from './pages/LanguageSetting';
 import Suggestion from './pages/Suggestion';
 import Welcome from './pages/Welcome';
+import SplashScreen from './pages/Splashscreen';
 import { useContext } from 'react';
 import { WelcomeContext } from './contexts/welcomeProvider';
 
@@ -18,6 +19,7 @@ export type RootStackParamList = {
   LanguageSetting: undefined;
   Suggestion: undefined;
   Welcome: undefined;
+  SplashScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -26,12 +28,9 @@ export default function Navigation() {
   const { showWelcome } = useContext(WelcomeContext);
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{ headerShown: false }}
-        initialRouteName={showWelcome ? 'Welcome' : 'Home'}
-      >
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Welcome" component={Welcome} />
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="SplashScreen" component={SplashScreen} />
+        <Stack.Screen name="Home" component={showWelcome ? Welcome : Home} />
         <Stack.Screen
           name="Settings"
           component={Settings}
