@@ -16,16 +16,12 @@ export default function ThemeSetting() {
             {
               id: 'light',
               label: 'Light mode',
-              onPress: () => {
-                updateTheme('light');
-              },
+              onPress: () => updateTheme('light')
             },
             {
               id: 'dark',
               label: 'Dark mode',
-              onPress: () => {
-                updateTheme('dark');
-              },
+              onPress: () => updateTheme('dark')
             },
           ]}
         />

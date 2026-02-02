@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "314888692337",
+    "project_id": "meditation-du-jour",
+    "storage_bucket": "meditation-du-jour.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:314888692337:android:1413ad256d87973b96b1d0",
+        "android_client_info": {
+          "package_name": "com.mdj"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfzMAb65-hUAHNa95d_24qCoum-wp7yX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
