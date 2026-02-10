@@ -7,6 +7,7 @@ export default class Storage {
   static THEME_KEY = "theme";
   static LANGUAGE_KEY = "language";
   static SHOW_WELCOME_KEY = "show_welcome";
+  static DEVICE_TOKEN_KEY = "device_token";
   static SECURE_STORAGE = null;
   static ASYNC_STORAGE = AsyncStorage;
 

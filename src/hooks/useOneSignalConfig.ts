@@ -1,7 +1,8 @@
 import { useCallback, useEffect } from 'react';
 import { LogLevel, NotificationClickEvent, NotificationWillDisplayEvent, OneSignal } from 'react-native-onesignal';
 import { ONE_SIGNAL_APP_ID } from '../config/app';
-import { useFocusEffect } from '@react-navigation/native';
+import DeviceService from '@/services/devices';
+import { Platform } from 'react-native';
 
 export const useOneSignalConfig = () => {
     const OSLog = useCallback((message: string, optionalArg: unknown = null) => {
@@ -55,14 +56,14 @@ export const useOneSignalConfig = () => {
         [OSLog],
     );
 
-    const onNotificationClick = useCallback(
-        (event: NotificationClickEvent) => {
-            const notif = event.notification;
-            OSLog('OneSignal: notification clicked:', notif.title);
-            console.log('Notification clicked event:', notif);
-        },
-        [OSLog],
-    );
+    // const onNotificationClick = useCallback(
+    //     (event: NotificationClickEvent) => {
+    //         const notif = event.notification;
+    //         OSLog('OneSignal: notification clicked:', notif.title);
+    //         console.log('Notification clicked event:', notif);
+    //     },
+    //     [OSLog],
+    // );
 
     const onSubscriptionChange = useCallback(
         (subscription: unknown) => {
@@ -92,7 +93,12 @@ export const useOneSignalConfig = () => {
         OneSignal.User.pushSubscription.optIn();
 
         OneSignal.User.pushSubscription.getIdAsync().then((id) => {
-            console.log('OneSignal: push subscription id:', id);
+            if (id) {
+                DeviceService.registerDevice({
+                    deviceId: id,
+                    platform: Platform.OS,
+                });
+            }
         });
     }, []);
 
@@ -105,7 +111,7 @@ export const useOneSignalConfig = () => {
                     'foregroundWillDisplay',
                     onForegroundWillDisplay,
                 );
-                OneSignal.Notifications.addEventListener('click', onNotificationClick);
+                // OneSignal.Notifications.addEventListener('click', onNotificationClick);
                 OneSignal.User.pushSubscription.addEventListener(
                     'change',
                     onSubscriptionChange,
@@ -127,10 +133,10 @@ export const useOneSignalConfig = () => {
                     'foregroundWillDisplay',
                     onForegroundWillDisplay,
                 );
-                OneSignal.Notifications.removeEventListener(
-                    'click',
-                    onNotificationClick,
-                );
+                // OneSignal.Notifications.removeEventListener(
+                //     'click',
+                //     onNotificationClick,
+                // );
                 OneSignal.User.pushSubscription.removeEventListener(
                     'change',
                     onSubscriptionChange,
@@ -143,7 +149,7 @@ export const useOneSignalConfig = () => {
             };
         }, [
             onForegroundWillDisplay,
-            onNotificationClick,
+            // onNotificationClick,
             onSubscriptionChange,
             onPermissionChange,
             onUserChange,

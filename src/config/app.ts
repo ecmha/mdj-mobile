@@ -1,4 +1,4 @@
-export const API_URL = 'https://api.example.com';
+export const API_URL = 'https://mdj-server.onrender.com/api';
 export const APP_NAME = 'MDJ';
 export const APP_VERSION = '1.0.0';
 
