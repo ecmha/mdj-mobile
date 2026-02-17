@@ -1,4 +1,10 @@
-import { View, StatusBar, TouchableOpacity, Image } from 'react-native';
+import {
+  View,
+  StatusBar,
+  TouchableOpacity,
+  Image,
+  Platform,
+} from 'react-native';
 import {
   alignItems,
   bgDefault,
@@ -8,7 +14,6 @@ import {
   roundedLg,
   textColor,
   p,
-  flex,
   textAlign,
 } from '@/theme';
 import { useTheme } from '@/hooks/useTheme';
@@ -16,6 +21,8 @@ import MText from '@/components/Text';
 import { useContext } from 'react';
 import { WelcomeContext } from '@/contexts/welcomeProvider';
 import styles from './styles';
+import { OneSignal } from 'react-native-onesignal';
+import DeviceService from '@/services/devices';
 
 export default function Welcome() {
   const theme = useTheme();
@@ -23,6 +30,14 @@ export default function Welcome() {
 
   const onStartApp = () => {
     updateShowWelcome(false);
+    OneSignal.User.getOnesignalId().then(id => {
+      if (id) {
+        DeviceService.registerDevice({
+          deviceId: id,
+          platform: Platform.OS,
+        });
+      }
+    });
   };
 
   return (

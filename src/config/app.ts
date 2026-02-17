@@ -1,4 +1,5 @@
 export const API_URL = 'https://mdj-server.onrender.com/api';
+export const API_URL_LOCAL = 'http://localhost:5002/api';
 export const APP_NAME = 'MDJ';
 export const APP_VERSION = '1.0.0';
 

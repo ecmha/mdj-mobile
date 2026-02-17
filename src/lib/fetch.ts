@@ -1,4 +1,4 @@
-import { API_URL } from "@/config/app";
+import { API_URL, API_URL_LOCAL } from "@/config/app";
 
 export type CustomHeaders = {
     'x-mdj-device-token'?: string | null;
@@ -7,7 +7,8 @@ export type CustomHeaders = {
 
 export default class API {
     static async fetch(endpoint: string, options: RequestInit, headers: CustomHeaders): Promise<any> {
-        const url = `${API_URL}/${endpoint}`;
+        const apiUrl = process.env.NODE_ENV === 'development' ? API_URL_LOCAL : API_URL;
+        const url = `${apiUrl}/${endpoint}`;
 
         const validHeaders: Record<string, string> = {
             "Content-Type": "application/json",

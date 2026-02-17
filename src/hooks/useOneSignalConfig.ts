@@ -1,159 +1,127 @@
-import { useCallback, useEffect } from 'react';
-import { LogLevel, NotificationClickEvent, NotificationWillDisplayEvent, OneSignal } from 'react-native-onesignal';
+import { useCallback, useEffect, useRef } from 'react';
+import {
+  NotificationClickEvent,
+  NotificationWillDisplayEvent,
+  OneSignal,
+} from 'react-native-onesignal';
 import { ONE_SIGNAL_APP_ID } from '../config/app';
-import DeviceService from '@/services/devices';
-import { Platform } from 'react-native';
+
+// Configuration constants
+const FOREGROUND_NOTIFICATION_DELAY_MS = 5000;
+const IS_DEV = __DEV__;
 
 export const useOneSignalConfig = () => {
-    const OSLog = useCallback((message: string, optionalArg: unknown = null) => {
-        let logMessage = message;
-        if (optionalArg !== null) {
-            logMessage = message + JSON.stringify(optionalArg);
-        }
+  const isInitializedRef = useRef(false);
 
-        console.log(logMessage);
+  // Handle foreground notifications with delay
+  const onForegroundWillDisplay = useCallback(
+    (event: NotificationWillDisplayEvent) => {
+      const notif = event.getNotification();
 
-    }, []);
+      if (IS_DEV) {
+        console.log('[OneSignal] Foreground notification:', notif.title);
+      }
 
-    const onForegroundWillDisplay = useCallback(
-        (event: NotificationWillDisplayEvent) => {
-            const notif = event.getNotification();
-            OSLog('OneSignal: notification will show in foreground:', notif.title);
-            console.log('Will display notification event:', notif);
+      event.preventDefault();
 
-            event.preventDefault();
+      // Display notification after delay
+      setTimeout(() => {
+        notif.display();
+      }, FOREGROUND_NOTIFICATION_DELAY_MS);
+    },
+    [],
+  );
 
-            setTimeout(() => {
-                notif.display();
-            }, 5000);
+  // Handle notification clicks
+  const onNotificationClick = useCallback((event: NotificationClickEvent) => {
+    const { notification } = event;
+    if (IS_DEV) {
+      console.log('[OneSignal] Notification clicked:', notification.title);
+    }
+    // Handle navigation or app logic based on notification data
+  }, []);
 
-            // const cancelButton = {
-            //   text: 'Cancel',
-            //   onPress: () => {
-            //     (event as { preventDefault: () => void }).preventDefault();
-            //   },
-            //   style: 'cancel' as const,
-            // };
+  // Handle subscription changes (e.g., when push token updates)
+  const onSubscriptionChange = useCallback((event: any) => {
+    if (IS_DEV) {
+      console.log('[OneSignal] Subscription changed:', event);
+    }
+  }, []);
 
-            // const completeButton = {
-            //   text: 'Display',
-            //   onPress: () => {
-            //     (event as { getNotification: () => { display: () => void } })
-            //       .getNotification()
-            //       .display();
-            //   },
-            // };
+  // Handle permission changes
+  const onPermissionChange = useCallback((granted: boolean) => {
+    if (IS_DEV) {
+      console.log('[OneSignal] Permission changed:', granted);
+    }
+  }, []);
 
-            // Alert.alert(
-            //   'Display notification?',
-            //   notif.title,
-            //   [cancelButton, completeButton],
-            //   {
-            //     cancelable: true,
-            //   },
-            // );
-        },
-        [OSLog],
+  // Handle user changes
+  const onUserChange = useCallback((event: any) => {
+    if (IS_DEV) {
+      console.log('[OneSignal] User changed:', event);
+    }
+  }, []);
+
+  // Initialize OneSignal (runs once)
+  useEffect(() => {
+    if (isInitializedRef.current) return;
+
+    try {
+      OneSignal.initialize(ONE_SIGNAL_APP_ID);
+
+      // Request notification permissions
+      OneSignal.Notifications.requestPermission(true);
+
+      isInitializedRef.current = true;
+
+      if (IS_DEV) {
+        console.log('[OneSignal] Initialized successfully');
+      }
+    } catch (error) {
+      console.error('[OneSignal] Initialization failed:', error);
+    }
+  }, []);
+
+  // Register event listeners (runs once)
+  useEffect(() => {
+    if (!isInitializedRef.current) return;
+
+    OneSignal.Notifications.addEventListener(
+      'foregroundWillDisplay',
+      onForegroundWillDisplay,
     );
-
-    // const onNotificationClick = useCallback(
-    //     (event: NotificationClickEvent) => {
-    //         const notif = event.notification;
-    //         OSLog('OneSignal: notification clicked:', notif.title);
-    //         console.log('Notification clicked event:', notif);
-    //     },
-    //     [OSLog],
-    // );
-
-    const onSubscriptionChange = useCallback(
-        (subscription: unknown) => {
-            OSLog('OneSignal: subscription changed:', subscription);
-        },
-        [OSLog],
+    OneSignal.Notifications.addEventListener('click', onNotificationClick);
+    OneSignal.User.pushSubscription.addEventListener(
+      'change',
+      onSubscriptionChange,
     );
-
-    const onPermissionChange = useCallback(
-        (granted: unknown) => {
-            OSLog('OneSignal: permission changed:', granted);
-        },
-        [OSLog],
+    OneSignal.Notifications.addEventListener(
+      'permissionChange',
+      onPermissionChange,
     );
+    OneSignal.User.addEventListener('change', onUserChange);
 
-    const onUserChange = useCallback(
-        (event: unknown) => {
-            OSLog('OneSignal: user changed: ', event);
-        },
-        [OSLog],
-    );
-
-    useEffect(() => {
-        OneSignal.initialize(ONE_SIGNAL_APP_ID);
-        OneSignal.Debug.setLogLevel(LogLevel.None);
-        OneSignal.Notifications.requestPermission(true);
-        OneSignal.User.pushSubscription.optIn();
-
-        OneSignal.User.pushSubscription.getIdAsync().then((id) => {
-            if (id) {
-                DeviceService.registerDevice({
-                    deviceId: id,
-                    platform: Platform.OS,
-                });
-            }
-        });
-    }, []);
-
-    useEffect(
-        useCallback(() => {
-            console.log('Setting up event listeners');
-
-            const setup = async () => {
-                OneSignal.Notifications.addEventListener(
-                    'foregroundWillDisplay',
-                    onForegroundWillDisplay,
-                );
-                // OneSignal.Notifications.addEventListener('click', onNotificationClick);
-                OneSignal.User.pushSubscription.addEventListener(
-                    'change',
-                    onSubscriptionChange,
-                );
-                OneSignal.Notifications.addEventListener(
-                    'permissionChange',
-                    onPermissionChange,
-                );
-                OneSignal.User.addEventListener('change', onUserChange);
-            };
-
-            setup();
-
-            return () => {
-                console.log('Cleaning up event listeners');
-
-                // Clean up all event listeners
-                OneSignal.Notifications.removeEventListener(
-                    'foregroundWillDisplay',
-                    onForegroundWillDisplay,
-                );
-                // OneSignal.Notifications.removeEventListener(
-                //     'click',
-                //     onNotificationClick,
-                // );
-                OneSignal.User.pushSubscription.removeEventListener(
-                    'change',
-                    onSubscriptionChange,
-                );
-                OneSignal.Notifications.removeEventListener(
-                    'permissionChange',
-                    onPermissionChange,
-                );
-                OneSignal.User.removeEventListener('change', onUserChange);
-            };
-        }, [
-            onForegroundWillDisplay,
-            // onNotificationClick,
-            onSubscriptionChange,
-            onPermissionChange,
-            onUserChange,
-        ]),
-    );
-
+    return () => {
+      OneSignal.Notifications.removeEventListener(
+        'foregroundWillDisplay',
+        onForegroundWillDisplay,
+      );
+      OneSignal.Notifications.removeEventListener('click', onNotificationClick);
+      OneSignal.User.pushSubscription.removeEventListener(
+        'change',
+        onSubscriptionChange,
+      );
+      OneSignal.Notifications.removeEventListener(
+        'permissionChange',
+        onPermissionChange,
+      );
+      OneSignal.User.removeEventListener('change', onUserChange);
+    };
+  }, [
+    onForegroundWillDisplay,
+    onNotificationClick,
+    onSubscriptionChange,
+    onPermissionChange,
+    onUserChange,
+  ]);
 };
