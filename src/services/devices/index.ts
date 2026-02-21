@@ -1,19 +1,14 @@
-import API from "@/lib/fetch";
-import { DeviceDto } from "./types.d";
-import Storage from "@/lib/storage";
+import { post, getHeaders } from '@/lib/fetch';
+import { saveItem, STORAGE_KEYS } from '@/lib/storage';
+import { DeviceDto } from './types.d';
 
-export default class DeviceService {
-    static async registerDevice(payload: DeviceDto) {
-        try {
-            console.log('Registering device: ', payload);
-            const deviceToken = await Storage.retrieve(Storage.DEVICE_TOKEN_KEY);
-            const response = await API.post('devices', { body: JSON.stringify(payload) }, { 'x-mdj-device-token': deviceToken });
-            console.log('Device registered successfully: ', response);
-            await Storage.save(Storage.DEVICE_TOKEN_KEY, response.deviceToken);
-            return response;
-        } catch (error) {
-            console.info('Error registering device: ', error);
-        }
-
-    }
-}
+export const registerDevice = async (payload: DeviceDto) => {
+  try {
+    const headers = await getHeaders();
+    const response = await post('devices', payload, headers);
+    await saveItem(STORAGE_KEYS.DEVICE_TOKEN, response.deviceToken);
+    return response;
+  } catch (error) {
+    console.info('Error registering device: ', error);
+  }
+};

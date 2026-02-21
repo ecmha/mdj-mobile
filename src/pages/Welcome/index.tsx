@@ -20,19 +20,22 @@ import { useTheme } from '@/hooks/useTheme';
 import MText from '@/components/Text';
 import { useContext } from 'react';
 import { WelcomeContext } from '@/contexts/welcomeProvider';
+import { useNavigation } from '@/hooks/useNavigation';
 import styles from './styles';
 import { OneSignal } from 'react-native-onesignal';
-import DeviceService from '@/services/devices';
+import { registerDevice } from '@/services/devices';
 
 export default function Welcome() {
   const theme = useTheme();
   const { updateShowWelcome } = useContext(WelcomeContext);
+  const navigation = useNavigation();
 
   const onStartApp = () => {
     updateShowWelcome(false);
+    navigation.replace('Home');
     OneSignal.User.getOnesignalId().then(id => {
       if (id) {
-        DeviceService.registerDevice({
+        registerDevice({
           deviceId: id,
           platform: Platform.OS,
         });
@@ -51,7 +54,7 @@ export default function Welcome() {
       <View style={[flexContent(2), justifyContent.center, alignItems.center]}>
         <Image
           source={require('@/assets/imgs/welcome.png')}
-          style={{ width: 200, height: 200 }}
+          style={styles.cover}
         />
       </View>
       <View style={[flexContent(1), alignItems.center, p(10)]}>

@@ -1,38 +1,18 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export type StorageType = typeof AsyncStorage;
+export const STORAGE_KEYS = {
+  SESSION: 'user_id',
+  THEME: 'theme',
+  LANGUAGE: 'language',
+  SHOW_WELCOME: 'show_welcome',
+  DEVICE_TOKEN: 'device_token',
+} as const;
 
-export default class Storage {
-  static SESSION_KEY = "user_id";
-  static THEME_KEY = "theme";
-  static LANGUAGE_KEY = "language";
-  static SHOW_WELCOME_KEY = "show_welcome";
-  static DEVICE_TOKEN_KEY = "device_token";
-  static SECURE_STORAGE = null;
-  static ASYNC_STORAGE = AsyncStorage;
+export const saveItem = (key: string, value: string) =>
+  AsyncStorage.setItem(key, value);
 
-  static async save(key: string, value: string, storage: StorageType = AsyncStorage) {
-    try {
-      await storage.setItem(key, value);
-    } catch (error) {
-      throw new Error(`Failed to setItemAsync: ${error}`);
-    }
-  }
+export const retrieveItem = (key: string) =>
+  AsyncStorage.getItem(key);
 
-  static async retrieve(key: string, storage: StorageType = AsyncStorage) {
-    try {
-      const data = await storage.getItem(key);
-      return data;
-    } catch (error) {
-      throw new Error(`Failed to getItemAsync: ${error}`);
-    }
-  }
-
-  static async delete(key: string, storage: StorageType = AsyncStorage) {
-    try {
-      await storage.removeItem(key);
-    } catch (error) {
-      throw new Error(`Failed to delete: ${error}`);
-    }
-  }
-}
+export const deleteItem = (key: string) =>
+  AsyncStorage.removeItem(key);

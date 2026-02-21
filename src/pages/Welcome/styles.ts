@@ -9,4 +9,5 @@ export default StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
   },
+  cover: { width: 200, height: 200 },
 });

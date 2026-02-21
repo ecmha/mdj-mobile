@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 import { useColorScheme } from 'react-native';
-import Storage from '@/lib/storage';
+import { retrieveItem, saveItem, STORAGE_KEYS } from '@/lib/storage';
 import { ThemeType } from '@/theme/types';
 
 interface ProviderProps {
@@ -22,7 +22,7 @@ export const ThemeProvider = ({ children }: ProviderProps) => {
   const [theme, setTheme] = useState<ThemeType>(colorScheme as ThemeType);
 
   useEffect(() => {
-    Storage.retrieve(Storage.THEME_KEY).then(theme => {
+    retrieveItem(STORAGE_KEYS.THEME).then(theme => {
       if (theme) {
         setTheme(theme as ThemeType);
       }
@@ -31,7 +31,7 @@ export const ThemeProvider = ({ children }: ProviderProps) => {
 
   const updateTheme = (theme: ThemeType) => {
     setTheme(theme);
-    Storage.save(Storage.THEME_KEY, theme);
+    saveItem(STORAGE_KEYS.THEME, theme);
   };
 
   return (

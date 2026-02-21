@@ -1,5 +1,5 @@
-import { createContext, useEffect, useState } from 'react';
-import Storage from '@/lib/storage';
+import { createContext, useState } from 'react';
+import { saveItem, STORAGE_KEYS } from '@/lib/storage';
 
 interface ProviderProps {
   children: React.ReactNode;
@@ -12,15 +12,15 @@ export type WelcomeContextProps = {
 
 export const WelcomeContext = createContext<WelcomeContextProps>({
   showWelcome: true,
-  updateShowWelcome: (showWelcome: boolean) => {},
+  updateShowWelcome: () => {},
 });
 
 export const WelcomeProvider = ({ children }: ProviderProps) => {
   const [showWelcome, setShowWelcome] = useState<boolean>(true);
 
-  const updateShowWelcome = (showWelcome: boolean) => {
-    setShowWelcome(showWelcome);
-    Storage.save(Storage.SHOW_WELCOME_KEY, JSON.stringify(showWelcome));
+  const updateShowWelcome = (show: boolean) => {
+    setShowWelcome(show);
+    saveItem(STORAGE_KEYS.SHOW_WELCOME, JSON.stringify(show));
   };
 
   return (

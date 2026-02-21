@@ -1,15 +1,17 @@
 import CTA from '@/components/Cta';
 import { View, StyleSheet } from 'react-native';
-import { bgDefault, STATUS_BAR_HEIGHT } from '@/theme';
+import { bgDefault, flexContent, STATUS_BAR_HEIGHT } from '@/theme';
 import { useTheme } from '@/hooks/useTheme';
 import { useNavigation } from '@/hooks/useNavigation';
 import { StatusBar } from 'react-native';
+import { useNotificationClick } from '@/features/notifications/useNotificationClick';
 
 export default function HomeLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  useNotificationClick();
   const theme = useTheme() ?? 'light';
   const navigation = useNavigation();
 
@@ -18,6 +20,8 @@ export default function HomeLayout({
       <StatusBar
         barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
       />
+
+      <View style={[flexContent(1)]}>{children}</View>
 
       <View style={styles.ctaRight}>
         <CTA
@@ -39,7 +43,6 @@ export default function HomeLayout({
           color="foreground"
         />
       </View>
-      {children}
     </View>
   );
 }
@@ -48,7 +51,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: STATUS_BAR_HEIGHT,
-    paddingHorizontal: 20,
   },
   ctaRight: {
     position: 'absolute',

@@ -1,75 +1,59 @@
-import { API_URL, API_URL_LOCAL } from "@/config/app";
+import { API_URL, API_URL_LOCAL } from '@/config/app';
+import { retrieveItem, STORAGE_KEYS } from '@/lib/storage';
 
 export type CustomHeaders = {
-    'x-mdj-device-token'?: string | null;
-    'x-mdj-platform'?: string;
-}
+  'x-mdj-device-token'?: string | null;
+  'x-mdj-platform'?: string;
+};
 
-export default class API {
-    static async fetch(endpoint: string, options: RequestInit, headers: CustomHeaders): Promise<any> {
-        const apiUrl = process.env.NODE_ENV === 'development' ? API_URL_LOCAL : API_URL;
-        const url = `${apiUrl}/${endpoint}`;
+const getBaseUrl = () =>
+  process.env.NODE_ENV === 'development' ? API_URL_LOCAL : API_URL;
 
-        const validHeaders: Record<string, string> = {
-            "Content-Type": "application/json",
-        };
+const buildHeaders = (custom: CustomHeaders = {}): Record<string, string> => {
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  Object.entries(custom).forEach(([key, value]) => {
+    if (value != null) headers[key] = value;
+  });
+  return headers;
+};
 
-        if (headers) {
-            Object.entries(headers).forEach(([key, value]) => {
-                if (value !== null && value !== undefined) {
-                    validHeaders[key] = value;
-                }
-            });
-        }
+const request = async (
+  method: string,
+  endpoint: string,
+  options: RequestInit = {},
+  headers: CustomHeaders = {},
+): Promise<any> => {
+  const response = await fetch(`${getBaseUrl()}/${endpoint}`, {
+    ...options,
+    method,
+    headers: buildHeaders(headers),
+  });
 
-        try {
-            const response = await fetch(url, {
-                ...options,
-                headers: validHeaders,
-            });
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`); // TODO: Handle HTTP errors
-            }
-            return response.json();
-        } catch (error) {
-            throw error;
-        }
-    }
+  return response.json();
+};
 
-    static async get(endpoint: string, options: RequestInit, headers: CustomHeaders) {
-        return this.fetch(endpoint, {
-            method: 'GET',
-            ...options,
-        }, headers);
-    }
+export const getHeaders = async (): Promise<CustomHeaders> => ({
+  'x-mdj-device-token': await retrieveItem(STORAGE_KEYS.DEVICE_TOKEN),
+});
 
-    static async post(endpoint: string, options: RequestInit, headers: CustomHeaders) {
-        return this.fetch(endpoint, {
-            method: 'POST',
-            ...options,
-        }, headers);
-    }
+export const get = (endpoint: string, headers?: CustomHeaders) =>
+  request('GET', endpoint, {}, headers);
 
-    static async put(endpoint: string, options: RequestInit, headers: CustomHeaders) {
-        return this.fetch(endpoint, {
-            method: 'PUT',
-            ...options,
-        }, headers);
-    }
+export const post = (endpoint: string, body: unknown, headers?: CustomHeaders) =>
+  request('POST', endpoint, { body: JSON.stringify(body) }, headers);
 
-    static async delete(endpoint: string, options: RequestInit, headers: CustomHeaders) {
-        return this.fetch(endpoint, {
-            method: 'DELETE',
-            ...options,
-        }, headers);
-    }
-    static async download(endpoint: string): Promise<any> {
-        const response = await this.fetch(endpoint, {
-            method: 'GET',
-        }, {});
+export const put = (endpoint: string, body: unknown, headers?: CustomHeaders) =>
+  request('PUT', endpoint, { body: JSON.stringify(body) }, headers);
 
-        const blob = await response.blob();
-        return URL.createObjectURL(blob);
-    }
-}
+export const del = (endpoint: string, headers?: CustomHeaders) =>
+  request('DELETE', endpoint, {}, headers);
+
+export const download = async (endpoint: string): Promise<string> => {
+  const response = await fetch(`${getBaseUrl()}/${endpoint}`);
+  const blob = await response.blob();
+  return URL.createObjectURL(blob);
+};

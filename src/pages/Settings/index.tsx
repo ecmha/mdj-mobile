@@ -1,18 +1,8 @@
 import DefaultLayout from '@/layouts/DefaultLayout';
-import { TouchableOpacity, View, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import MText from '@/components/Text';
 import styles from './styles';
-import Icon from '@/components/Icon';
-import {
-  flex,
-  alignItems,
-  px,
-  bgLight,
-  overflow,
-  textBig,
-  my,
-  hValue,
-} from '@/theme';
+import { alignItems, px, textBig, my } from '@/theme';
 import { useTheme } from '@/hooks/useTheme';
 import LinksGroup from '@/components/LinksGroup';
 import { useNavigation } from '@/hooks/useNavigation';
