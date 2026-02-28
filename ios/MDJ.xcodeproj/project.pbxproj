@@ -11,6 +11,13 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		9E89AD86465A4673BAE6DC1C /* SFProText-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9186A254B78B474EBC55C40F /* SFProText-Light.otf */; };
+		BCED989E5AC64ED5B2CFB8F7 /* SFProText-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4E421BA19B264520AB5A05E6 /* SFProText-ThinItalic.otf */; };
+		EB5CEADCDA7F43A88A480598 /* SFProText-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7621F09A305C41B68348BDD9 /* SFProText-Semibold.otf */; };
+		1BA13CD8CEAC40B3967493B6 /* SpaceMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A124038C9CE4EAD9EC016F9 /* SpaceMono-Regular.ttf */; };
+		5A4BF92FED5B400A8E8613FB /* CormorantUpright-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EB384C899B540A796644417 /* CormorantUpright-Light.ttf */; };
+		2BB71D1E7565415C95A4D3D1 /* CormorantUpright-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EC7429A24AB0488E81ABA810 /* CormorantUpright-SemiBold.ttf */; };
+		6F8D09481F294720ABFE28E9 /* CormorantUpright-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4A3DFFE1BBDE4D89B3C36A0D /* CormorantUpright-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +31,13 @@
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = MDJ/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = MDJ/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		9186A254B78B474EBC55C40F /* SFProText-Light.otf */ = {isa = PBXFileReference; name = "SFProText-Light.otf"; path = "../src/assets/fonts/SFProText-Light.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4E421BA19B264520AB5A05E6 /* SFProText-ThinItalic.otf */ = {isa = PBXFileReference; name = "SFProText-ThinItalic.otf"; path = "../src/assets/fonts/SFProText-ThinItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7621F09A305C41B68348BDD9 /* SFProText-Semibold.otf */ = {isa = PBXFileReference; name = "SFProText-Semibold.otf"; path = "../src/assets/fonts/SFProText-Semibold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9A124038C9CE4EAD9EC016F9 /* SpaceMono-Regular.ttf */ = {isa = PBXFileReference; name = "SpaceMono-Regular.ttf"; path = "../src/assets/fonts/SpaceMono-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2EB384C899B540A796644417 /* CormorantUpright-Light.ttf */ = {isa = PBXFileReference; name = "CormorantUpright-Light.ttf"; path = "../src/assets/fonts/CormorantUpright-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		EC7429A24AB0488E81ABA810 /* CormorantUpright-SemiBold.ttf */ = {isa = PBXFileReference; name = "CormorantUpright-SemiBold.ttf"; path = "../src/assets/fonts/CormorantUpright-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4A3DFFE1BBDE4D89B3C36A0D /* CormorantUpright-Bold.ttf */ = {isa = PBXFileReference; name = "CormorantUpright-Bold.ttf"; path = "../src/assets/fonts/CormorantUpright-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +88,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				44AD48178026451CA27D9CAE /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -96,6 +111,21 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		44AD48178026451CA27D9CAE /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				9186A254B78B474EBC55C40F /* SFProText-Light.otf */,
+				4E421BA19B264520AB5A05E6 /* SFProText-ThinItalic.otf */,
+				7621F09A305C41B68348BDD9 /* SFProText-Semibold.otf */,
+				9A124038C9CE4EAD9EC016F9 /* SpaceMono-Regular.ttf */,
+				2EB384C899B540A796644417 /* CormorantUpright-Light.ttf */,
+				EC7429A24AB0488E81ABA810 /* CormorantUpright-SemiBold.ttf */,
+				4A3DFFE1BBDE4D89B3C36A0D /* CormorantUpright-Bold.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -159,6 +189,13 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				9E89AD86465A4673BAE6DC1C /* SFProText-Light.otf in Resources */,
+				BCED989E5AC64ED5B2CFB8F7 /* SFProText-ThinItalic.otf in Resources */,
+				EB5CEADCDA7F43A88A480598 /* SFProText-Semibold.otf in Resources */,
+				1BA13CD8CEAC40B3967493B6 /* SpaceMono-Regular.ttf in Resources */,
+				5A4BF92FED5B400A8E8613FB /* CormorantUpright-Light.ttf in Resources */,
+				2BB71D1E7565415C95A4D3D1 /* CormorantUpright-SemiBold.ttf in Resources */,
+				6F8D09481F294720ABFE28E9 /* CormorantUpright-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

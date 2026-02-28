@@ -1,0 +1,33 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/SFProText-Light.otf",
+      "sha1": "4352e0750018eabc1469ced09dc2e036cdb0ec6c"
+    },
+    {
+      "path": "src/assets/fonts/SFProText-ThinItalic.otf",
+      "sha1": "8be183ff321eae05c6001b25bb9ede8f9261d5c3"
+    },
+    {
+      "path": "src/assets/fonts/SFProText-Semibold.otf",
+      "sha1": "087203e93cc00eeca8a6b11bc26461da94c66565"
+    },
+    {
+      "path": "src/assets/fonts/SpaceMono-Regular.ttf",
+      "sha1": "fae3a5a43b50e0408fd61e14383d94a023d332b0"
+    },
+    {
+      "path": "src/assets/fonts/CormorantUpright-SemiBold.ttf",
+      "sha1": "ed11310a9a0baef1dca7f7f5f893e7abe95ca101"
+    },
+    {
+      "path": "src/assets/fonts/CormorantUpright-Bold.ttf",
+      "sha1": "c5c35558327cd31e19bc71e8a9977851f4813a53"
+    },
+    {
+      "path": "src/assets/fonts/CormorantUpright-Light.ttf",
+      "sha1": "aa21c7188e437a1f6c504e0970f4c0b5216c8538"
+    }
+  ]
+}

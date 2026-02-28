@@ -1,21 +1,24 @@
-import {colors} from "@/theme/variables/colors";
-import { fontSize } from "@/theme/variables/typo";
-import { StyleSheet } from "react-native";
+import { colors } from '@/theme/variables/colors';
+import { fontSize } from '@/theme/variables/typo';
+import { StyleSheet } from 'react-native';
 
 /* ------ FONT FAMILY ----- */
 
 export const fontFamily = StyleSheet.create({
   sfBold: {
-    fontFamily: "SFProText-Semibold",
+    fontFamily: 'SFProText-Semibold',
   },
   sfRegular: {
-    fontFamily: "SFProText-Light",
+    fontFamily: 'SFProText-Light',
   },
   sfItalic: {
-    fontFamily: "SFProText-LightItalic",
+    fontFamily: 'SFProText-LightItalic',
   },
   cormorant: {
-    fontFamily: "CormorantUpright-Light",
+    fontFamily: 'CormorantUpright-Light',
+  },
+  cormorantBold: {
+    fontFamily: 'CormorantUpright-Bold',
   },
 });
 
@@ -23,19 +26,19 @@ export const fontFamily = StyleSheet.create({
 
 export const textAlign = StyleSheet.create({
   auto: {
-    textAlign: "auto",
+    textAlign: 'auto',
   },
   center: {
-    textAlign: "center",
+    textAlign: 'center',
   },
   justify: {
-    textAlign: "justify",
+    textAlign: 'justify',
   },
   left: {
-    textAlign: "left",
+    textAlign: 'left',
   },
   right: {
-    textAlign: "right",
+    textAlign: 'right',
   },
 });
 
@@ -43,28 +46,28 @@ export const textAlign = StyleSheet.create({
 
 export const textDecorationLine = StyleSheet.create({
   lineThrough: {
-    textDecorationLine: "line-through",
+    textDecorationLine: 'line-through',
   },
   underline: {
-    textDecorationLine: "underline",
+    textDecorationLine: 'underline',
   },
   none: {
-    textDecorationLine: "none",
+    textDecorationLine: 'none',
   },
 });
 
 export const textDecorationStyle = StyleSheet.create({
   dashed: {
-    textDecorationStyle: "dashed",
+    textDecorationStyle: 'dashed',
   },
   dotted: {
-    textDecorationStyle: "dotted",
+    textDecorationStyle: 'dotted',
   },
   double: {
-    textDecorationStyle: "double",
+    textDecorationStyle: 'double',
   },
   solid: {
-    textDecorationStyle: "solid",
+    textDecorationStyle: 'solid',
   },
 });
 
@@ -115,7 +118,7 @@ export const textMaxi = {
 
 /* ------ TEXT COLOR ----- */
 
-export const textColorDefault = (theme: "light" | "dark") => ({
+export const textColorDefault = (theme: 'light' | 'dark') => ({
   color: colors[theme].foreground,
 });
 
@@ -123,26 +126,26 @@ export const textColor = (color: string) => ({
   color: color,
 });
 
-export const textPrimary = (theme: "light" | "dark") => ({
+export const textPrimary = (theme: 'light' | 'dark') => ({
   color: colors[theme].primary,
 });
 
-export const textSecondary = (theme: "light" | "dark") => ({
+export const textSecondary = (theme: 'light' | 'dark') => ({
   color: colors[theme].secondary,
 });
 
-export const textDefault = (theme: "light" | "dark") => ({
+export const textDefault = (theme: 'light' | 'dark') => ({
   color: colors[theme].default,
 });
 
-export const textSuccess = (theme: "light" | "dark") => ({
+export const textSuccess = (theme: 'light' | 'dark') => ({
   color: colors[theme].success,
 });
 
-export const textWarning = (theme: "light" | "dark") => ({
+export const textWarning = (theme: 'light' | 'dark') => ({
   color: colors[theme].warning,
 });
 
-export const textDanger = (theme: "light" | "dark") => ({
+export const textDanger = (theme: 'light' | 'dark') => ({
   color: colors[theme].danger,
 });

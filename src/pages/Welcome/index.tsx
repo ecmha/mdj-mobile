@@ -15,6 +15,7 @@ import {
   textColor,
   p,
   textAlign,
+  fontFamily,
 } from '@/theme';
 import { useTheme } from '@/hooks/useTheme';
 import MText from '@/components/Text';
@@ -49,7 +50,8 @@ export default function Welcome() {
         barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
       />
       <View style={[flexContent(1), justifyContent.center, alignItems.center]}>
-        <MText style={[styles.title]}>Bienvenue sur MDJ</MText>
+        <MText style={[styles.title]}>Bienvenue sur</MText>
+        <MText style={[styles.title]}>Méditation du Jour</MText>
       </View>
       <View style={[flexContent(2), justifyContent.center, alignItems.center]}>
         <Image
@@ -57,15 +59,24 @@ export default function Welcome() {
           style={styles.cover}
         />
       </View>
-      <View style={[flexContent(1), alignItems.center, p(10)]}>
-        <MText style={[textAlign.center, { fontWeight: 'bold' }]}>
+      <View
+        style={[
+          flexContent(1),
+          alignItems.center,
+          justifyContent.center,
+          p(30),
+        ]}
+      >
+        <MText style={[textAlign.center, fontFamily.sfBold]}>
           Votre outils de communion quotidienne avec le Seigneur Jesus-Christ
         </MText>
       </View>
       <View style={[flexContent(1), justifyContent.center, alignItems.center]}>
-        <MText>Proposée par l'ECMHA</MText>
-        <MText>Eglise du Christ - Mission Harris</MText>
-        <MText>dite Eglise Harriste</MText>
+        <MText style={[fontFamily.sfRegular]}>Proposée par l'ECMHA</MText>
+        <MText style={[fontFamily.sfRegular]}>
+          Eglise du Christ - Mission Harris
+        </MText>
+        <MText style={[fontFamily.sfRegular]}>dite Eglise Harriste</MText>
       </View>
       <View style={[flexContent(1), alignItems.center]}>
         <TouchableOpacity
@@ -73,7 +84,9 @@ export default function Welcome() {
           style={[styles.button, bgPrimary(theme), roundedLg]}
           onPress={() => onStartApp()}
         >
-          <MText style={[textColor('white')]}>Commencer</MText>
+          <MText style={[textColor('white'), fontFamily.sfBold]}>
+            Commencer
+          </MText>
         </TouchableOpacity>
       </View>
     </View>

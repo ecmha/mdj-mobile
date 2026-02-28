@@ -16,6 +16,8 @@ import {
   textAlign,
   textMini,
   textLargeX3,
+  fontFamily,
+  justifyContent,
 } from '@/theme';
 import { getDayMessages } from '@/services/messages';
 import { Message } from '@/services/messages/types';
@@ -65,10 +67,24 @@ export default function Home() {
                 />
               }
             >
-              <MText style={[textLargeX1, textAlign.center, mt(20)]}>
+              <MText
+                style={[
+                  textLargeX1,
+                  textAlign.center,
+                  mt(20),
+                  fontFamily.sfRegular,
+                ]}
+              >
                 Message du jour
               </MText>
-              <MText style={[textMini, textAlign.center, mb(20)]}>
+              <MText
+                style={[
+                  textMini,
+                  textAlign.center,
+                  mb(20),
+                  fontFamily.sfRegular,
+                ]}
+              >
                 {`${new Date(item.scheduledAt)
                   .toLocaleDateString('fr-FR', {
                     weekday: 'long',
@@ -80,21 +96,11 @@ export default function Home() {
               </MText>
 
               <MText
-                style={[textLargeX3, textAlign.center]}
+                style={[textLargeX3, textAlign.center, fontFamily.cormorant]}
               >{`${item.title}\n`}</MText>
               <RenderHTML html={item.content} />
-              <View style={[mb(100), pb(NAVIGATION_BAR_HEIGHT)]}>
-                <MText style={[textMedium]}>
-                  {`\n\n${new Date(item.scheduledAt)
-                    .toLocaleString('fr-FR', {
-                      weekday: 'long',
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })
-                    .toUpperCase()}`}
-                </MText>
-                <MText style={[textMedium]}>
+              <View style={[mt(40), mb(100), justifyContent.center]}>
+                <MText style={[textMedium, fontFamily.sfBold]}>
                   {`Par ${item.author?.firstname || 'Inconnu'} ${
                     item.author?.lastname || ''
                   }`}

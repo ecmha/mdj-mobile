@@ -5,6 +5,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { useNavigation } from '@/hooks/useNavigation';
 import { StatusBar } from 'react-native';
 import { useNotificationClick } from '@/features/notifications/useNotificationClick';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function HomeLayout({
   children,
@@ -14,9 +15,10 @@ export default function HomeLayout({
   useNotificationClick();
   const theme = useTheme() ?? 'light';
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
 
   return (
-    <View style={[styles.container, bgDefault(theme)]}>
+    <View style={[styles.container, bgDefault(theme), { paddingBottom: insets.bottom }]}>
       <StatusBar
         barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
       />
