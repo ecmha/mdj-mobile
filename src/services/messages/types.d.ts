@@ -9,8 +9,8 @@ export interface Message {
   cover?: string;
   author?: {
     id: string;
-    firstName: string;
-    lastName: string;
+    firstname: string;
+    lastname: string;
   };
 }
 

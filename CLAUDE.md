@@ -56,9 +56,20 @@ App ID and other constants are in `src/config/app.ts`.
 ### API & Storage
 All utilities are plain exported functions, not classes.
 
-- **`src/lib/fetch.ts`** — `get`, `post`, `put`, `del`, `download`. Pass body as a plain object; serialization is handled internally. Base URL: `https://mdj-server.onrender.com/api`.
-- **`src/lib/storage.ts`** — `saveItem`, `retrieveItem`, `deleteItem`. Storage keys are in the `STORAGE_KEYS` const object.
+- **`src/lib/fetch.ts`** — `get`, `post`, `put`, `del`, `download`. Pass body as a plain object; serialization is handled internally. Base URL: `https://mdj-server.onrender.com/api`. Set `NODE_ENV=development` to hit `http://localhost:5002/api` instead. `getHeaders()` automatically attaches the stored device token as `x-mdj-device-token`.
+- **`src/lib/storage.ts`** — `saveItem`, `retrieveItem`, `deleteItem`. Storage keys are in the `STORAGE_KEYS` const object (`SESSION`, `THEME`, `LANGUAGE`, `SHOW_WELCOME`, `DEVICE_TOKEN`).
 - **`src/services/devices/`** — `registerDevice(payload)`: registers the device on the backend on first launch, called from `Welcome` page.
+- **`src/services/messages/`** — `getDayMessages()`, `getMessages()`, `getMessage(id)`, `createMessage()`, `updateMessage()`, `deleteMessage()`. `getDayMessages()` is called by the Home carousel.
+
+### Components
+Theme-aware components that should be preferred over their React Native equivalents:
+- **`MText`** (`src/components/Text/`): wraps `<Text>` with automatic theme-aware text color.
+- **`Cta`** (`src/components/Cta/`): circular floating button using Ionicons. Props: `onPress`, `icon` (Ionicon name), `color` (theme color key), `disabled`, `style`. Handles platform-specific ripple (Android) vs opacity (iOS).
+- **`Icon`** (`src/components/Icon/`): thin wrapper around Ionicons with theme-aware color. Exports `IconNameType` for typed icon names.
+
+### Hooks
+- **`useTheme()`** (`src/hooks/useTheme.ts`): returns the current theme from ThemeContext.
+- **`useNavigation()`** (`src/hooks/useNavigation.ts`): typed wrapper returning `NativeStackNavigationProp<RootStackParamList>` — use this instead of importing directly from React Navigation.
 
 ### Path Aliases
 `@/` maps to `./src/` — configured in `babel.config.js` via the module resolver plugin. Use this for all internal imports.
