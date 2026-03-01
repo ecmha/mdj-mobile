@@ -1,10 +1,12 @@
 import DefaultLayout from '@/layouts/DefaultLayout';
 import MText from '@/components/Text';
+import { useTranslation } from 'react-i18next';
 
 export default function Supremat() {
+  const { t } = useTranslation();
   return (
-    <DefaultLayout pageTitle="À Propos">
-      <MText>MDJ est initié par la direction du supremat de Bingerville</MText>
+    <DefaultLayout pageTitle={t('supremat.title')}>
+      <MText>{t('supremat.body')}</MText>
     </DefaultLayout>
   );
 }

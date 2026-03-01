@@ -1,7 +1,8 @@
-import { View, StyleSheet, StatusBar } from 'react-native';
+import { View, StyleSheet, StatusBar, ScrollView } from 'react-native';
 import Header from '@/components/Header';
-import { bgDefault } from '@/theme';
+import { bgDefault, px } from '@/theme';
 import { useTheme } from '@/hooks/useTheme';
+import Footer from '@/components/Footer';
 
 export default function DefaultLayout({
   children,
@@ -17,7 +18,10 @@ export default function DefaultLayout({
         barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
       />
       <Header title={pageTitle} />
-      {children}
+      <ScrollView contentContainerStyle={[px(10)]}>
+        {children}
+        <Footer />
+      </ScrollView>
     </View>
   );
 }

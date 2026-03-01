@@ -10,6 +10,7 @@ import {
   px,
   pl,
   textSmall,
+  fontFamily,
 } from '@/theme';
 import Icon, { IconNameType } from '@/components/Icon';
 import { TouchableOpacity } from 'react-native';
@@ -30,7 +31,9 @@ export default function LinksGroup({ header, links }: LinksGroupProps) {
   const theme = useTheme();
   return (
     <>
-      <MText style={[styles.blocHeader, textBig, my(10)]}>{header}</MText>
+      <MText style={[styles.blocHeader, textBig, my(10), fontFamily.sfBold]}>
+        {header}
+      </MText>
       <View style={[styles.blocContent, overflow.hidden]}>
         {links.map(link => (
           <TouchableOpacity
@@ -41,7 +44,9 @@ export default function LinksGroup({ header, links }: LinksGroupProps) {
           >
             <View style={[flex.row, alignItems.center, px(10)]}>
               <Icon name={link.icon} color="foreground" size={20} />
-              <MText style={[textSmall, pl(10)]}>{link.label}</MText>
+              <MText style={[textSmall, pl(10), fontFamily.sfRegular]}>
+                {link.label}
+              </MText>
             </View>
             <Icon name="chevron-forward-outline" color="foreground" size={20} />
           </TouchableOpacity>

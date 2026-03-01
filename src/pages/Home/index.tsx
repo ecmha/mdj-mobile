@@ -9,8 +9,6 @@ import {
   px,
   textMedium,
   mb,
-  NAVIGATION_BAR_HEIGHT,
-  pb,
   mt,
   textLargeX1,
   textAlign,
@@ -23,9 +21,13 @@ import { getDayMessages } from '@/services/messages';
 import { Message } from '@/services/messages/types';
 import { ScrollView } from 'react-native-gesture-handler';
 import RenderHTML from '@/components/RenderHTML';
+import { useTranslation } from 'react-i18next';
+import { useLanguage } from '@/hooks/useLanguage';
 
 export default function Home() {
   const carouselRef = useRef(null);
+  const { t } = useTranslation();
+  const { language } = useLanguage();
   const [messages, setMessages] = useState<Message[]>([]);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -75,7 +77,7 @@ export default function Home() {
                   fontFamily.sfRegular,
                 ]}
               >
-                Message du jour
+                {t('home.daily_message')}
               </MText>
               <MText
                 style={[
@@ -86,7 +88,7 @@ export default function Home() {
                 ]}
               >
                 {`${new Date(item.scheduledAt)
-                  .toLocaleDateString('fr-FR', {
+                  .toLocaleDateString(language === 'fr' ? 'fr-FR' : 'en-US', {
                     weekday: 'long',
                     year: 'numeric',
                     month: 'long',
@@ -101,9 +103,9 @@ export default function Home() {
               <RenderHTML html={item.content} />
               <View style={[mt(40), mb(100), justifyContent.center]}>
                 <MText style={[textMedium, fontFamily.sfBold]}>
-                  {`Par ${item.author?.firstname || 'Inconnu'} ${
-                    item.author?.lastname || ''
-                  }`}
+                  {t('home.by_author', {
+                    name: `${item.author?.firstname || t('home.unknown_author')} ${item.author?.lastname || ''}`.trim(),
+                  })}
                 </MText>
               </View>
             </ScrollView>

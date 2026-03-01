@@ -1,0 +1,58 @@
+export default {
+  welcome: {
+    title_line1: 'Bienvenue sur',
+    title_line2: 'Méditation du Jour',
+    tagline:
+      'Votre outils de communion quotidienne avec le Seigneur Jesus-Christ',
+    presented_by: "Proposée par l'ECMHA",
+    church_name: 'Eglise du Christ - Mission Harris',
+    church_subtitle: 'dite Eglise Harriste',
+    cta: 'Commencer',
+  },
+  home: {
+    daily_message: 'Message du jour',
+    by_author: 'Par {{name}}',
+    unknown_author: 'Inconnu',
+    empty: "Aucun message pour aujourd'hui",
+  },
+  settings: {
+    title: 'Paramètres',
+    section_customize: 'Personnaliser',
+    section_support: "Soutenir l'action",
+    section_follow: 'Nous suivre',
+    section_other: 'Autres',
+    language: 'Langue',
+    theme: 'Thème',
+    share_app: "Partager l'app",
+    leave_review: 'Laisser un avis',
+    make_suggestion: 'Faire une suggestion',
+    donate: 'Faire un don',
+    twitter: 'Twitter',
+    facebook: 'Facebook',
+    privacy_policy: 'Politique de confidentialité',
+    terms: "Conditions d'utilisation",
+    version: 'MDJ - Version {{version}}',
+  },
+  language_setting: {
+    title: 'Langue',
+    french: 'Français',
+    english: 'English',
+  },
+  theme_setting: {
+    title: 'Thème',
+    light: 'Light mode',
+    dark: 'Dark mode',
+  },
+  suggestion: {
+    title: 'Faire une suggestion',
+    name_label: 'Nom et prénom',
+    name_placeholder: 'Votre nom ici',
+    message_label: 'Message',
+    message_placeholder: 'Votre message ici ...',
+    send: 'Envoyer',
+  },
+  supremat: {
+    title: 'À Propos',
+    body: 'MDJ est initié par la direction du supremat de Bingerville',
+  },
+} as const;

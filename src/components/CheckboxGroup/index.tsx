@@ -1,25 +1,15 @@
 import { View } from 'react-native';
 import MText from '@/components/Text';
-import {
-  flex,
-  alignItems,
-  bgLight,
-  overflow,
-  textBig,
-  my,
-  px,
-  pl,
-  textSmall,
-} from '@/theme';
-import Icon, { IconNameType } from '@/components/Icon';
+import { bgLight, overflow, textBig, my, px, textSmall } from '@/theme';
+import Icon from '@/components/Icon';
 import { TouchableOpacity } from 'react-native';
 import styles from './styles';
 import { useTheme } from '@/hooks/useTheme';
 import { useState } from 'react';
-import { ThemeType } from '@/theme/types';
 
 export type CheckboxGroupProps<T extends string = string> = {
   header: string | null;
+  defaultValue?: T;
   items: {
     id: T;
     label: string;
@@ -29,10 +19,11 @@ export type CheckboxGroupProps<T extends string = string> = {
 
 export default function CheckboxGroup<T extends string = string>({
   header,
+  defaultValue,
   items,
 }: CheckboxGroupProps<T>) {
   const theme = useTheme();
-  const [selected, setSelected] = useState<T>(theme as T);
+  const [selected, setSelected] = useState<T>(defaultValue ?? (theme as T));
   return (
     <>
       {header && (

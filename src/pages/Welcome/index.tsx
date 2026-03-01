@@ -25,9 +25,11 @@ import { useNavigation } from '@/hooks/useNavigation';
 import styles from './styles';
 import { OneSignal } from 'react-native-onesignal';
 import { registerDevice } from '@/services/devices';
+import { useTranslation } from 'react-i18next';
 
 export default function Welcome() {
   const theme = useTheme();
+  const { t } = useTranslation();
   const { updateShowWelcome } = useContext(WelcomeContext);
   const navigation = useNavigation();
 
@@ -50,8 +52,8 @@ export default function Welcome() {
         barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
       />
       <View style={[flexContent(1), justifyContent.center, alignItems.center]}>
-        <MText style={[styles.title]}>Bienvenue sur</MText>
-        <MText style={[styles.title]}>Méditation du Jour</MText>
+        <MText style={[styles.title]}>{t('welcome.title_line1')}</MText>
+        <MText style={[styles.title]}>{t('welcome.title_line2')}</MText>
       </View>
       <View style={[flexContent(2), justifyContent.center, alignItems.center]}>
         <Image
@@ -68,15 +70,13 @@ export default function Welcome() {
         ]}
       >
         <MText style={[textAlign.center, fontFamily.sfBold]}>
-          Votre outils de communion quotidienne avec le Seigneur Jesus-Christ
+          {t('welcome.tagline')}
         </MText>
       </View>
       <View style={[flexContent(1), justifyContent.center, alignItems.center]}>
-        <MText style={[fontFamily.sfRegular]}>Proposée par l'ECMHA</MText>
-        <MText style={[fontFamily.sfRegular]}>
-          Eglise du Christ - Mission Harris
-        </MText>
-        <MText style={[fontFamily.sfRegular]}>dite Eglise Harriste</MText>
+        <MText style={[fontFamily.sfRegular]}>{t('welcome.presented_by')}</MText>
+        <MText style={[fontFamily.sfRegular]}>{t('welcome.church_name')}</MText>
+        <MText style={[fontFamily.sfRegular]}>{t('welcome.church_subtitle')}</MText>
       </View>
       <View style={[flexContent(1), alignItems.center]}>
         <TouchableOpacity
@@ -85,7 +85,7 @@ export default function Welcome() {
           onPress={() => onStartApp()}
         >
           <MText style={[textColor('white'), fontFamily.sfBold]}>
-            Commencer
+            {t('welcome.cta')}
           </MText>
         </TouchableOpacity>
       </View>
