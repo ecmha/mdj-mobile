@@ -49,6 +49,9 @@ export default {
     message_label: 'Message',
     message_placeholder: 'Your message here ...',
     send: 'Send',
+    sent: 'Your suggestion has been sent. Thank you!',
+    error_name: 'Please enter your name.',
+    error_message: 'Please enter your message.',
   },
   supremat: {
     title: 'About',

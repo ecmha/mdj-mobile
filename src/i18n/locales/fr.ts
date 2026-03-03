@@ -50,6 +50,9 @@ export default {
     message_label: 'Message',
     message_placeholder: 'Votre message ici ...',
     send: 'Envoyer',
+    sent: 'Votre suggestion a bien été envoyée. Merci !',
+    error_name: 'Veuillez entrer votre nom.',
+    error_message: 'Veuillez entrer votre message.',
   },
   supremat: {
     title: 'À Propos',
