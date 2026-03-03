@@ -1,97 +1,161 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# MDJ — Méditation du Jour
 
-# Getting Started
+**MDJ** (Méditation du Jour / Daily Meditation) is a mobile devotional app for Android and iOS, built for the **Church of Christ – Mission Harris (ECMHA)**. It delivers a daily meditation message to believers, with support for French and English, light and dark themes, and push notifications.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+---
 
-## Step 1: Start Metro
+## Features
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+- **Daily meditation**: Browse the day's message(s) in a full-screen swipeable carousel
+- **Bilingual**: Full French / English support via `react-i18next`
+- **Theming**: Light (warm beige) and dark (navy/purple) modes, persisted across sessions
+- **Push notifications**: OneSignal integration — tap a notification to open the relevant message
+- **Suggestions**: In-app form to submit feedback/suggestions to the ECMHA team
+- **Pull-to-refresh**: Swipe down to reload the latest content
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+---
+
+## Tech Stack
+
+| Layer | Choice |
+|---|---|
+| Framework | React Native 0.83.1 (CLI, not Expo) |
+| Language | TypeScript |
+| Navigation | React Navigation — Native Stack |
+| State | Context API (no Redux) |
+| i18n | i18next + react-i18next |
+| Storage | AsyncStorage |
+| Push notifications | OneSignal |
+| Carousel | react-native-reanimated-carousel |
+| Splash screen | react-native-bootsplash |
+
+---
+
+## Prerequisites
+
+- Node >= 20
+- React Native environment set up: [reactnative.dev/docs/set-up-your-environment](https://reactnative.dev/docs/set-up-your-environment)
+- For iOS: Ruby bundler + CocoaPods
+
+---
+
+## Getting Started
+
+### 1. Install dependencies
 
 ```sh
-# Using npm
-npm start
-
-# OR using Yarn
-yarn start
+npm install
 ```
 
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
+### 2. iOS only — install native pods
 
 ```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
-```
-
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
+bundle install          # first clone only
 bundle exec pod install
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+### 3. Start Metro
 
 ```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
+npm start
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+### 4. Run on device / simulator
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+```sh
+npm run android   # Android
+npm run ios       # iOS
+```
 
-## Step 3: Modify your app
+---
 
-Now that you have successfully run the app, let's make changes!
+## Scripts
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+| Command | Description |
+|---|---|
+| `npm start` | Start Metro bundler (cache reset) |
+| `npm run android` | Build and run on Android |
+| `npm run ios` | Build and run on iOS |
+| `npm run lint` | Run ESLint |
+| `npm test` | Run Jest |
+| `npm run log-android` | Stream Android logs |
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+---
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+## Project Structure
 
-## Congratulations! :tada:
+```
+src/
+├── assets/fonts/          # Custom fonts (SFProText, CormorantUpright)
+├── components/            # Shared UI components (MText, RenderHTML, CheckboxGroup, …)
+├── config/                # App-level constants (app ID, API base URL, …)
+├── contexts/              # React Context providers (theme, welcome, language)
+├── features/notifications/# OneSignal init + click-to-navigate hook
+├── hooks/                 # useTheme, useLanguage, useNavigation wrappers
+├── i18n/                  # i18next config + locales (fr.ts, en.ts)
+├── layouts/               # DefaultLayout (sub-pages with header + back nav)
+├── lib/                   # fetch helpers, AsyncStorage helpers
+├── pages/                 # One folder per screen
+│   ├── Home/              # Carousel + Shell (floating CTAs)
+│   ├── Settings/
+│   ├── Suggestion/
+│   ├── ThemeSetting/
+│   ├── LanguageSetting/
+│   ├── Supremat/          # "About" page
+│   ├── Welcome/
+│   └── SplashScreen/
+├── services/              # API service modules (messages, devices, feedbacks)
+├── theme/                 # Design token system (primitives + color variables)
+└── Navigation.tsx         # Root stack navigator
+```
 
-You've successfully run and modified your React Native App. :partying_face:
+---
 
-### Now what?
+## Architecture Notes
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+### Navigation flow
 
-# Troubleshooting
+```
+SplashScreen ──(first launch)──► Welcome ──► Home
+             ──(returning)────────────────► Home
+```
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+`SplashScreen` reads `STORAGE_KEYS.SHOW_WELCOME` from AsyncStorage to decide which route to replace itself with. No context is involved in this decision.
 
-# Learn More
+### Theme system
 
-To learn more about React Native, take a look at the following resources:
+Styles are built with utility functions from `src/theme/primitives/` instead of a CSS-in-JS library. Use them as style array entries:
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+```tsx
+<View style={[flexContent(1), px(20), bgDefault(theme)]} />
+```
+
+Access the current theme string (`'light' | 'dark'`) with the `useTheme()` hook.
+
+### i18n
+
+The app defaults to French (`lng: 'fr'`). The selected language is persisted in AsyncStorage under `STORAGE_KEYS.LANGUAGE` and applied via `LanguageProvider` on startup. Change language through the **Language** settings screen.
+
+### API
+
+Base URL is defined in `src/config/app.ts`. All requests go through the helpers in `src/lib/fetch.ts`. The device token (`STORAGE_KEYS.DEVICE_TOKEN`) is automatically attached as the `x-mdj-device-token` header by `getHeaders()`.
+
+### Push notifications
+
+OneSignal is initialized in `App.tsx` via `useOneSignalInit`. Navigation-on-tap logic lives in `src/features/notifications/useNotificationClick.ts`, mounted inside `src/pages/Home/Shell.tsx`.
+
+---
+
+## Adding Custom Fonts
+
+1. Drop `.ttf` files into `src/assets/fonts/`
+2. Run `npx react-native-asset`
+3. Rebuild the app
+
+Font family names are defined in `src/theme/primitives/typography.ts` under `fontFamily`.
+
+---
+
+## Presented by
+
+**ECMHA — Eglise du Christ · Mission Harris**
