@@ -18,7 +18,7 @@ export default function DefaultLayout({
         barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
       />
       <Header title={pageTitle} />
-      <ScrollView contentContainerStyle={[px(10)]}>
+      <ScrollView contentContainerStyle={[px(10)]} showsVerticalScrollIndicator={false}>
         {children}
         <Footer />
       </ScrollView>
