@@ -14,6 +14,7 @@ export default {
     by_author: 'Par {{name}}',
     unknown_author: 'Inconnu',
     empty: "Aucun message pour aujourd'hui",
+    empty_hint: 'Tirer vers le bas pour actualiser',
   },
   settings: {
     title: 'Paramètres',

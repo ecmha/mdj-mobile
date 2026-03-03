@@ -13,6 +13,7 @@ export default {
     by_author: 'By {{name}}',
     unknown_author: 'Unknown',
     empty: 'No message for today',
+    empty_hint: 'Pull down to refresh',
   },
   settings: {
     title: 'Settings',

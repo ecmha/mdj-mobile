@@ -1,11 +1,11 @@
+import { View, StyleSheet, StatusBar, Image } from 'react-native';
 import CTA from '@/components/Cta';
-import { View, StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { bgDefault, flexContent, STATUS_BAR_HEIGHT } from '@/theme';
 import { useTheme } from '@/hooks/useTheme';
 import { useNavigation } from '@/hooks/useNavigation';
-import { StatusBar } from 'react-native';
 import { useNotificationClick } from '@/features/notifications/useNotificationClick';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Icon from '@/components/Icon';
 
 export default function HomeLayout({
   children,
@@ -18,7 +18,13 @@ export default function HomeLayout({
   const insets = useSafeAreaInsets();
 
   return (
-    <View style={[styles.container, bgDefault(theme), { paddingBottom: insets.bottom }]}>
+    <View
+      style={[
+        styles.container,
+        bgDefault(theme),
+        { paddingBottom: insets.bottom },
+      ]}
+    >
       <StatusBar
         barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
       />
@@ -31,9 +37,10 @@ export default function HomeLayout({
             navigation.navigate('Settings');
           }}
           disabled={false}
-          icon="settings-outline"
           color="foreground"
-        />
+        >
+          <Icon name="settings-outline" color="foreground" size={25} />
+        </CTA>
       </View>
       <View style={styles.ctaLeft}>
         <CTA
@@ -41,9 +48,13 @@ export default function HomeLayout({
             navigation.navigate('Supremat');
           }}
           disabled={false}
-          icon="information-outline"
           color="foreground"
-        />
+        >
+          <Image
+            source={require('@/assets/imgs/app_icon.png')}
+            style={styles.appIcon}
+          />
+        </CTA>
       </View>
     </View>
   );
@@ -64,4 +75,5 @@ const styles = StyleSheet.create({
     top: STATUS_BAR_HEIGHT,
     left: 20,
   },
+  appIcon: { width: 30, height: 30 },
 });

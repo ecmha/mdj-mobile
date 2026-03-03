@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 
 import styles from './styles';
-import Icon, { IconNameType } from '../Icon';
 import { useTheme } from '@/hooks/useTheme';
 import { bgLight } from '@/theme';
 import { ColorType } from '@/theme/types';
@@ -17,9 +16,9 @@ import { colors } from '@/theme/variables/colors';
 type CTAPropsType = {
   onPress: () => void;
   disabled: boolean;
-  icon: IconNameType;
   color: ColorType;
   style?: StyleProp<ViewStyle>;
+  children?: React.ReactNode;
 };
 
 const Touchable =
@@ -28,7 +27,7 @@ const Touchable =
 export default function CTA({
   onPress,
   disabled,
-  icon,
+  children,
   color,
   style,
 }: CTAPropsType) {
@@ -43,9 +42,7 @@ export default function CTA({
         false,
       )}
     >
-      <View style={[styles.cta, bgLight(theme)]}>
-        <Icon name={icon} color={color} size={25} />
-      </View>
+      <View style={[styles.cta, bgLight(theme)]}>{children}</View>
     </Touchable>
   );
 }

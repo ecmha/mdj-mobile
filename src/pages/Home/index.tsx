@@ -23,6 +23,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import RenderHTML from '@/components/RenderHTML';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from '@/hooks/useLanguage';
+import EmptyList from './EmptyList';
 
 export default function Home() {
   const carouselRef = useRef(null);
@@ -33,7 +34,6 @@ export default function Home() {
 
   const getMedidations = useCallback(async () => {
     const dayMessages = await getDayMessages();
-    console.log('dayMessages', dayMessages);
     setMessages(dayMessages);
   }, []);
 
@@ -46,6 +46,14 @@ export default function Home() {
   useEffect(() => {
     getMedidations();
   }, [getMedidations]);
+
+  if (messages.length === 0) {
+    return (
+      <HomeLayout>
+        <EmptyList refreshing={refreshing} onRefresh={handleRefresh} />
+      </HomeLayout>
+    );
+  }
 
   return (
     <HomeLayout>
@@ -104,7 +112,9 @@ export default function Home() {
               <View style={[mt(40), mb(100), justifyContent.center]}>
                 <MText style={[textMedium, fontFamily.sfBold]}>
                   {t('home.by_author', {
-                    name: `${item.author?.firstname || t('home.unknown_author')} ${item.author?.lastname || ''}`.trim(),
+                    name: `${
+                      item.author?.firstname || t('home.unknown_author')
+                    } ${item.author?.lastname || ''}`.trim(),
                   })}
                 </MText>
               </View>
