@@ -14,6 +14,7 @@ import {
   px,
   fontFamily,
   textMedium,
+  textColorDefault,
 } from '@/theme';
 import {
   TextInput,
@@ -28,6 +29,7 @@ import { useState } from 'react';
 import { createFeedback } from '@/services/feedbacks';
 
 import styles from './styles';
+import { colors } from '@/theme/variables/colors';
 
 export default function Suggestion() {
   const theme = useTheme();
@@ -63,8 +65,15 @@ export default function Suggestion() {
       <View style={[flexContent(3), p(10), mt(40)]}>
         <MText style={[mt(15)]}>{t('suggestion.name_label')}</MText>
         <TextInput
-          style={[styles.input, bgLight(theme), roundedLg, my(11)]}
+          style={[
+            styles.input,
+            bgLight(theme),
+            textColorDefault(theme),
+            roundedLg,
+            my(11),
+          ]}
           placeholder={t('suggestion.name_placeholder')}
+          placeholderTextColor={colors[theme].foreground}
           value={name}
           onChangeText={setName}
           editable={!loading}
@@ -76,8 +85,15 @@ export default function Suggestion() {
         )}
         <MText style={[mt(15)]}>{t('suggestion.message_label')}</MText>
         <TextInput
-          style={[styles.textArea, bgLight(theme), roundedLg, my(11)]}
+          style={[
+            styles.textArea,
+            bgLight(theme),
+            textColorDefault(theme),
+            roundedLg,
+            my(11),
+          ]}
           placeholder={t('suggestion.message_placeholder')}
+          placeholderTextColor={colors[theme].foreground}
           multiline
           numberOfLines={10}
           textAlignVertical="top"

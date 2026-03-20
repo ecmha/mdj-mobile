@@ -33,14 +33,22 @@ export default function Home() {
   const [refreshing, setRefreshing] = useState(false);
 
   const getMedidations = useCallback(async () => {
-    const dayMessages = await getDayMessages();
-    setMessages(dayMessages);
+    try {
+      const dayMessages = await getDayMessages();
+      setMessages(dayMessages);
+    } catch (error) {
+      throw error;
+    }
   }, []);
 
   const handleRefresh = useCallback(async () => {
-    setRefreshing(true);
-    await getMedidations();
-    setRefreshing(false);
+    try {
+      setRefreshing(true);
+      await getMedidations();
+    } catch {
+    } finally {
+      setRefreshing(false);
+    }
   }, [getMedidations]);
 
   useEffect(() => {
