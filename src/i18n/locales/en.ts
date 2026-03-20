@@ -53,6 +53,8 @@ export default {
     sent: 'Your suggestion has been sent. Thank you!',
     error_name: 'Please enter your name.',
     error_message: 'Please enter your message.',
+    description:
+      'A comment, a word of encouragement, a suggestion for improvement? We would be happy to receive your feedback.\n\nFraternally',
   },
   supremat: {
     title: 'About',

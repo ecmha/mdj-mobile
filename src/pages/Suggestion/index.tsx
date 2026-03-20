@@ -10,6 +10,10 @@ import {
   bgPrimary,
   textColor,
   textDanger,
+  pt,
+  px,
+  fontFamily,
+  textMedium,
 } from '@/theme';
 import {
   TextInput,
@@ -102,6 +106,9 @@ export default function Suggestion() {
           )}
         </TouchableOpacity>
       </View>
+      <MText style={[pt(50), px(30), textMedium, fontFamily.cormorant]}>
+        {t('suggestion.description')}
+      </MText>
     </DefaultLayout>
   );
 }

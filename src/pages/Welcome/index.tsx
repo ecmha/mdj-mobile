@@ -16,6 +16,8 @@ import {
   p,
   textAlign,
   fontFamily,
+  textSmall,
+  textLargeX1,
 } from '@/theme';
 import { useTheme } from '@/hooks/useTheme';
 import MText from '@/components/Text';
@@ -51,13 +53,9 @@ export default function Welcome() {
       <StatusBar
         barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
       />
-      <View style={[flexContent(1), justifyContent.center, alignItems.center]}>
-        <MText style={[styles.title]}>{t('welcome.title_line1')}</MText>
-        <MText style={[styles.title]}>{t('welcome.title_line2')}</MText>
-      </View>
       <View style={[flexContent(2), justifyContent.center, alignItems.center]}>
         <Image
-          source={require('@/assets/imgs/welcome.png')}
+          source={require('@/assets/imgs/app_logo.png')}
           style={styles.cover}
         />
       </View>
@@ -69,14 +67,20 @@ export default function Welcome() {
           p(30),
         ]}
       >
-        <MText style={[textAlign.center, fontFamily.sfBold]}>
+        <MText
+          style={[textAlign.center, fontFamily.cormorantBold, textLargeX1]}
+        >
           {t('welcome.tagline')}
         </MText>
       </View>
       <View style={[flexContent(1), justifyContent.center, alignItems.center]}>
-        <MText style={[fontFamily.sfRegular]}>{t('welcome.presented_by')}</MText>
-        <MText style={[fontFamily.sfRegular]}>{t('welcome.church_name')}</MText>
-        <MText style={[fontFamily.sfRegular]}>{t('welcome.church_subtitle')}</MText>
+        <MText style={[fontFamily.sfRegular, textSmall, textAlign.center]}>
+          {t('welcome.presented_by')}
+          {`\n`}
+          {t('welcome.church_name')}
+          {`\n`}
+          {t('welcome.church_subtitle')}
+        </MText>
       </View>
       <View style={[flexContent(1), alignItems.center]}>
         <TouchableOpacity

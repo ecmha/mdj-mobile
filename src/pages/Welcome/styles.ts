@@ -6,8 +6,10 @@ export default StyleSheet.create({
     fontFamily: 'CormorantUpright-Bold',
   },
   button: {
-    paddingHorizontal: 20,
+    width: '90%',
+    alignItems: 'center',
+    justifyContent: 'center',
     paddingVertical: 10,
   },
-  cover: { width: 200, height: 200 },
+  cover: { width: 300, height: 139 },
 });

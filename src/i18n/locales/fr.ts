@@ -54,6 +54,8 @@ export default {
     sent: 'Votre suggestion a bien été envoyée. Merci !',
     error_name: 'Veuillez entrer votre nom.',
     error_message: 'Veuillez entrer votre message.',
+    description:
+      "Un commentaire, un mot d'encouragement, une suggestion d'amélioration ? Nous serons ravi d'avoir un feedback de votre part.\n\nFraternellement",
   },
   supremat: {
     title: 'À Propos',
