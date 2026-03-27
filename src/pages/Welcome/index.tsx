@@ -51,7 +51,9 @@ export default function Welcome() {
   return (
     <View style={[flexContent(1), bgDefault(theme), p(10)]}>
       <StatusBar
-        barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
+        translucent
+        backgroundColor="transparent"
+        barStyle="light-content"
       />
       <View style={[flexContent(2), justifyContent.center, alignItems.center]}>
         <Image

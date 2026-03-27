@@ -15,10 +15,15 @@ export default function DefaultLayout({
   return (
     <View style={[styles.container, bgDefault(theme)]}>
       <StatusBar
+        translucent
+        backgroundColor="transparent"
         barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
       />
       <Header title={pageTitle} />
-      <ScrollView contentContainerStyle={[px(10)]} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={[px(10)]}
+        showsVerticalScrollIndicator={false}
+      >
         {children}
         <Footer />
       </ScrollView>

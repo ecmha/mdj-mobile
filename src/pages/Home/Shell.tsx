@@ -26,6 +26,8 @@ export default function HomeLayout({
       ]}
     >
       <StatusBar
+        translucent
+        backgroundColor="transparent"
         barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
       />
 
