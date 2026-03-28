@@ -53,7 +53,7 @@ export default function Welcome() {
       <StatusBar
         translucent
         backgroundColor="transparent"
-        barStyle="light-content"
+        barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
       />
       <View style={[flexContent(2), justifyContent.center, alignItems.center]}>
         <Image
