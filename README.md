@@ -156,6 +156,12 @@ Font family names are defined in `src/theme/primitives/typography.ts` under `fon
 
 ---
 
+## LICENSE (MIT)
+
+See [./LICENSE](./LICENSE) for full license
+
+---
+
 ## Presented by
 
 **ECMHA — Eglise du Christ · Mission Harris**
