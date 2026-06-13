@@ -59,6 +59,13 @@ export default {
   },
   supremat: {
     title: 'À Propos',
-    body: 'MDJ est initié par la direction du supremat de Bingerville',
+    tagline:
+      "Évangéliser, c'est aussi créer des outils pour faciliter le partage de la Parole de Dieu.",
+    p1: "C'est dans cet esprit que l'Eglise du Christ · Mission Harris, dite Eglise Harriste (ECMHA), par le biais de jeunes talents dynamiques de la communauté vous propose l'application Méditation du Jour.",
+    p2: "Chaque jour, nos prédicateurs préparent un message spirituel fondé sur la Bible — pour que la Parole de Dieu accompagne chaque croyant, où qu'il se trouve, dès le matin.",
+    p3: "MDJ est une initiative de jeunes chrétiens harristes, passionnés d'informatique et de la parole de Dieu; sous la supervision de la direction du Suprêmat de Bingerville, offerte gratuitement à toute la communauté harriste et à quiconque désire nourrir sa vie spirituelle.",
+    verse:
+      '« Ta parole est une lampe à mes pieds, et une lumière sur mon sentier. »',
+    verse_ref: '— Psaume 119 : 105',
   },
 } as const;

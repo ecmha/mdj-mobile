@@ -62,14 +62,14 @@ export default function Settings() {
               navigation.navigate('Suggestion');
             },
           },
-          {
-            id: 'donate',
-            icon: 'gift-outline',
-            label: t('settings.donate'),
-            onPress: () => {
-              //TODO: open playstore
-            },
-          },
+          // {
+          //   id: 'donate',
+          //   icon: 'gift-outline',
+          //   label: t('settings.donate'),
+          //   onPress: () => {
+          //     //TODO: open playstore
+          //   },
+          // },
         ]}
       />
       <LinksGroup

@@ -58,6 +58,11 @@ export default {
   },
   supremat: {
     title: 'About',
-    body: 'MDJ was initiated by the directorate of the Supremat of Bingerville',
+    tagline: 'Evangelizing also means building tools to make sharing God\'s Word easier.',
+    p1: 'It is in this spirit that the Church of Christ · Mission Harris (ECMHA), known as the Harrist Church, built Daily Meditation.',
+    p2: 'Every day, our preachers prepare a Bible-based spiritual message — so that God\'s Word accompanies every believer, wherever they are, from the very start of their day.',
+    p3: 'MDJ is an initiative by the Directorate of the Supremat of Bingerville, offered freely to the entire Harrist community and to anyone who wishes to deepen their spiritual life.',
+    verse: '"Your word is a lamp to my feet and a light to my path."',
+    verse_ref: '— Psalm 119:105',
   },
 } as const;
