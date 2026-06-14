@@ -17,17 +17,17 @@
 
 ## Tech Stack
 
-| Layer | Choice |
-|---|---|
-| Framework | React Native 0.83.1 (CLI, not Expo) |
-| Language | TypeScript |
-| Navigation | React Navigation — Native Stack |
-| State | Context API (no Redux) |
-| i18n | i18next + react-i18next |
-| Storage | AsyncStorage |
-| Push notifications | OneSignal |
-| Carousel | react-native-reanimated-carousel |
-| Splash screen | react-native-bootsplash |
+| Layer              | Choice                              |
+| ------------------ | ----------------------------------- |
+| Framework          | React Native 0.83.1 (CLI, not Expo) |
+| Language           | TypeScript                          |
+| Navigation         | React Navigation — Native Stack     |
+| State              | Context API (no Redux)              |
+| i18n               | i18next + react-i18next             |
+| Storage            | AsyncStorage                        |
+| Push notifications | OneSignal                           |
+| Carousel           | react-native-reanimated-carousel    |
+| Splash screen      | react-native-bootsplash             |
 
 ---
 
@@ -71,14 +71,14 @@ npm run ios       # iOS
 
 ## Scripts
 
-| Command | Description |
-|---|---|
-| `npm start` | Start Metro bundler (cache reset) |
-| `npm run android` | Build and run on Android |
-| `npm run ios` | Build and run on iOS |
-| `npm run lint` | Run ESLint |
-| `npm test` | Run Jest |
-| `npm run log-android` | Stream Android logs |
+| Command               | Description                       |
+| --------------------- | --------------------------------- |
+| `npm start`           | Start Metro bundler (cache reset) |
+| `npm run android`     | Build and run on Android          |
+| `npm run ios`         | Build and run on iOS              |
+| `npm run lint`        | Run ESLint                        |
+| `npm test`            | Run Jest                          |
+| `npm run log-android` | Stream Android logs               |
 
 ---
 
@@ -166,4 +166,4 @@ See [./LICENSE](./LICENSE) for full license
 
 **ECMHA — Eglise du Christ · Mission Harris**
 
-Build with ❤️ by *BRANCO STD*
+Build with ❤️ by _BRANKOO STUDIO_
