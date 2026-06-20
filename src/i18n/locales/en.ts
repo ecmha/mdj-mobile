@@ -58,10 +58,11 @@ export default {
   },
   supremat: {
     title: 'About',
-    tagline: 'Evangelizing also means building tools to make sharing God\'s Word easier.',
+    tagline:
+      "Evangelizing also means building tools to make sharing God's Word easier.",
     p1: 'It is in this spirit that the Church of Christ · Mission Harris (ECMHA), known as the Harrist Church, built Daily Meditation.',
-    p2: 'Every day, our preachers prepare a Bible-based spiritual message — so that God\'s Word accompanies every believer, wherever they are, from the very start of their day.',
-    p3: 'MDJ is an initiative by the Directorate of the Supremat of Bingerville, offered freely to the entire Harrist community and to anyone who wishes to deepen their spiritual life.',
+    p2: "Every day, our preachers prepare a Bible-based spiritual message — so that God's Word accompanies every believer, wherever they are, from the very start of their day.",
+    p3: 'MDJ is an initiative of young Harrist Christians passionate about technology and the Word of God, created under the supervision of the Directorate of the Supremat of Bingerville and offered free of charge to the entire Harrist community and to anyone who wishes to nourish their spiritual life.',
     verse: '"Your word is a lamp to my feet and a light to my path."',
     verse_ref: '— Psalm 119:105',
   },

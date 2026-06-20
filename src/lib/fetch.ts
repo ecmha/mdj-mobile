@@ -1,4 +1,4 @@
-import { API_URL, API_URL_LOCAL } from '@/config/app';
+import { API_URL } from '@env';
 import { retrieveItem, STORAGE_KEYS } from '@/lib/storage';
 
 export type CustomHeaders = {
@@ -6,11 +6,10 @@ export type CustomHeaders = {
   'x-mdj-platform'?: string;
 };
 
-const getBaseUrl = () =>
-  process.env.NODE_ENV === 'development' ? API_URL_LOCAL : API_URL;
-
 const buildHeaders = (custom: CustomHeaders = {}): Record<string, string> => {
-  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  };
   Object.entries(custom).forEach(([key, value]) => {
     if (value != null) headers[key] = value;
   });
@@ -23,7 +22,8 @@ const request = async (
   options: RequestInit = {},
   headers: CustomHeaders = {},
 ): Promise<any> => {
-  const response = await fetch(`${getBaseUrl()}/${endpoint}`, {
+  console.log(`Request: ${method} ${API_URL}/${endpoint}`);
+  const response = await fetch(`${API_URL}/${endpoint}`, {
     ...options,
     method,
     headers: buildHeaders(headers),
@@ -43,8 +43,11 @@ export const getHeaders = async (): Promise<CustomHeaders> => ({
 export const get = (endpoint: string, headers?: CustomHeaders) =>
   request('GET', endpoint, {}, headers);
 
-export const post = (endpoint: string, body: unknown, headers?: CustomHeaders) =>
-  request('POST', endpoint, { body: JSON.stringify(body) }, headers);
+export const post = (
+  endpoint: string,
+  body: unknown,
+  headers?: CustomHeaders,
+) => request('POST', endpoint, { body: JSON.stringify(body) }, headers);
 
 export const put = (endpoint: string, body: unknown, headers?: CustomHeaders) =>
   request('PUT', endpoint, { body: JSON.stringify(body) }, headers);
@@ -53,7 +56,7 @@ export const del = (endpoint: string, headers?: CustomHeaders) =>
   request('DELETE', endpoint, {}, headers);
 
 export const download = async (endpoint: string): Promise<string> => {
-  const response = await fetch(`${getBaseUrl()}/${endpoint}`);
+  const response = await fetch(`${API_URL}/${endpoint}`);
   const blob = await response.blob();
   return URL.createObjectURL(blob);
 };

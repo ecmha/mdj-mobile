@@ -3,7 +3,7 @@ import {
   NotificationWillDisplayEvent,
   OneSignal,
 } from 'react-native-onesignal';
-import { ONE_SIGNAL_APP_ID } from '@/config/app';
+import { ONE_SIGNAL_APP_ID } from '@env';
 
 const FOREGROUND_NOTIFICATION_DELAY_MS = 5000;
 const IS_DEV = __DEV__;

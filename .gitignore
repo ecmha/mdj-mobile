@@ -76,3 +76,7 @@ yarn-error.log
 
 # SDK credentials
 .credentials/
+
+.env.development
+.env.staging
+.env.production
