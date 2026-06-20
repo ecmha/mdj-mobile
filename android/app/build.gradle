@@ -78,7 +78,7 @@ android {
 
     namespace "com.mdj"
     defaultConfig {
-        applicationId "com.mdj"
+        applicationId "com.brankoo.mdj"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

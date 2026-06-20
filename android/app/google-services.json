@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:314888692337:android:3787dfc00d42e52b96b1d0",
+        "android_client_info": {
+          "package_name": "com.brankoo.mdj"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfzMAb65-hUAHNa95d_24qCoum-wp7yX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:314888692337:android:1413ad256d87973b96b1d0",
         "android_client_info": {
           "package_name": "com.mdj"
