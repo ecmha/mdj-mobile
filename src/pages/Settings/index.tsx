@@ -1,12 +1,16 @@
 import DefaultLayout from '@/layouts/DefaultLayout';
-import { View } from 'react-native';
+import { Linking, View } from 'react-native';
 import MText from '@/components/Text';
 import { alignItems, my, fontFamily, textTiny } from '@/theme';
 import { useTheme } from '@/hooks/useTheme';
 import LinksGroup from '@/components/LinksGroup';
 import { useNavigation } from '@/hooks/useNavigation';
 import { useTranslation } from 'react-i18next';
-import { APP_VERSION } from '@/config/app';
+import {
+  APP_VERSION,
+  PRIVACY_POLICY_URL,
+  TERMS_OF_USE_URL,
+} from '@/config/app';
 
 export default function Settings() {
   const theme = useTheme() ?? 'light';
@@ -96,13 +100,13 @@ export default function Settings() {
             id: 'privacy',
             icon: 'lock-closed-outline',
             label: t('settings.privacy_policy'),
-            onPress: () => {},
+            onPress: () => Linking.openURL(PRIVACY_POLICY_URL),
           },
           {
             id: 'terms',
             icon: 'document-text-outline',
             label: t('settings.terms'),
-            onPress: () => {},
+            onPress: () => Linking.openURL(TERMS_OF_USE_URL),
           },
         ]}
       />
