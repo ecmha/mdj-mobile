@@ -1,34 +1,21 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { RefreshControl, View } from 'react-native';
-import MText from '@/components/Text';
 import HomeLayout from './Shell';
 import Carousel from 'react-native-reanimated-carousel';
-import {
-  DIMENSIONS,
-  flexContent,
-  px,
-  textMedium,
-  mb,
-  mt,
-  textLargeX1,
-  textAlign,
-  textMini,
-  textLargeX3,
-  fontFamily,
-  justifyContent,
-} from '@/theme';
+import { DIMENSIONS } from '@/theme';
 import { getDayMessages } from '@/services/messages';
 import { Message } from '@/services/messages/types';
-import { ScrollView } from 'react-native-gesture-handler';
-import RenderHTML from '@/components/RenderHTML';
-import { useTranslation } from 'react-i18next';
-import { useLanguage } from '@/hooks/useLanguage';
 import EmptyList from './EmptyList';
+import MessageItem from '@/components/MessageItem';
+
+// Tells the Carousel's pan gesture handler to yield on vertical movement so
+// the inner ScrollView's RefreshControl can capture the pull-to-refresh gesture.
+const CAROUSEL_PAN_GESTURE_PROPS = {
+  activeOffsetX: [-10, 10],
+  failOffsetY: [-5, 5],
+} as const;
 
 export default function Home() {
   const carouselRef = useRef(null);
-  const { t } = useTranslation();
-  const { language } = useLanguage();
   const [messages, setMessages] = useState<Message[]>([]);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -73,61 +60,13 @@ export default function Home() {
         loop={false}
         scrollAnimationDuration={1000}
         pagingEnabled
+        panGestureHandlerProps={CAROUSEL_PAN_GESTURE_PROPS}
         renderItem={({ item }) => (
-          <View style={[flexContent(1), px(20)]}>
-            <ScrollView
-              style={[flexContent(1)]}
-              showsVerticalScrollIndicator={false}
-              refreshControl={
-                <RefreshControl
-                  refreshing={refreshing}
-                  onRefresh={handleRefresh}
-                />
-              }
-            >
-              <MText
-                style={[
-                  textLargeX1,
-                  textAlign.center,
-                  mt(20),
-                  fontFamily.sfRegular,
-                ]}
-              >
-                {t('home.daily_message')}
-              </MText>
-              <MText
-                style={[
-                  textMini,
-                  textAlign.center,
-                  mb(20),
-                  fontFamily.sfRegular,
-                ]}
-              >
-                {`${new Date(item.scheduledAt)
-                  .toLocaleDateString(language === 'fr' ? 'fr-FR' : 'en-US', {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })
-                  .toUpperCase()}`}
-              </MText>
-
-              <MText
-                style={[textLargeX3, textAlign.center, fontFamily.cormorant]}
-              >{`${item.title}\n`}</MText>
-              <RenderHTML html={item.content} />
-              <View style={[mt(40), mb(100), justifyContent.center]}>
-                <MText style={[textMedium, fontFamily.sfBold]}>
-                  {t('home.by_author', {
-                    name: `${
-                      item.author?.firstname || t('home.unknown_author')
-                    } ${item.author?.lastname || ''}`.trim(),
-                  })}
-                </MText>
-              </View>
-            </ScrollView>
-          </View>
+          <MessageItem
+            item={item}
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+          />
         )}
       />
     </HomeLayout>
