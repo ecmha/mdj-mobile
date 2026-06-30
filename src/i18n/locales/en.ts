@@ -14,6 +14,9 @@ export default {
     unknown_author: 'Unknown',
     empty: 'No message for today',
     empty_hint: 'Pull down to refresh',
+    tutorial_hint: 'Swipe to navigate',
+    tutorial_sub: 'Slide horizontally to browse through the messages.',
+    tutorial_dismiss: 'Got it',
   },
   settings: {
     title: 'Settings',

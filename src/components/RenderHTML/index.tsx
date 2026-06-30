@@ -24,7 +24,7 @@ export default function RenderHTML({ html }: RenderProps) {
   const renderNode = (node: any, index: number): React.ReactNode => {
     if (node.type === html2parser.ElementType.Text) {
       return (
-        <MText style={[textMedium]} key={index} selectable>
+        <MText style={[textMedium]} key={index}>
           {decodeHTML(node.data)}
         </MText>
       );

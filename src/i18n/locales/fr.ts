@@ -15,6 +15,9 @@ export default {
     unknown_author: 'Inconnu',
     empty: "Aucun message pour aujourd'hui",
     empty_hint: 'Tirer vers le bas pour actualiser',
+    tutorial_hint: 'Glissez pour naviguer',
+    tutorial_sub: 'Faites glisser horizontalement pour voir les messages suivants.',
+    tutorial_dismiss: 'Compris',
   },
   settings: {
     title: 'Paramètres',

@@ -6,6 +6,8 @@ import { getDayMessages } from '@/services/messages';
 import { Message } from '@/services/messages/types';
 import EmptyList from './EmptyList';
 import MessageItem from '@/components/MessageItem';
+import HomeTutorial from '@/components/HomeTutorial';
+import { useHomeTutorial } from '@/hooks/useHomeTutorial';
 
 // Tells the Carousel's pan gesture handler to yield on vertical movement so
 // the inner ScrollView's RefreshControl can capture the pull-to-refresh gesture.
@@ -18,6 +20,7 @@ export default function Home() {
   const carouselRef = useRef(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [refreshing, setRefreshing] = useState(false);
+  const { visible: tutorialVisible, dismiss: dismissTutorial } = useHomeTutorial();
 
   const getMedidations = useCallback(async () => {
     try {
@@ -69,6 +72,9 @@ export default function Home() {
           />
         )}
       />
+      {messages.length > 1 && (
+        <HomeTutorial visible={tutorialVisible} onDismiss={dismissTutorial} />
+      )}
     </HomeLayout>
   );
 }
