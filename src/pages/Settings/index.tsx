@@ -1,5 +1,5 @@
 import DefaultLayout from '@/layouts/DefaultLayout';
-import { Linking, View } from 'react-native';
+import { Linking, Platform, Share, View } from 'react-native';
 import MText from '@/components/Text';
 import { alignItems, my, fontFamily, textTiny } from '@/theme';
 import { useTheme } from '@/hooks/useTheme';
@@ -8,9 +8,32 @@ import { useNavigation } from '@/hooks/useNavigation';
 import { useTranslation } from 'react-i18next';
 import {
   APP_VERSION,
+  APP_STORE_URL,
+  PLAY_STORE_URL,
   PRIVACY_POLICY_URL,
   TERMS_OF_USE_URL,
+  getStoreUrl,
 } from '@/config/app';
+
+const handleShareApp = () => {
+  const url = getStoreUrl();
+  Share.share(
+    { message: url, url },
+    { dialogTitle: 'MDJ' },
+  );
+};
+
+const handleLeaveReview = async () => {
+  if (Platform.OS === 'android') {
+    const marketUrl = `market://details?id=com.brankoo.mdj`;
+    const supported = await Linking.canOpenURL(marketUrl);
+    Linking.openURL(supported ? marketUrl : PLAY_STORE_URL);
+  } else {
+    const itmsUrl = APP_STORE_URL.replace('https://', 'itms-apps://');
+    const supported = await Linking.canOpenURL(itmsUrl);
+    Linking.openURL(supported ? itmsUrl : APP_STORE_URL);
+  }
+};
 
 export default function Settings() {
   const theme = useTheme() ?? 'light';
@@ -46,17 +69,13 @@ export default function Settings() {
             id: 'share',
             icon: 'share-social-outline',
             label: t('settings.share_app'),
-            onPress: () => {
-              //TODO: open playstore
-            },
+            onPress: handleShareApp,
           },
           {
             id: 'rate',
             icon: 'star-outline',
             label: t('settings.leave_review'),
-            onPress: () => {
-              //TODO: open playstore
-            },
+            onPress: handleLeaveReview,
           },
           {
             id: 'suggestion',
