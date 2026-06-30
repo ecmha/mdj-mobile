@@ -7,6 +7,7 @@ export interface Message {
   scheduledAt: string;
   isExpired: boolean;
   cover?: string;
+  verses?: string[];
   author?: {
     id: string;
     firstname: string;
