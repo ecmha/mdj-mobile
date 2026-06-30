@@ -1,12 +1,10 @@
 import { Platform } from 'react-native';
 
 export const APP_NAME = 'MDJ';
-export const APP_VERSION = '1.0.0';
+export const APP_VERSION = '1.0.2';
 
-export const PRIVACY_POLICY_URL =
-  'https://mdj-landing-staging.up.railway.app/privacy.html';
-export const TERMS_OF_USE_URL =
-  'https://mdj-landing-staging.up.railway.app/cgu.html';
+export const PRIVACY_POLICY_URL = 'https://mdj.brankoostudio.com/privacy.html';
+export const TERMS_OF_USE_URL = 'https://mdj.brankoostudio.com/cgu.html';
 
 const ANDROID_PACKAGE_NAME = 'com.brankoo.mdj';
 // Fill in once the app is published on the App Store
