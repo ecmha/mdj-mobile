@@ -30,7 +30,11 @@ type MessageItemProps = {
   onRefresh: () => void;
 };
 
-export default function MessageItem({ item, refreshing, onRefresh }: MessageItemProps) {
+export default function MessageItem({
+  item,
+  refreshing,
+  onRefresh,
+}: MessageItemProps) {
   const { t } = useTranslation();
   const { language } = useLanguage();
   const theme = useTheme() ?? 'light';
@@ -44,11 +48,18 @@ export default function MessageItem({ item, refreshing, onRefresh }: MessageItem
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        <MText
-          style={[textLargeX1, textAlign.center, mt(20), fontFamily.sfRegular]}
-        >
-          {t('home.daily_message')}
-        </MText>
+        {new Date(item.scheduledAt) === new Date() && (
+          <MText
+            style={[
+              textLargeX1,
+              textAlign.center,
+              mt(20),
+              fontFamily.sfRegular,
+            ]}
+          >
+            {t('home.daily_message')}
+          </MText>
+        )}
         <MText
           style={[textMini, textAlign.center, mb(20), fontFamily.sfRegular]}
         >
@@ -71,9 +82,17 @@ export default function MessageItem({ item, refreshing, onRefresh }: MessageItem
             {item.verses.map((verse, index) => (
               <View
                 key={index}
-                style={[styles.verseBlock, bgLight(theme), roundedMd, py(12), pl(14)]}
+                style={[
+                  styles.verseBlock,
+                  bgLight(theme),
+                  roundedMd,
+                  py(12),
+                  pl(14),
+                ]}
               >
-                <MText style={[textMedium, fontFamily.cormorant, styles.verseText]}>
+                <MText
+                  style={[textMedium, fontFamily.cormorant, styles.verseText]}
+                >
                   {verse}
                 </MText>
               </View>
@@ -85,9 +104,9 @@ export default function MessageItem({ item, refreshing, onRefresh }: MessageItem
         <View style={[mt(40), mb(100), justifyContent.center]}>
           <MText style={[textMedium, fontFamily.sfBold]}>
             {t('home.by_author', {
-              name: `${
-                item.author?.firstname || t('home.unknown_author')
-              } ${item.author?.lastname || ''}`.trim(),
+              name: `${item.author?.firstname || t('home.unknown_author')} ${
+                item.author?.lastname || ''
+              }`.trim(),
             })}
           </MText>
         </View>

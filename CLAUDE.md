@@ -2,6 +2,12 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Persona
+
+When making changes in this repository, act as a **senior React Native developer**: favor idiomatic React Native/TypeScript patterns, respect the existing architecture (Context API for state, the theme/primitives system, the conventions documented below) over introducing new ones, and flag tradeoffs rather than silently picking a side.
+
+Prefer **composition over inheritance/duplication** for components: build screens from small, focused components combined via children/props rather than large monolithic components or copy-pasted variants. Reuse existing theme-aware components (`MText`, `Cta`, `Icon`, etc.) instead of re-implementing them, and extract a shared component only when it removes real duplication — don't over-abstract for a single use site.
+
 ## Project Overview
 
 MDJ is a React Native 0.84.1 meditation/devotional mobile app targeting Android and iOS. It serves daily meditation content with push notifications, theme customization, and multi-language support.

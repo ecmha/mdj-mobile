@@ -4,6 +4,7 @@ import { retrieveItem, STORAGE_KEYS } from '@/lib/storage';
 export type CustomHeaders = {
   'x-mdj-device-token'?: string | null;
   'x-mdj-platform'?: string;
+  'x-mdj-lang'?: string;
 };
 
 const buildHeaders = (custom: CustomHeaders = {}): Record<string, string> => {
@@ -36,9 +37,13 @@ const request = async (
   return response.json();
 };
 
-export const getHeaders = async (): Promise<CustomHeaders> => ({
-  'x-mdj-device-token': await retrieveItem(STORAGE_KEYS.DEVICE_TOKEN),
-});
+export const getHeaders = async (): Promise<CustomHeaders> => {
+  const language = await retrieveItem(STORAGE_KEYS.LANGUAGE);
+  return {
+    'x-mdj-device-token': await retrieveItem(STORAGE_KEYS.DEVICE_TOKEN),
+    'x-mdj-lang': language === 'en' ? 'en' : 'fr',
+  };
+};
 
 export const get = (endpoint: string, headers?: CustomHeaders) =>
   request('GET', endpoint, {}, headers);
