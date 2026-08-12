@@ -1,5 +1,12 @@
-import { RefreshControl, StyleSheet, View } from 'react-native';
+import {
+  RefreshControl,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { API_URL } from '@env';
 import MText from '@/components/Text';
+import Icon from '@/components/Icon';
 import {
   flexContent,
   px,
@@ -8,14 +15,14 @@ import {
   mt,
   py,
   pl,
-  textLargeX1,
   textAlign,
   textMini,
-  textLargeX3,
   fontFamily,
   justifyContent,
   bgLight,
   roundedMd,
+  flex,
+  textBig,
 } from '@/theme';
 import { Message } from '@/services/messages/types';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -23,6 +30,7 @@ import RenderHTML from '@/components/RenderHTML';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useTheme } from '@/hooks/useTheme';
+import { useAudioPlayer } from '@/hooks/useAudioPlayer';
 
 type MessageItemProps = {
   item: Message;
@@ -38,6 +46,16 @@ export default function MessageItem({
   const { t } = useTranslation();
   const { language } = useLanguage();
   const theme = useTheme() ?? 'light';
+  const { currentMessageId, isPlaying, isDownloading, play } = useAudioPlayer();
+  const isCurrent = currentMessageId === item.id;
+
+  const handleListen = () => {
+    play(item.id, language, {
+      title: item.title,
+      artist: t('welcome.title_line2'),
+      artwork: item.cover ? `${API_URL}/files/${item.cover}/view` : undefined,
+    });
+  };
 
   return (
     <View style={[flexContent(1), px(20)]}>
@@ -48,18 +66,11 @@ export default function MessageItem({
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       >
-        {new Date(item.scheduledAt) === new Date() && (
-          <MText
-            style={[
-              textLargeX1,
-              textAlign.center,
-              mt(20),
-              fontFamily.sfRegular,
-            ]}
-          >
-            {t('home.daily_message')}
-          </MText>
-        )}
+        <MText
+          style={[textBig, textAlign.center, mt(20), fontFamily.sfRegular]}
+        >
+          {t('home.daily_message')}
+        </MText>
         <MText
           style={[textMini, textAlign.center, mb(20), fontFamily.sfRegular]}
         >
@@ -74,7 +85,7 @@ export default function MessageItem({
         </MText>
 
         <MText
-          style={[textLargeX3, textAlign.center, fontFamily.cormorant]}
+          style={[textBig, textAlign.center, fontFamily.cormorantBold]}
         >{`${item.title}\n`}</MText>
 
         {item.verses && item.verses.length > 0 && (
@@ -99,6 +110,21 @@ export default function MessageItem({
             ))}
           </View>
         )}
+
+        <TouchableOpacity
+          onPress={handleListen}
+          disabled={isDownloading}
+          style={[flex.row, justifyContent.center, styles.listenRow, mb(20)]}
+        >
+          <Icon
+            name={isCurrent && isPlaying ? 'pause-circle' : 'play-circle'}
+            color="primary"
+            size={22}
+          />
+          <MText style={[textMini, fontFamily.sfBold, styles.listenLabel]}>
+            {t('audio.listen')}
+          </MText>
+        </TouchableOpacity>
 
         <RenderHTML html={item.content} />
         <View style={[mt(40), mb(100), justifyContent.center]}>
@@ -126,5 +152,13 @@ const styles = StyleSheet.create({
   },
   verseText: {
     fontStyle: 'italic',
+  },
+  listenRow: {
+    alignItems: 'center',
+    gap: 6,
+  },
+  listenLabel: {
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
 });

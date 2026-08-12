@@ -35,6 +35,22 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>RCTNewArchEnabled</key>
+	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>SFProText-Light.otf</string>
+		<string>SFProText-ThinItalic.otf</string>
+		<string>SFProText-Semibold.otf</string>
+		<string>SpaceMono-Regular.ttf</string>
+		<string>CormorantUpright-Light.ttf</string>
+		<string>CormorantUpright-SemiBold.ttf</string>
+		<string>CormorantUpright-Bold.ttf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>BootSplash</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -50,15 +66,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>UIAppFonts</key>
-	<array>
-		<string>SFProText-Light.otf</string>
-		<string>SFProText-ThinItalic.otf</string>
-		<string>SFProText-Semibold.otf</string>
-		<string>SpaceMono-Regular.ttf</string>
-		<string>CormorantUpright-Light.ttf</string>
-		<string>CormorantUpright-SemiBold.ttf</string>
-		<string>CormorantUpright-Bold.ttf</string>
-	</array>
 </dict>
 </plist>

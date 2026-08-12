@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import type { PanGesture } from 'react-native-gesture-handler';
 import HomeLayout from './Shell';
 import Carousel from 'react-native-reanimated-carousel';
 import { DIMENSIONS } from '@/theme';
@@ -9,12 +10,11 @@ import MessageItem from '@/components/MessageItem';
 import HomeTutorial from '@/components/HomeTutorial';
 import { useHomeTutorial } from '@/hooks/useHomeTutorial';
 
-// Tells the Carousel's pan gesture handler to yield on vertical movement so
-// the inner ScrollView's RefreshControl can capture the pull-to-refresh gesture.
-const CAROUSEL_PAN_GESTURE_PROPS = {
-  activeOffsetX: [-10, 10],
-  failOffsetY: [-5, 5],
-} as const;
+// Tells the Carousel's pan gesture to yield on vertical movement so the inner
+// ScrollView's RefreshControl can capture the pull-to-refresh gesture.
+const configureCarouselPanGesture = (panGesture: PanGesture) => {
+  panGesture.activeOffsetX([-10, 10]).failOffsetY([-5, 5]);
+};
 
 export default function Home() {
   const carouselRef = useRef(null);
@@ -63,7 +63,7 @@ export default function Home() {
         loop={false}
         scrollAnimationDuration={1000}
         pagingEnabled
-        panGestureHandlerProps={CAROUSEL_PAN_GESTURE_PROPS}
+        onConfigurePanGesture={configureCarouselPanGesture}
         renderItem={({ item }) => (
           <MessageItem
             item={item}

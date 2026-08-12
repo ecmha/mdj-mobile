@@ -18,6 +18,10 @@ export default {
     tutorial_sub: 'Slide horizontally to browse through the messages.',
     tutorial_dismiss: 'Got it',
   },
+  audio: {
+    error: 'Playback unavailable, try again',
+    listen: 'Listen',
+  },
   settings: {
     title: 'Settings',
     section_customize: 'Customize',
