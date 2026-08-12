@@ -19,6 +19,10 @@ export default {
     tutorial_sub: 'Faites glisser horizontalement pour voir les messages suivants.',
     tutorial_dismiss: 'Compris',
   },
+  audio: {
+    error: 'Lecture indisponible, réessayez',
+    listen: 'Écouter',
+  },
   settings: {
     title: 'Paramètres',
     section_customize: 'Personnaliser',

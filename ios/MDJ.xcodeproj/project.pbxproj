@@ -9,39 +9,40 @@
 /* Begin PBXBuildFile section */
 		0C80B921A6F3F58F76C31292 /* libPods-MDJ.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-MDJ.a */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		1BA13CD8CEAC40B3967493B6 /* SpaceMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A124038C9CE4EAD9EC016F9 /* SpaceMono-Regular.ttf */; };
+		2BB71D1E7565415C95A4D3D1 /* CormorantUpright-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EC7429A24AB0488E81ABA810 /* CormorantUpright-SemiBold.ttf */; };
+		5A4BF92FED5B400A8E8613FB /* CormorantUpright-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EB384C899B540A796644417 /* CormorantUpright-Light.ttf */; };
+		5D05AFFC13C244EDB53AA232 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5720BF1A7B9A4224B6C5C7A1 /* BootSplash.storyboard */; };
+		6F8D09481F294720ABFE28E9 /* CormorantUpright-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4A3DFFE1BBDE4D89B3C36A0D /* CormorantUpright-Bold.ttf */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		8B498BAF0F4528A7881D9EE8 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 		9E89AD86465A4673BAE6DC1C /* SFProText-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9186A254B78B474EBC55C40F /* SFProText-Light.otf */; };
 		BCED989E5AC64ED5B2CFB8F7 /* SFProText-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 4E421BA19B264520AB5A05E6 /* SFProText-ThinItalic.otf */; };
 		EB5CEADCDA7F43A88A480598 /* SFProText-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7621F09A305C41B68348BDD9 /* SFProText-Semibold.otf */; };
-		1BA13CD8CEAC40B3967493B6 /* SpaceMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9A124038C9CE4EAD9EC016F9 /* SpaceMono-Regular.ttf */; };
-		5A4BF92FED5B400A8E8613FB /* CormorantUpright-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EB384C899B540A796644417 /* CormorantUpright-Light.ttf */; };
-		2BB71D1E7565415C95A4D3D1 /* CormorantUpright-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EC7429A24AB0488E81ABA810 /* CormorantUpright-SemiBold.ttf */; };
-		6F8D09481F294720ABFE28E9 /* CormorantUpright-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4A3DFFE1BBDE4D89B3C36A0D /* CormorantUpright-Bold.ttf */; };
-		5D05AFFC13C244EDB53AA232 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5720BF1A7B9A4224B6C5C7A1 /* BootSplash.storyboard */; };
 		EF14BCED024D4052838AB7F4 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12C97E9621D44915B61C1C49 /* Colors.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		12C97E9621D44915B61C1C49 /* Colors.xcassets */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = folder.assetcatalog; name = Colors.xcassets; path = MDJ/Colors.xcassets; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* MDJ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MDJ.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = MDJ/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = MDJ/Info.plist; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = MDJ/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		2EB384C899B540A796644417 /* CormorantUpright-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "CormorantUpright-Light.ttf"; path = "../src/assets/fonts/CormorantUpright-Light.ttf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-MDJ.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MDJ.debug.xcconfig"; path = "Target Support Files/Pods-MDJ/Pods-MDJ.debug.xcconfig"; sourceTree = "<group>"; };
+		4A3DFFE1BBDE4D89B3C36A0D /* CormorantUpright-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "CormorantUpright-Bold.ttf"; path = "../src/assets/fonts/CormorantUpright-Bold.ttf"; sourceTree = "<group>"; };
+		4E421BA19B264520AB5A05E6 /* SFProText-ThinItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-ThinItalic.otf"; path = "../src/assets/fonts/SFProText-ThinItalic.otf"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-MDJ.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MDJ.release.xcconfig"; path = "Target Support Files/Pods-MDJ/Pods-MDJ.release.xcconfig"; sourceTree = "<group>"; };
+		5720BF1A7B9A4224B6C5C7A1 /* BootSplash.storyboard */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = BootSplash.storyboard; path = MDJ/BootSplash.storyboard; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-MDJ.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MDJ.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = MDJ/AppDelegate.swift; sourceTree = "<group>"; };
+		7621F09A305C41B68348BDD9 /* SFProText-Semibold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-Semibold.otf"; path = "../src/assets/fonts/SFProText-Semibold.otf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = MDJ/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9186A254B78B474EBC55C40F /* SFProText-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SFProText-Light.otf"; path = "../src/assets/fonts/SFProText-Light.otf"; sourceTree = "<group>"; };
+		9A124038C9CE4EAD9EC016F9 /* SpaceMono-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SpaceMono-Regular.ttf"; path = "../src/assets/fonts/SpaceMono-Regular.ttf"; sourceTree = "<group>"; };
+		EC7429A24AB0488E81ABA810 /* CormorantUpright-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "CormorantUpright-SemiBold.ttf"; path = "../src/assets/fonts/CormorantUpright-SemiBold.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		9186A254B78B474EBC55C40F /* SFProText-Light.otf */ = {isa = PBXFileReference; name = "SFProText-Light.otf"; path = "../src/assets/fonts/SFProText-Light.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		4E421BA19B264520AB5A05E6 /* SFProText-ThinItalic.otf */ = {isa = PBXFileReference; name = "SFProText-ThinItalic.otf"; path = "../src/assets/fonts/SFProText-ThinItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		7621F09A305C41B68348BDD9 /* SFProText-Semibold.otf */ = {isa = PBXFileReference; name = "SFProText-Semibold.otf"; path = "../src/assets/fonts/SFProText-Semibold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		9A124038C9CE4EAD9EC016F9 /* SpaceMono-Regular.ttf */ = {isa = PBXFileReference; name = "SpaceMono-Regular.ttf"; path = "../src/assets/fonts/SpaceMono-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		2EB384C899B540A796644417 /* CormorantUpright-Light.ttf */ = {isa = PBXFileReference; name = "CormorantUpright-Light.ttf"; path = "../src/assets/fonts/CormorantUpright-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		EC7429A24AB0488E81ABA810 /* CormorantUpright-SemiBold.ttf */ = {isa = PBXFileReference; name = "CormorantUpright-SemiBold.ttf"; path = "../src/assets/fonts/CormorantUpright-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		4A3DFFE1BBDE4D89B3C36A0D /* CormorantUpright-Bold.ttf */ = {isa = PBXFileReference; name = "CormorantUpright-Bold.ttf"; path = "../src/assets/fonts/CormorantUpright-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		5720BF1A7B9A4224B6C5C7A1 /* BootSplash.storyboard */ = {isa = PBXFileReference; name = "BootSplash.storyboard"; path = "MDJ/BootSplash.storyboard"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		12C97E9621D44915B61C1C49 /* Colors.xcassets */ = {isa = PBXFileReference; name = "Colors.xcassets"; path = "MDJ/Colors.xcassets"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = folder.assetcatalog; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +78,21 @@
 				5DCACB8F33CDC322A6C60F78 /* libPods-MDJ.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		44AD48178026451CA27D9CAE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9186A254B78B474EBC55C40F /* SFProText-Light.otf */,
+				4E421BA19B264520AB5A05E6 /* SFProText-ThinItalic.otf */,
+				7621F09A305C41B68348BDD9 /* SFProText-Semibold.otf */,
+				9A124038C9CE4EAD9EC016F9 /* SpaceMono-Regular.ttf */,
+				2EB384C899B540A796644417 /* CormorantUpright-Light.ttf */,
+				EC7429A24AB0488E81ABA810 /* CormorantUpright-SemiBold.ttf */,
+				4A3DFFE1BBDE4D89B3C36A0D /* CormorantUpright-Bold.ttf */,
+			);
+			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -117,21 +133,6 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
-		};
-		44AD48178026451CA27D9CAE /* Resources */ = {
-			isa = "PBXGroup";
-			children = (
-				9186A254B78B474EBC55C40F /* SFProText-Light.otf */,
-				4E421BA19B264520AB5A05E6 /* SFProText-ThinItalic.otf */,
-				7621F09A305C41B68348BDD9 /* SFProText-Semibold.otf */,
-				9A124038C9CE4EAD9EC016F9 /* SpaceMono-Regular.ttf */,
-				2EB384C899B540A796644417 /* CormorantUpright-Light.ttf */,
-				EC7429A24AB0488E81ABA810 /* CormorantUpright-SemiBold.ttf */,
-				4A3DFFE1BBDE4D89B3C36A0D /* CormorantUpright-Bold.ttf */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-			path = "";
 		};
 /* End PBXGroup section */
 
@@ -204,6 +205,7 @@
 				6F8D09481F294720ABFE28E9 /* CormorantUpright-Bold.ttf in Resources */,
 				5D05AFFC13C244EDB53AA232 /* BootSplash.storyboard in Resources */,
 				EF14BCED024D4052838AB7F4 /* Colors.xcassets in Resources */,
+				8B498BAF0F4528A7881D9EE8 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,6 +413,10 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DRCT_REMOVE_LEGACY_ARCH=1",
+				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",
@@ -418,8 +424,13 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
+					"-DRCT_REMOVE_LEGACY_ARCH=1",
 				);
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
+				USE_HERMES = true;
 			};
 			name = Debug;
 		};
@@ -476,6 +487,10 @@
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DRCT_REMOVE_LEGACY_ARCH=1",
+				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",
@@ -483,8 +498,12 @@
 					"-DFOLLY_USE_LIBCPP=1",
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
+					"-DRCT_REMOVE_LEGACY_ARCH=1",
 				);
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
+				USE_HERMES = true;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
