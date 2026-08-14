@@ -7,7 +7,6 @@ import { getDayMessages } from '@/services/messages';
 import { Message } from '@/services/messages/types';
 import EmptyList from './EmptyList';
 import MessageItem from '@/components/MessageItem';
-import HomeTutorial from '@/components/HomeTutorial';
 import { useHomeTutorial } from '@/hooks/useHomeTutorial';
 import { useLanguage } from '@/hooks/useLanguage';
 
@@ -21,9 +20,16 @@ export default function Home() {
   const carouselRef = useRef(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [refreshing, setRefreshing] = useState(false);
-  const { visible: tutorialVisible, dismiss: dismissTutorial } = useHomeTutorial();
   const { language } = useLanguage();
   const requestIdRef = useRef(0);
+  const { dismiss: dismissTutorial } = useHomeTutorial();
+
+  const handleSnapToItem = useCallback(
+    (index: number) => {
+      if (index !== 0) dismissTutorial();
+    },
+    [dismissTutorial],
+  );
 
   const getMedidations = useCallback(async () => {
     const requestId = ++requestIdRef.current;
@@ -66,17 +72,16 @@ export default function Home() {
         scrollAnimationDuration={1000}
         pagingEnabled
         onConfigurePanGesture={configureCarouselPanGesture}
-        renderItem={({ item }) => (
+        onSnapToItem={handleSnapToItem}
+        renderItem={({ item, index }) => (
           <MessageItem
             item={item}
             refreshing={refreshing}
             onRefresh={handleRefresh}
+            canHintSwipe={index === 0 && messages.length > 1}
           />
         )}
       />
-      {messages.length > 1 && (
-        <HomeTutorial visible={tutorialVisible} onDismiss={dismissTutorial} />
-      )}
     </HomeLayout>
   );
 }

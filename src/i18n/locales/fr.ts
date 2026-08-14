@@ -11,13 +11,17 @@ export default {
   },
   home: {
     daily_message: 'Message du jour',
-    by_author: 'Par {{name}}',
+    by_author: 'Par {{title}} {{name}}',
     unknown_author: 'Inconnu',
     empty: "Aucun message pour aujourd'hui",
     empty_hint: 'Tirer vers le bas pour actualiser',
-    tutorial_hint: 'Glissez pour naviguer',
-    tutorial_sub: 'Faites glisser horizontalement pour voir les messages suivants.',
-    tutorial_dismiss: 'Compris',
+    tutorial_swipe: 'Glissez pour voir les autres messages',
+    titles: {
+      superior: 'Supérieur',
+      chief: 'Chef',
+      reverend: 'Auxiliaire',
+      other: 'Autre',
+    },
   },
   audio: {
     error: 'Lecture indisponible, réessayez',

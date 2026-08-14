@@ -1,19 +1,4 @@
-import { useEffect, useState } from 'react';
-import { retrieveItem, saveItem, STORAGE_KEYS } from '@/lib/storage';
+import { useContext } from 'react';
+import { HomeTutorialContext } from '@/contexts/homeTutorialProvider';
 
-export function useHomeTutorial() {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    retrieveItem(STORAGE_KEYS.HOME_TUTORIAL).then((value) => {
-      if (!value) setVisible(true);
-    });
-  }, []);
-
-  const dismiss = () => {
-    setVisible(false);
-    saveItem(STORAGE_KEYS.HOME_TUTORIAL, 'done');
-  };
-
-  return { visible, dismiss };
-}
+export const useHomeTutorial = () => useContext(HomeTutorialContext);

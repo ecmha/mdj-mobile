@@ -6,7 +6,7 @@ export const STORAGE_KEYS = {
   LANGUAGE: 'language',
   SHOW_WELCOME: 'show_welcome',
   DEVICE_TOKEN: 'device_token',
-  HOME_TUTORIAL: 'home_tutorial',
+  HOME_TUTORIAL: 'home_tutorial_v2',
 } as const;
 
 export const saveItem = (key: string, value: string) =>

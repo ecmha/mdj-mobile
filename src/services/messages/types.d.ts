@@ -12,6 +12,7 @@ export interface Message {
     id: string;
     firstname: string;
     lastname: string;
+    title: 'superior' | 'chief' | 'reverend' | 'other';
   };
 }
 

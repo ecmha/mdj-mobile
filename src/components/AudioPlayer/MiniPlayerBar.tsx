@@ -32,6 +32,7 @@ export default function MiniPlayerBar() {
     fileUri,
     error,
     togglePlayPause,
+    setBarHeight,
   } = useAudioPlayer();
 
   if (!currentMessageId) return null;
@@ -52,6 +53,7 @@ export default function MiniPlayerBar() {
 
   return (
     <View
+      onLayout={event => setBarHeight(event.nativeEvent.layout.height)}
       style={[
         styles.container,
         bgLight(theme),

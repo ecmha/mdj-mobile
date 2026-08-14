@@ -1,4 +1,8 @@
+import { useCallback, useRef } from 'react';
 import {
+  LayoutChangeEvent,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
   RefreshControl,
   StyleSheet,
   TouchableOpacity,
@@ -31,23 +35,76 @@ import { useTranslation } from 'react-i18next';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useTheme } from '@/hooks/useTheme';
 import { useAudioPlayer } from '@/hooks/useAudioPlayer';
+import { useHomeTutorial } from '@/hooks/useHomeTutorial';
+
+const SCROLL_END_THRESHOLD = 24;
 
 type MessageItemProps = {
   item: Message;
   refreshing: boolean;
   onRefresh: () => void;
+  canHintSwipe?: boolean;
 };
 
 export default function MessageItem({
   item,
   refreshing,
   onRefresh,
+  canHintSwipe = false,
 }: MessageItemProps) {
   const { t } = useTranslation();
   const { language } = useLanguage();
   const theme = useTheme() ?? 'light';
   const { currentMessageId, isPlaying, isDownloading, play } = useAudioPlayer();
+  const { requestShow } = useHomeTutorial();
   const isCurrent = currentMessageId === item.id;
+
+  const layoutHeightRef = useRef(0);
+  const contentHeightRef = useRef(0);
+
+  const authorTitle = item.author?.title
+    ? t(`home.titles.${item.author.title}`)
+    : '';
+
+  const checkHint = useCallback(
+    (offsetY: number) => {
+      if (!canHintSwipe) return;
+      const layoutHeight = layoutHeightRef.current;
+      const contentHeight = contentHeightRef.current;
+      if (!layoutHeight || !contentHeight) return;
+      if (offsetY + layoutHeight >= contentHeight - SCROLL_END_THRESHOLD) {
+        requestShow();
+      }
+    },
+    [canHintSwipe, requestShow],
+  );
+
+  const handleLayout = useCallback(
+    (event: LayoutChangeEvent) => {
+      layoutHeightRef.current = event.nativeEvent.layout.height;
+      checkHint(0);
+    },
+    [checkHint],
+  );
+
+  const handleContentSizeChange = useCallback(
+    (_width: number, height: number) => {
+      contentHeightRef.current = height;
+      checkHint(0);
+    },
+    [checkHint],
+  );
+
+  const handleScroll = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+      const { layoutMeasurement, contentOffset, contentSize } =
+        event.nativeEvent;
+      layoutHeightRef.current = layoutMeasurement.height;
+      contentHeightRef.current = contentSize.height;
+      checkHint(contentOffset.y);
+    },
+    [checkHint],
+  );
 
   const handleListen = () => {
     play(item.id, language, {
@@ -62,6 +119,10 @@ export default function MessageItem({
       <ScrollView
         style={[flexContent(1)]}
         showsVerticalScrollIndicator
+        onLayout={handleLayout}
+        onContentSizeChange={handleContentSizeChange}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
@@ -127,12 +188,14 @@ export default function MessageItem({
         </TouchableOpacity>
 
         <RenderHTML html={item.content} />
+
         <View style={[mt(40), mb(100), justifyContent.center]}>
           <MText style={[textMedium, fontFamily.sfBold]}>
             {t('home.by_author', {
-              name: `${item.author?.firstname || t('home.unknown_author')} ${
+              name: `${item.author?.firstname} ${
                 item.author?.lastname || ''
               }`.trim(),
+              title: authorTitle,
             })}
           </MText>
         </View>
