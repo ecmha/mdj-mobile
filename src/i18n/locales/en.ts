@@ -10,13 +10,17 @@ export default {
   },
   home: {
     daily_message: "Today's message",
-    by_author: 'By {{name}}',
+    by_author: 'By {{title}} {{name}}',
     unknown_author: 'Unknown',
     empty: 'No message for today',
     empty_hint: 'Pull down to refresh',
-    tutorial_hint: 'Swipe to navigate',
-    tutorial_sub: 'Slide horizontally to browse through the messages.',
-    tutorial_dismiss: 'Got it',
+    tutorial_swipe: 'Swipe to see the others messages',
+    titles: {
+      superior: 'Superior',
+      chief: 'Chief',
+      reverend: 'Reverend',
+      other: 'Other',
+    },
   },
   audio: {
     error: 'Playback unavailable, try again',

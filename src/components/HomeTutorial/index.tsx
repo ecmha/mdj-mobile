@@ -1,141 +1,134 @@
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useEffect } from 'react';
+import { StyleSheet, View } from 'react-native';
 import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withRepeat,
-  withSequence,
-  withTiming,
   Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
 } from 'react-native-reanimated';
-import { Ionicons } from '@react-native-vector-icons/ionicons';
-import MText from '@/components/Text';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
-import {
-  textLargeX1,
-  textMedium,
-  fontFamily,
-  textAlign,
-  bgPrimary,
-  roundedLg,
-  textColor,
-} from '@/theme';
-import { useTheme } from '@/hooks/useTheme';
+import MText from '@/components/Text';
+import { useHomeTutorial } from '@/hooks/useHomeTutorial';
+import { useAudioPlayer } from '@/hooks/useAudioPlayer';
+import { fontFamily, textAlign, textMini } from '@/theme';
 
-type Props = {
-  visible: boolean;
-  onDismiss: () => void;
-};
+const LINE_WIDTH = 80;
+const DOT_SIZE = 8;
+const SLIDE_DURATION = 1100;
+const FADE_DURATION = 250;
+const LIFT_DURATION = 200;
 
-export default function HomeTutorial({ visible, onDismiss }: Props) {
+export default function HomeTutorial() {
   const { t } = useTranslation();
-  const theme = useTheme() ?? 'light';
-  const scale = useSharedValue(1);
-  const opacity = useSharedValue(1);
+  const insets = useSafeAreaInsets();
+  const { visible } = useHomeTutorial();
+  const { currentMessageId, barHeight } = useAudioPlayer();
+
+  const isBarVisible = Boolean(currentMessageId) && barHeight > 0;
+  const liftBy = isBarVisible ? Math.max(0, barHeight - insets.bottom) : 0;
+
+  const progress = useSharedValue(0);
+  const opacity = useSharedValue(0);
+  const lift = useSharedValue(0);
 
   useEffect(() => {
-    scale.value = withRepeat(
-      withSequence(
-        withTiming(1.4, { duration: 500, easing: Easing.inOut(Easing.ease) }),
-        withTiming(1, { duration: 500, easing: Easing.inOut(Easing.ease) }),
-      ),
+    if (!visible) {
+      opacity.value = withTiming(0, { duration: FADE_DURATION });
+      return;
+    }
+    opacity.value = withTiming(1, { duration: FADE_DURATION });
+    progress.value = 0;
+    progress.value = withRepeat(
+      withTiming(1, {
+        duration: SLIDE_DURATION,
+        easing: Easing.inOut(Easing.ease),
+      }),
       -1,
-      false,
+      true,
     );
-  }, [scale]);
+  }, [visible, opacity, progress]);
 
-  const arrowStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-  }));
+  useEffect(() => {
+    lift.value = withTiming(-liftBy, { duration: LIFT_DURATION });
+  }, [liftBy, lift]);
 
   const containerStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
+    transform: [{ translateY: lift.value }],
+  }));
+
+  const dotStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: progress.value * (LINE_WIDTH - DOT_SIZE) }],
   }));
 
   if (!visible) return null;
 
-  const handleDismiss = () => {
-    opacity.value = withTiming(0, { duration: 300 }, () => {});
-    onDismiss();
-  };
-
   return (
-    <Animated.View style={[styles.overlay, containerStyle]}>
+    <Animated.View
+      pointerEvents="none"
+      style={[
+        styles.container,
+        { paddingBottom: insets.bottom + 18 },
+        containerStyle,
+      ]}
+    >
       <View style={styles.content}>
-        <View style={styles.hintRow}>
-          <Animated.View style={arrowStyle}>
-            <Ionicons name="arrow-back" size={28} color="#fff" />
-          </Animated.View>
-
-          <MText
-            style={[
-              textLargeX1,
-              textAlign.center,
-              fontFamily.cormorant,
-              styles.hint,
-            ]}
-          >
-            {t('home.tutorial_hint')}
-          </MText>
-
-          <Animated.View style={arrowStyle}>
-            <Ionicons name="arrow-forward" size={28} color="#fff" />
-          </Animated.View>
+        <View style={styles.line}>
+          <Animated.View style={[styles.dot, dotStyle]} />
         </View>
 
         <MText
           style={[
-            textMedium,
+            textMini,
             textAlign.center,
             fontFamily.sfRegular,
-            styles.sub,
+            styles.label,
           ]}
         >
-          {t('home.tutorial_sub')}
+          {t('home.tutorial_swipe')}
         </MText>
-
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={handleDismiss}
-          style={[styles.button, bgPrimary(theme), roundedLg]}
-        >
-          <MText style={[textMedium, fontFamily.sfBold, textColor('white')]}>
-            {t('home.tutorial_dismiss')}
-          </MText>
-        </TouchableOpacity>
       </View>
     </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
-  overlay: {
-    ...StyleSheet.absoluteFill,
-    backgroundColor: 'rgba(0, 0, 0, 0.72)',
-    justifyContent: 'center',
+  container: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
     alignItems: 'center',
-    zIndex: 10,
+    justifyContent: 'center',
+    zIndex: 20,
+    elevation: 20,
   },
   content: {
     alignItems: 'center',
-    paddingHorizontal: 40,
-    gap: 24,
-  },
-  hintRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  hint: {
-    color: '#fff',
-    fontSize: 26,
-  },
-  sub: {
-    color: 'rgba(255,255,255,0.75)',
-  },
-  button: {
-    alignItems: 'center',
     justifyContent: 'center',
-    padding: 10,
+    gap: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.72)',
+    paddingHorizontal: 22,
+    paddingVertical: 14,
+    borderRadius: 16,
+  },
+  line: {
+    width: LINE_WIDTH,
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: 'rgba(255, 255, 255, 0.35)',
+    justifyContent: 'center',
+  },
+  dot: {
+    width: DOT_SIZE,
+    height: DOT_SIZE,
+    borderRadius: DOT_SIZE / 2,
+    backgroundColor: '#fff',
+    position: 'absolute',
+    left: 0,
+  },
+  label: {
+    color: 'rgba(255, 255, 255, 0.85)',
   },
 });

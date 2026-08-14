@@ -26,6 +26,8 @@ interface PlayMeta {
 export type AudioPlayerContextProps = {
   isDownloading: boolean;
   error: string | null;
+  barHeight: number;
+  setBarHeight: (height: number) => void;
   play: (
     messageId: string,
     lang: SupportedLanguage,
@@ -37,6 +39,8 @@ export type AudioPlayerContextProps = {
 export const AudioPlayerContext = createContext<AudioPlayerContextProps>({
   isDownloading: false,
   error: null,
+  barHeight: 0,
+  setBarHeight: () => {},
   play: async () => {},
   togglePlayPause: () => {},
 });
@@ -48,6 +52,7 @@ interface ProviderProps {
 export const AudioPlayerProvider = ({ children }: ProviderProps) => {
   const [isDownloading, setIsDownloading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [barHeight, setBarHeight] = useState(0);
   // Guards against a stale getSpeechFileUri() resolving after a newer
   // play() call has already started (e.g. user taps two messages in a row).
   const requestIdRef = useRef(0);
@@ -76,7 +81,10 @@ export const AudioPlayerProvider = ({ children }: ProviderProps) => {
       AudioPro.pause();
     } else if (state === AudioProState.PAUSED) {
       AudioPro.resume();
-    } else if (state === AudioProState.STOPPED || state === AudioProState.ERROR) {
+    } else if (
+      state === AudioProState.STOPPED ||
+      state === AudioProState.ERROR
+    ) {
       // Track finished or errored out — replay it instead of leaving the
       // button unresponsive.
       const track = AudioPro.getPlayingTrack();
@@ -120,6 +128,8 @@ export const AudioPlayerProvider = ({ children }: ProviderProps) => {
       value={{
         isDownloading,
         error,
+        barHeight,
+        setBarHeight,
         play,
         togglePlayPause,
       }}
