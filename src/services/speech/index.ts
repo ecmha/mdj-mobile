@@ -1,6 +1,7 @@
 import RNFS from 'react-native-fs';
 import { API_URL } from '@env';
 import { getHeaders } from '@/lib/fetch';
+import type { SupportedLanguage } from '@/i18n';
 
 const CACHE_DIR = `${RNFS.CachesDirectoryPath}/tts`;
 
@@ -10,7 +11,7 @@ const CACHE_DIR = `${RNFS.CachesDirectoryPath}/tts`;
 // URL.createObjectURL, which isn't usable in React Native.
 export async function getSpeechFileUri(
   messageId: string,
-  lang: string,
+  lang: SupportedLanguage,
 ): Promise<string> {
   const path = `${CACHE_DIR}/${messageId}-${lang}.mp3`;
 
@@ -20,7 +21,7 @@ export async function getSpeechFileUri(
 
   await RNFS.mkdir(CACHE_DIR);
 
-  const headers = await getHeaders();
+  const headers = await getHeaders(lang);
   const { statusCode } = await RNFS.downloadFile({
     fromUrl: `${API_URL}/messages/${messageId}/speech`,
     toFile: path,

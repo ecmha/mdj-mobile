@@ -1,11 +1,21 @@
-import { createContext, useRef, useState } from 'react';
+import { createContext, useEffect, useRef, useState } from 'react';
 import { Image } from 'react-native';
 import { AudioPro, AudioProState } from 'react-native-audio-pro';
 import { getSpeechFileUri } from '@/services/speech';
+import { useLanguage } from '@/hooks/useLanguage';
+import type { SupportedLanguage } from '@/i18n';
 
 const FALLBACK_ARTWORK = Image.resolveAssetSource(
   require('@/assets/imgs/app_icon.png'),
 ).uri;
+
+const TRACK_ID_SEPARATOR = '::';
+
+const buildTrackId = (messageId: string, lang: SupportedLanguage) =>
+  `${messageId}${TRACK_ID_SEPARATOR}${lang}`;
+
+export const parseMessageId = (trackId?: string): string | null =>
+  trackId ? trackId.split(TRACK_ID_SEPARATOR)[0] : null;
 
 interface PlayMeta {
   title: string;
@@ -16,7 +26,11 @@ interface PlayMeta {
 export type AudioPlayerContextProps = {
   isDownloading: boolean;
   error: string | null;
-  play: (messageId: string, lang: string, meta: PlayMeta) => Promise<void>;
+  play: (
+    messageId: string,
+    lang: SupportedLanguage,
+    meta: PlayMeta,
+  ) => Promise<void>;
   togglePlayPause: () => void;
 };
 
@@ -37,6 +51,17 @@ export const AudioPlayerProvider = ({ children }: ProviderProps) => {
   // Guards against a stale getSpeechFileUri() resolving after a newer
   // play() call has already started (e.g. user taps two messages in a row).
   const requestIdRef = useRef(0);
+  const { language } = useLanguage();
+  const languageRef = useRef(language);
+
+  useEffect(() => {
+    if (languageRef.current === language) return;
+    languageRef.current = language;
+    requestIdRef.current++;
+    AudioPro.clear();
+    setIsDownloading(false);
+    setError(null);
+  }, [language]);
 
   // AudioPro.configure() lives in setupAudio() (src/services/audio), called
   // from index.js — the library requires setup outside the React lifecycle.
@@ -59,8 +84,13 @@ export const AudioPlayerProvider = ({ children }: ProviderProps) => {
     }
   };
 
-  const play = async (messageId: string, lang: string, meta: PlayMeta) => {
-    if (AudioPro.getPlayingTrack()?.id === messageId) {
+  const play = async (
+    messageId: string,
+    lang: SupportedLanguage,
+    meta: PlayMeta,
+  ) => {
+    const trackId = buildTrackId(messageId, lang);
+    if (AudioPro.getPlayingTrack()?.id === trackId) {
       togglePlayPause();
       return;
     }
@@ -72,7 +102,7 @@ export const AudioPlayerProvider = ({ children }: ProviderProps) => {
       const uri = await getSpeechFileUri(messageId, lang);
       if (requestId !== requestIdRef.current) return;
       AudioPro.play({
-        id: messageId,
+        id: trackId,
         url: uri,
         title: meta.title,
         artist: meta.artist,

@@ -1,5 +1,6 @@
 import { API_URL } from '@env';
 import { retrieveItem, STORAGE_KEYS } from '@/lib/storage';
+import type { SupportedLanguage } from '@/i18n';
 
 export type CustomHeaders = {
   'x-mdj-device-token'?: string | null;
@@ -37,8 +38,10 @@ const request = async (
   return response.json();
 };
 
-export const getHeaders = async (): Promise<CustomHeaders> => {
-  const language = await retrieveItem(STORAGE_KEYS.LANGUAGE);
+export const getHeaders = async (
+  lang?: SupportedLanguage,
+): Promise<CustomHeaders> => {
+  const language = lang ?? (await retrieveItem(STORAGE_KEYS.LANGUAGE));
   return {
     'x-mdj-device-token': await retrieveItem(STORAGE_KEYS.DEVICE_TOKEN),
     'x-mdj-lang': language === 'en' ? 'en' : 'fr',

@@ -1,6 +1,9 @@
 import { useContext } from 'react';
 import { AudioProState, useAudioPro } from 'react-native-audio-pro';
-import { AudioPlayerContext } from '@/contexts/audioPlayerProvider';
+import {
+  AudioPlayerContext,
+  parseMessageId,
+} from '@/contexts/audioPlayerProvider';
 
 // Position/duration/isPlaying/title come straight from react-native-audio-pro's
 // own reactive hook rather than living in AudioPlayerContext — putting them
@@ -12,7 +15,7 @@ export const useAudioPlayer = () => {
 
   return {
     ...context,
-    currentMessageId: (playingTrack?.id as string | undefined) ?? null,
+    currentMessageId: parseMessageId(playingTrack?.id as string | undefined),
     position: position / 1000,
     duration: duration / 1000,
     isPlaying: state === AudioProState.PLAYING,

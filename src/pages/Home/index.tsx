@@ -9,6 +9,7 @@ import EmptyList from './EmptyList';
 import MessageItem from '@/components/MessageItem';
 import HomeTutorial from '@/components/HomeTutorial';
 import { useHomeTutorial } from '@/hooks/useHomeTutorial';
+import { useLanguage } from '@/hooks/useLanguage';
 
 // Tells the Carousel's pan gesture to yield on vertical movement so the inner
 // ScrollView's RefreshControl can capture the pull-to-refresh gesture.
@@ -21,15 +22,16 @@ export default function Home() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const { visible: tutorialVisible, dismiss: dismissTutorial } = useHomeTutorial();
+  const { language } = useLanguage();
+  const requestIdRef = useRef(0);
 
   const getMedidations = useCallback(async () => {
-    try {
-      const dayMessages = await getDayMessages();
+    const requestId = ++requestIdRef.current;
+    const dayMessages = await getDayMessages(language);
+    if (requestId === requestIdRef.current) {
       setMessages(dayMessages);
-    } catch (error) {
-      throw error;
     }
-  }, []);
+  }, [language]);
 
   const handleRefresh = useCallback(async () => {
     try {
