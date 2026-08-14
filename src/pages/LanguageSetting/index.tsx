@@ -20,12 +20,12 @@ export default function LanguageSetting() {
             {
               id: 'fr',
               label: t('language_setting.french'),
-              onPress: id => updateLanguage(id),
+              onPress: updateLanguage,
             },
             {
               id: 'en',
               label: t('language_setting.english'),
-              onPress: id => updateLanguage(id),
+              onPress: updateLanguage,
             },
           ]}
         />

@@ -1,8 +1,11 @@
 import { get, post, put, del, getHeaders } from '@/lib/fetch';
+import type { SupportedLanguage } from '@/i18n';
 import { CreateMessageDto, Message, UpdateMessageDto } from './types.d';
 
-export const getDayMessages = async (): Promise<Message[]> => {
-  const headers = await getHeaders();
+export const getDayMessages = async (
+  lang?: SupportedLanguage,
+): Promise<Message[]> => {
+  const headers = await getHeaders(lang);
   return get('messages/currents', headers);
 };
 
