@@ -16,6 +16,10 @@ export default {
     empty: "Aucun message pour aujourd'hui",
     empty_hint: 'Tirer vers le bas pour actualiser',
     tutorial_swipe: 'Glissez pour voir les autres messages',
+    share_message: 'Partager le message',
+    share_footer: "Depuis l'application Méditation du Jour : {{url}}",
+    previous_message: 'Message précédent',
+    next_message: 'Message suivant',
     titles: {
       superior: 'Supérieur',
       chief: 'Chef',
@@ -26,6 +30,7 @@ export default {
   audio: {
     error: 'Lecture indisponible, réessayez',
     listen: 'Écouter',
+    close: 'Fermer le lecteur',
   },
   settings: {
     title: 'Paramètres',

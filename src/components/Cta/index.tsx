@@ -10,6 +10,7 @@ type CTAPropsType = {
   disabled: boolean;
   color: ColorType;
   style?: StyleProp<ViewStyle>;
+  accessibilityLabel?: string;
   children?: React.ReactNode;
 };
 
@@ -20,6 +21,7 @@ export default function CTA({
   disabled,
   children,
   style,
+  accessibilityLabel,
 }: CTAPropsType) {
   const theme = useTheme();
   return (
@@ -28,6 +30,8 @@ export default function CTA({
       disabled={disabled}
       style={style}
       activeOpacity={0.5}
+      accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
     >
       <View style={[styles.cta, bgLight(theme)]}>{children}</View>
     </Touchable>

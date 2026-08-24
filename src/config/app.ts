@@ -1,10 +1,13 @@
 import { Platform } from 'react-native';
+import appJson from '../../app.json';
 
 export const APP_NAME = 'MDJ';
-export const APP_VERSION = '1.0.2';
+export const APP_VERSION = appJson.version;
 
-export const PRIVACY_POLICY_URL = 'https://mdj.brankoostudio.com/privacy.html';
-export const TERMS_OF_USE_URL = 'https://mdj.brankoostudio.com/cgu.html';
+export const WEBSITE_URL = 'https://mdj.brankoostudio.com';
+
+export const PRIVACY_POLICY_URL = `${WEBSITE_URL}/privacy.html`;
+export const TERMS_OF_USE_URL = `${WEBSITE_URL}/cgu.html`;
 
 const ANDROID_PACKAGE_NAME = 'com.brankoo.mdj';
 // Fill in once the app is published on the App Store
