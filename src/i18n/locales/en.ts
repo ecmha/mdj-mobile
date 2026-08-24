@@ -15,6 +15,10 @@ export default {
     empty: 'No message for today',
     empty_hint: 'Pull down to refresh',
     tutorial_swipe: 'Swipe to see the others messages',
+    share_message: 'Share the message',
+    share_footer: 'From the Meditation du Jour app: {{url}}',
+    previous_message: 'Previous message',
+    next_message: 'Next message',
     titles: {
       superior: 'Superior',
       chief: 'Chief',
@@ -25,6 +29,7 @@ export default {
   audio: {
     error: 'Playback unavailable, try again',
     listen: 'Listen',
+    close: 'Close the player',
   },
   settings: {
     title: 'Settings',

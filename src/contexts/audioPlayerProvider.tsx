@@ -34,6 +34,7 @@ export type AudioPlayerContextProps = {
     meta: PlayMeta,
   ) => Promise<void>;
   togglePlayPause: () => void;
+  close: () => void;
 };
 
 export const AudioPlayerContext = createContext<AudioPlayerContextProps>({
@@ -43,6 +44,7 @@ export const AudioPlayerContext = createContext<AudioPlayerContextProps>({
   setBarHeight: () => {},
   play: async () => {},
   togglePlayPause: () => {},
+  close: () => {},
 });
 
 interface ProviderProps {
@@ -92,6 +94,17 @@ export const AudioPlayerProvider = ({ children }: ProviderProps) => {
     }
   };
 
+  // Tears the player down entirely: playback stops, the media session goes
+  // away and currentMessageId becomes null, which unmounts the mini player.
+  const close = () => {
+    // Cancel any in-flight download so it can't re-open the bar on resolve.
+    requestIdRef.current++;
+    AudioPro.clear();
+    setIsDownloading(false);
+    setError(null);
+    setBarHeight(0);
+  };
+
   const play = async (
     messageId: string,
     lang: SupportedLanguage,
@@ -132,6 +145,7 @@ export const AudioPlayerProvider = ({ children }: ProviderProps) => {
         setBarHeight,
         play,
         togglePlayPause,
+        close,
       }}
     >
       {children}

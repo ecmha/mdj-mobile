@@ -1,6 +1,5 @@
 import { ActivityIndicator, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Share from 'react-native-share';
 import { useTranslation } from 'react-i18next';
 import CTA from '@/components/Cta';
 import Icon from '@/components/Icon';
@@ -29,27 +28,16 @@ export default function MiniPlayerBar() {
     position,
     duration,
     title,
-    fileUri,
     error,
     togglePlayPause,
     setBarHeight,
+    close,
   } = useAudioPlayer();
 
   if (!currentMessageId) return null;
 
   const progressRatio = duration > 0 ? Math.min(position / duration, 1) : 0;
   const showSpinner = isDownloading || isBuffering;
-
-  const handleSave = () => {
-    if (!fileUri) return;
-    Share.open({
-      url: fileUri,
-      type: 'audio/mpeg',
-      filename: title ?? 'meditation',
-      saveToFiles: true,
-      failOnCancel: false,
-    }).catch(() => undefined);
-  };
 
   return (
     <View
@@ -91,8 +79,13 @@ export default function MiniPlayerBar() {
               : `${formatTime(position)} / ${formatTime(duration)}`}
           </MText>
         </View>
-        <TouchableOpacity onPress={handleSave} disabled={!fileUri} hitSlop={10}>
-          <Icon name="share-outline" color="foreground" size={20} />
+        <TouchableOpacity
+          onPress={close}
+          hitSlop={10}
+          accessibilityRole="button"
+          accessibilityLabel={t('audio.close')}
+        >
+          <Icon name="close-circle-outline" color="foreground" size={20} />
         </TouchableOpacity>
       </View>
     </View>

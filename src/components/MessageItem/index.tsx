@@ -1,17 +1,22 @@
 import { useCallback, useRef } from 'react';
 import {
+  Image,
   LayoutChangeEvent,
   NativeScrollEvent,
   NativeSyntheticEvent,
   RefreshControl,
+  Share,
   StyleSheet,
   TouchableOpacity,
   View,
 } from 'react-native';
 import { API_URL } from '@env';
+import { WEBSITE_URL } from '@/config/app';
 import MText from '@/components/Text';
 import Icon from '@/components/Icon';
+import CTA from '@/components/Cta';
 import {
+  alignItems,
   flexContent,
   px,
   textMedium,
@@ -29,6 +34,7 @@ import {
   textBig,
 } from '@/theme';
 import { Message } from '@/services/messages/types';
+import { htmlToPlainText } from '@/lib/html';
 import { ScrollView } from 'react-native-gesture-handler';
 import RenderHTML from '@/components/RenderHTML';
 import { useTranslation } from 'react-i18next';
@@ -44,6 +50,7 @@ type MessageItemProps = {
   refreshing: boolean;
   onRefresh: () => void;
   canHintSwipe?: boolean;
+  onEndReachedChange?: (reached: boolean) => void;
 };
 
 export default function MessageItem({
@@ -51,6 +58,7 @@ export default function MessageItem({
   refreshing,
   onRefresh,
   canHintSwipe = false,
+  onEndReachedChange,
 }: MessageItemProps) {
   const { t } = useTranslation();
   const { language } = useLanguage();
@@ -61,38 +69,51 @@ export default function MessageItem({
 
   const layoutHeightRef = useRef(0);
   const contentHeightRef = useRef(0);
+  const offsetYRef = useRef(0);
+  const endReachedRef = useRef(false);
 
   const authorTitle = item.author?.title
     ? t(`home.titles.${item.author.title}`)
     : '';
 
-  const checkHint = useCallback(
-    (offsetY: number) => {
-      if (!canHintSwipe) return;
-      const layoutHeight = layoutHeightRef.current;
-      const contentHeight = contentHeightRef.current;
-      if (!layoutHeight || !contentHeight) return;
-      if (offsetY + layoutHeight >= contentHeight - SCROLL_END_THRESHOLD) {
-        requestShow();
-      }
-    },
-    [canHintSwipe, requestShow],
-  );
+  const authorLine = t('home.by_author', {
+    name: `${item.author?.firstname} ${item.author?.lastname || ''}`.trim(),
+    title: authorTitle,
+  });
+
+  // Reports whether the reader has reached the bottom of this message: it
+  // drives both the one-shot swipe tutorial and the carousel nav buttons.
+  // Content shorter than the viewport counts as "reached" — there is nothing
+  // left to read either way.
+  const checkScrollEnd = useCallback(() => {
+    const layoutHeight = layoutHeightRef.current;
+    const contentHeight = contentHeightRef.current;
+    if (!layoutHeight || !contentHeight) return;
+
+    const reached =
+      offsetYRef.current + layoutHeight >= contentHeight - SCROLL_END_THRESHOLD;
+
+    if (reached !== endReachedRef.current) {
+      endReachedRef.current = reached;
+      onEndReachedChange?.(reached);
+    }
+    if (reached && canHintSwipe) requestShow();
+  }, [canHintSwipe, requestShow, onEndReachedChange]);
 
   const handleLayout = useCallback(
     (event: LayoutChangeEvent) => {
       layoutHeightRef.current = event.nativeEvent.layout.height;
-      checkHint(0);
+      checkScrollEnd();
     },
-    [checkHint],
+    [checkScrollEnd],
   );
 
   const handleContentSizeChange = useCallback(
     (_width: number, height: number) => {
       contentHeightRef.current = height;
-      checkHint(0);
+      checkScrollEnd();
     },
-    [checkHint],
+    [checkScrollEnd],
   );
 
   const handleScroll = useCallback(
@@ -101,10 +122,30 @@ export default function MessageItem({
         event.nativeEvent;
       layoutHeightRef.current = layoutMeasurement.height;
       contentHeightRef.current = contentSize.height;
-      checkHint(contentOffset.y);
+      offsetYRef.current = contentOffset.y;
+      checkScrollEnd();
     },
-    [checkHint],
+    [checkScrollEnd],
   );
+
+  // item.title/verses/content already come back in the displayed language —
+  // getDayMessages() refetches with the x-mdj-lang header on every switch.
+  const handleShare = () => {
+    const body = [
+      item.title,
+      ...(item.verses ?? []),
+      htmlToPlainText(item.content),
+      authorLine,
+      t('home.share_footer', { url: WEBSITE_URL }),
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+
+    Share.share(
+      { message: body, title: item.title },
+      { dialogTitle: item.title },
+    ).catch(() => undefined);
+  };
 
   const handleListen = () => {
     play(item.id, language, {
@@ -149,6 +190,14 @@ export default function MessageItem({
           style={[textBig, textAlign.center, fontFamily.cormorantBold]}
         >{`${item.title}\n`}</MText>
 
+        {item.cover && (
+          <Image
+            source={{ uri: `${API_URL}/files/${item.cover}/view` }}
+            style={styles.coverImage}
+            resizeMode="cover"
+          />
+        )}
+
         {item.verses && item.verses.length > 0 && (
           <View style={styles.versesContainer}>
             {item.verses.map((verse, index) => (
@@ -189,15 +238,19 @@ export default function MessageItem({
 
         <RenderHTML html={item.content} />
 
-        <View style={[mt(40), mb(100), justifyContent.center]}>
-          <MText style={[textMedium, fontFamily.sfBold]}>
-            {t('home.by_author', {
-              name: `${item.author?.firstname} ${
-                item.author?.lastname || ''
-              }`.trim(),
-              title: authorTitle,
-            })}
-          </MText>
+        <View style={[mt(40), justifyContent.center]}>
+          <MText style={[textMedium, fontFamily.sfBold]}>{authorLine}</MText>
+        </View>
+
+        <View style={[mt(20), mb(160), alignItems.center]}>
+          <CTA
+            onPress={handleShare}
+            disabled={false}
+            color="foreground"
+            accessibilityLabel={t('home.share_message')}
+          >
+            <Icon name="share-social-outline" color="foreground" size={22} />
+          </CTA>
         </View>
       </ScrollView>
     </View>
@@ -223,5 +276,12 @@ const styles = StyleSheet.create({
   listenLabel: {
     textTransform: 'uppercase',
     letterSpacing: 0.5,
+  },
+  coverImage: {
+    width: '100%',
+    height: 200,
+    marginBottom: 20,
+    borderRadius: 8,
+    overflow: 'hidden',
   },
 });
