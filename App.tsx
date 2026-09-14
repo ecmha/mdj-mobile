@@ -12,10 +12,7 @@ import { ThemeProvider } from './src/contexts/themeProvider';
 import { WelcomeProvider } from './src/contexts/welcomeProvider';
 import { LanguageProvider } from './src/contexts/languageProvider';
 import { AudioPlayerProvider } from './src/contexts/audioPlayerProvider';
-import { HomeTutorialProvider } from './src/contexts/homeTutorialProvider';
 import { useOneSignalInit } from './src/features/notifications/useOneSignalInit';
-import MiniPlayerBar from './src/components/AudioPlayer/MiniPlayerBar';
-import HomeTutorial from './src/components/HomeTutorial';
 
 function App() {
   useOneSignalInit();
@@ -25,13 +22,9 @@ function App() {
         <WelcomeProvider>
           <LanguageProvider>
             <AudioPlayerProvider>
-              <HomeTutorialProvider>
-                <View style={styles.root}>
-                  <Navigation />
-                  <MiniPlayerBar />
-                  <HomeTutorial />
-                </View>
-              </HomeTutorialProvider>
+              <View style={styles.root}>
+                <Navigation />
+              </View>
             </AudioPlayerProvider>
           </LanguageProvider>
         </WelcomeProvider>

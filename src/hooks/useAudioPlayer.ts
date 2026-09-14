@@ -20,6 +20,8 @@ export const useAudioPlayer = () => {
     duration: duration / 1000,
     isPlaying: state === AudioProState.PLAYING,
     isBuffering: state === AudioProState.LOADING,
+    isIdle: state === AudioProState.IDLE,
+    isStopped: state === AudioProState.STOPPED,
     title: playingTrack?.title,
     fileUri: playingTrack?.url as string | undefined,
     error: context.error ?? (error ? 'playback_failed' : null),
