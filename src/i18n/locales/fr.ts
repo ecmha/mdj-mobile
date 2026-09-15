@@ -26,6 +26,14 @@ export default {
       reverend: 'Auxiliaire',
       other: 'Autre',
     },
+    bookmark: {
+      add: 'Ajouter aux favoris',
+      remove: 'Retirer des favoris',
+      added: 'Message ajouté aux favoris',
+      removed: 'Message retiré des favoris',
+      unavailable: 'Fonctionnalité pas encore disponible',
+    },
+    share: 'Partager le message',
   },
   audio: {
     error: 'Lecture indisponible, réessayez',
