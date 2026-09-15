@@ -25,6 +25,14 @@ export default {
       reverend: 'Reverend',
       other: 'Other',
     },
+    bookmark: {
+      add: 'Add to bookmarks',
+      remove: 'Remove from bookmarks',
+      added: 'Message added to bookmarks',
+      removed: 'Message removed from bookmarks',
+      unavailable: 'Feature not yet available',
+    },
+    share: 'Share the message',
   },
   audio: {
     error: 'Playback unavailable, try again',

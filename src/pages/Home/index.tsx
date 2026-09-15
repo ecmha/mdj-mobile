@@ -1,86 +1,66 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import type { PanGesture } from 'react-native-gesture-handler';
-import HomeLayout from './Shell';
-import Carousel, {
-  type ICarouselInstance,
-} from 'react-native-reanimated-carousel';
-import { DIMENSIONS } from '@/theme';
-import { getDayMessages } from '@/services/messages';
-import { Message } from '@/services/messages/types';
-import EmptyList from './EmptyList';
-import CarouselNav from './CarouselNav';
-import MessageItem from '@/components/MessageItem';
-import { useHomeTutorial } from '@/hooks/useHomeTutorial';
+import { useState, useCallback, useEffect, JSX, useRef } from 'react';
+import { StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import HomeLayout from '@/layouts/HomeLayout';
+import HomeToolBar from '@/components/HomeToolBar';
+import { HOME_TOOLBAR_HEIGHT } from '@/components/HomeToolBar/styles';
+import Toast from '@/components/Toast';
 import { useLanguage } from '@/hooks/useLanguage';
+import { Message } from '@/services/messages/types';
+import { getDayMessages } from '@/services/messages';
+import MessageItem from '@/components/MessageItem/index';
+import { TabView, SceneMap } from 'react-native-tab-view';
 
-// Tells the Carousel's pan gesture to yield on vertical movement so the inner
-// ScrollView's RefreshControl can capture the pull-to-refresh gesture.
-const configureCarouselPanGesture = (panGesture: PanGesture) => {
-  panGesture.activeOffsetX([-10, 10]).failOffsetY([-5, 5]);
-};
+import EmptyList from './EmptyList';
 
 export default function Home() {
-  const carouselRef = useRef<ICarouselInstance>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [refreshing, setRefreshing] = useState(false);
-  const { language } = useLanguage();
-  const requestIdRef = useRef(0);
-  const { dismiss: dismissTutorial } = useHomeTutorial();
   const [currentIndex, setCurrentIndex] = useState(0);
-  // Per-slide "reader reached the bottom" flags — the nav buttons only show
-  // once the message currently on screen has been read to the end.
-  const [endReached, setEndReached] = useState<Record<number, boolean>>({});
-
-  const handleSnapToItem = useCallback(
-    (index: number) => {
-      setCurrentIndex(index);
-      if (index !== 0) dismissTutorial();
-    },
-    [dismissTutorial],
-  );
-
-  const handlePrevious = useCallback(() => {
-    carouselRef.current?.prev();
-  }, []);
-
-  const handleNext = useCallback(() => {
-    carouselRef.current?.next();
-  }, []);
-
-  const handleEndReachedChange = useCallback(
-    (index: number, reached: boolean) => {
-      setEndReached(previous =>
-        previous[index] === reached
-          ? previous
-          : { ...previous, [index]: reached },
-      );
-    },
-    [],
-  );
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const requestIdRef = useRef(0);
+  const { language } = useLanguage();
+  const { t } = useTranslation();
 
   const getMedidations = useCallback(async () => {
-    const requestId = ++requestIdRef.current;
-    const dayMessages = await getDayMessages(language);
-    if (requestId === requestIdRef.current) {
-      setMessages(dayMessages);
-      setCurrentIndex(0);
-      setEndReached({});
-    }
-  }, [language]);
-
-  const handleRefresh = useCallback(async () => {
     try {
+      const requestId = ++requestIdRef.current;
       setRefreshing(true);
-      await getMedidations();
+      const dayMessages = await getDayMessages(language);
+      if (requestId === requestIdRef.current) {
+        setMessages(dayMessages);
+        setCurrentIndex(0);
+      }
     } catch {
     } finally {
       setRefreshing(false);
     }
-  }, [getMedidations]);
+  }, [language]);
 
   useEffect(() => {
     getMedidations();
   }, [getMedidations]);
+
+  const handleRefresh = useCallback(async () => {
+    try {
+      await getMedidations();
+    } catch {}
+  }, [getMedidations]);
+
+  const handlePrevious = useCallback(() => {
+    setCurrentIndex(prevIndex => Math.max(0, prevIndex - 1));
+  }, []);
+
+  const handleNext = useCallback(() => {
+    setCurrentIndex(prevIndex => Math.min(messages.length - 1, prevIndex + 1));
+  }, [messages.length]);
+
+  // Bookmarks aren't implemented yet — tell the reader instead of doing nothing.
+  const handleBookmark = useCallback(() => {
+    setToastMessage(t('home.bookmark.unavailable'));
+  }, [t]);
+
+  const hideToast = useCallback(() => setToastMessage(null), []);
 
   if (messages.length === 0) {
     return (
@@ -92,37 +72,44 @@ export default function Home() {
 
   return (
     <HomeLayout>
-      <Carousel
-        ref={carouselRef}
-        width={DIMENSIONS.WINDOW_WIDTH}
-        height={DIMENSIONS.WINDOW_HEIGHT}
-        data={messages}
-        loop={false}
-        scrollAnimationDuration={1000}
-        pagingEnabled
-        onConfigurePanGesture={configureCarouselPanGesture}
-        onSnapToItem={handleSnapToItem}
-        renderItem={({ item, index }) => (
-          <MessageItem
-            item={item}
-            refreshing={refreshing}
-            onRefresh={handleRefresh}
-            canHintSwipe={index === 0 && messages.length > 1}
-            onEndReachedChange={reached =>
-              handleEndReachedChange(index, reached)
-            }
-          />
+      <TabView
+        renderTabBar={() => null}
+        navigationState={{
+          index: currentIndex,
+          routes: messages.map((message, index) => ({
+            key: message.id,
+            title: `Message ${index + 1}`,
+          })),
+        }}
+        renderScene={SceneMap(
+          messages.reduce((scenes, message) => {
+            scenes[message.id] = () => (
+              <MessageItem
+                item={message}
+                refreshing={refreshing}
+                onRefresh={handleRefresh}
+              />
+            );
+            return scenes;
+          }, {} as Record<string, () => JSX.Element>),
         )}
+        onIndexChange={(index: number) => {
+          setCurrentIndex(index);
+        }}
       />
-      <CarouselNav
-        canGoPrevious={Boolean(endReached[currentIndex]) && currentIndex > 0}
-        canGoNext={
-          Boolean(endReached[currentIndex]) &&
-          currentIndex < messages.length - 1
-        }
+      <HomeToolBar
+        canGoPrevious={currentIndex > 0}
+        canGoNext={currentIndex < messages.length - 1}
         onPrevious={handlePrevious}
         onNext={handleNext}
+        message={messages[currentIndex]}
+        onBookmark={handleBookmark}
       />
+      <Toast message={toastMessage} onHide={hideToast} style={styles.toast} />
     </HomeLayout>
   );
 }
+
+const styles = StyleSheet.create({
+  toast: { bottom: HOME_TOOLBAR_HEIGHT + 12 },
+});
