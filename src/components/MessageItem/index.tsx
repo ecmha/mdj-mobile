@@ -112,7 +112,7 @@ export default function MessageItem({
 
         <RenderHTML html={item.content} />
 
-        <View style={[mt(40), justifyContent.center]}>
+        <View style={[mt(40), mb(160), justifyContent.center]}>
           <MText style={[textMedium, fontFamily.sfBold]}>{authorLine}</MText>
         </View>
       </ScrollView>
