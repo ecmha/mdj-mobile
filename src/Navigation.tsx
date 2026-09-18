@@ -9,6 +9,11 @@ import LanguageSetting from './pages/LanguageSetting';
 import Suggestion from './pages/Suggestion';
 import Welcome from './pages/Welcome';
 import SplashScreen from './pages/Splashscreen';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
+import MyInformations from './pages/MyInformations';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -19,6 +24,11 @@ export type RootStackParamList = {
   Suggestion: undefined;
   Welcome: undefined;
   SplashScreen: undefined;
+  Login: undefined;
+  Signup: undefined;
+  ForgotPassword: { email?: string } | undefined;
+  ResetPassword: { token: string };
+  MyInformations: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -54,6 +64,31 @@ export default function Navigation() {
           <Stack.Screen
             name="Suggestion"
             component={Suggestion}
+            options={{ animation: 'slide_from_left' }}
+          />
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ animation: 'slide_from_bottom' }}
+          />
+          <Stack.Screen
+            name="Signup"
+            component={Signup}
+            options={{ animation: 'slide_from_bottom' }}
+          />
+          <Stack.Screen
+            name="ForgotPassword"
+            component={ForgotPassword}
+            options={{ animation: 'slide_from_right' }}
+          />
+          <Stack.Screen
+            name="ResetPassword"
+            component={ResetPassword}
+            options={{ animation: 'slide_from_bottom' }}
+          />
+          <Stack.Screen
+            name="MyInformations"
+            component={MyInformations}
             options={{ animation: 'slide_from_left' }}
           />
         </Stack.Navigator>

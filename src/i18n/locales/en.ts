@@ -34,6 +34,66 @@ export default {
     },
     share: 'Share the message',
   },
+  auth: {
+    back: 'Back',
+    prompt: {
+      title: "Let's be closer",
+      description: 'Log in or create an account to save your progress',
+      close: 'Close',
+    },
+    fields: {
+      email: 'Email',
+      password: 'Password',
+      firstname: 'First name',
+      lastname: 'Last name',
+      new_password: 'New password',
+      password_confirmation: 'Confirm the password',
+    },
+    login: {
+      title: 'Log in',
+      cta: 'Log in',
+      forgot_password: 'Forgot password?',
+    },
+    forgot_password: {
+      title: 'Forgot password',
+      description:
+        "Enter your email and we'll send you a link to choose a new password.",
+      cta: 'Send the link',
+      sent: 'If an account exists for this email, a reset link has just been sent to you. Remember to check your spam folder.',
+      back_to_login: 'Back to log in',
+    },
+    reset_password: {
+      title: 'New password',
+      description: 'Choose a new password of at least 8 characters.',
+      cta: 'Save',
+      done: 'Your password has been changed. You can now log in.',
+      go_to_login: 'Log in',
+      link_invalid:
+        'This link is no longer valid: it has expired (10 minutes) or has already been used.',
+      request_new: 'Request a new link',
+    },
+    signup: {
+      title: 'Create an account',
+      cta: 'Sign up',
+      created_pending:
+        'Your account has been created. You can log in once it is approved.',
+      legal:
+        'By creating your account, you accept our <terms>Terms of Use</terms> and our <privacy>Privacy Policy</privacy>.',
+    },
+    errors: {
+      email: 'Please enter a valid email.',
+      password_required: 'Please enter your password.',
+      password_length: 'The password must be at least 8 characters long.',
+      password_mismatch: 'The passwords do not match.',
+      firstname: 'Please enter your first name.',
+      lastname: 'Please enter your last name.',
+      invalid_credentials: 'Incorrect email or password.',
+      account_pending: 'Your account is not activated yet.',
+      email_taken: 'An account already exists with this email.',
+      too_many_attempts: 'Too many attempts, try again later.',
+      generic: 'Something went wrong, try again.',
+    },
+  },
   audio: {
     error: 'Playback unavailable, try again',
     listen: 'Listen',
@@ -41,6 +101,8 @@ export default {
   },
   settings: {
     title: 'Settings',
+    section_account: 'Account',
+    my_informations: 'My information',
     section_customize: 'Customize',
     section_support: 'Support us',
     section_follow: 'Follow us',
@@ -56,6 +118,11 @@ export default {
     privacy_policy: 'Privacy policy',
     terms: 'Terms of use',
     version: 'MDJ - Version {{version}}',
+  },
+  my_informations: {
+    title: 'My information',
+    avatar: 'Profile picture',
+    change_password: 'Change password',
   },
   language_setting: {
     title: 'Language',

@@ -6,6 +6,7 @@ import HomeToolBar from '@/components/HomeToolBar';
 import { HOME_TOOLBAR_HEIGHT } from '@/components/HomeToolBar/styles';
 import Toast from '@/components/Toast';
 import { useLanguage } from '@/hooks/useLanguage';
+import { useAuth } from '@/hooks/useAuth';
 import { Message } from '@/services/messages/types';
 import { getDayMessages } from '@/services/messages';
 import MessageItem from '@/components/MessageItem/index';
@@ -20,6 +21,7 @@ export default function Home() {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const requestIdRef = useRef(0);
   const { language } = useLanguage();
+  const { requireAuth } = useAuth();
   const { t } = useTranslation();
 
   const getMedidations = useCallback(async () => {
@@ -55,10 +57,11 @@ export default function Home() {
     setCurrentIndex(prevIndex => Math.min(messages.length - 1, prevIndex + 1));
   }, [messages.length]);
 
-  // Bookmarks aren't implemented yet — tell the reader instead of doing nothing.
+  // Bookmarks need an account. The feature itself isn't implemented yet, so a
+  // signed-in reader is told instead of nothing happening.
   const handleBookmark = useCallback(() => {
-    setToastMessage(t('home.bookmark.unavailable'));
-  }, [t]);
+    requireAuth(() => setToastMessage(t('home.bookmark.unavailable')));
+  }, [requireAuth, t]);
 
   const hideToast = useCallback(() => setToastMessage(null), []);
 

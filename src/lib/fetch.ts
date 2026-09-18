@@ -8,6 +8,15 @@ export type CustomHeaders = {
   'x-mdj-lang'?: string;
 };
 
+// Carries the status and the server's error `code` (e.g. `EMAIL_TAKEN`) so
+// callers can tell failures apart without parsing the message.
+export class HttpError extends Error {
+  constructor(readonly status: number, readonly code?: string) {
+    super(`HTTP error! status: ${status}`);
+    this.name = 'HttpError';
+  }
+}
+
 const buildHeaders = (custom: CustomHeaders = {}): Record<string, string> => {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
@@ -32,7 +41,8 @@ const request = async (
   });
 
   if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+    const body = await response.json().catch(() => null);
+    throw new HttpError(response.status, body?.code);
   }
 
   return response.json();
@@ -45,6 +55,7 @@ export const getHeaders = async (
   return {
     'x-mdj-device-token': await retrieveItem(STORAGE_KEYS.DEVICE_TOKEN),
     'x-mdj-lang': language === 'en' ? 'en' : 'fr',
+    'x-mdj-platform': 'mobile',
   };
 };
 

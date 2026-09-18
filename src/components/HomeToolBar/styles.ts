@@ -41,7 +41,4 @@ export default StyleSheet.create({
     top: -2,
     right: 20,
   },
-  bookmarkUnavailable: {
-    opacity: 0.5,
-  },
 });

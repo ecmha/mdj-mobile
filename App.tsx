@@ -12,6 +12,7 @@ import { ThemeProvider } from './src/contexts/themeProvider';
 import { WelcomeProvider } from './src/contexts/welcomeProvider';
 import { LanguageProvider } from './src/contexts/languageProvider';
 import { AudioPlayerProvider } from './src/contexts/audioPlayerProvider';
+import { AuthProvider } from './src/contexts/authProvider';
 import { useOneSignalInit } from './src/features/notifications/useOneSignalInit';
 
 function App() {
@@ -21,11 +22,13 @@ function App() {
       <SafeAreaProvider>
         <WelcomeProvider>
           <LanguageProvider>
-            <AudioPlayerProvider>
-              <View style={styles.root}>
-                <Navigation />
-              </View>
-            </AudioPlayerProvider>
+            <AuthProvider>
+              <AudioPlayerProvider>
+                <View style={styles.root}>
+                  <Navigation />
+                </View>
+              </AudioPlayerProvider>
+            </AuthProvider>
           </LanguageProvider>
         </WelcomeProvider>
       </SafeAreaProvider>

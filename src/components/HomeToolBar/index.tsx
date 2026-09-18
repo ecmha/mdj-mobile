@@ -46,7 +46,6 @@ export default function HomeToolBar({
           onPress={onBookmark}
           accessibilityLabel={t('home.bookmark.add')}
           icon="bookmark-outline"
-          customStyles={styles.bookmarkUnavailable}
         />
       </View>
       <View style={styles.side}>

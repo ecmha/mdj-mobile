@@ -3,6 +3,7 @@ import Header from '@/components/Header';
 import { bgDefault, px } from '@/theme';
 import { useTheme } from '@/hooks/useTheme';
 import Footer from '@/components/Footer';
+import AuthPromptModal from '@/components/AuthPromptModal';
 
 export default function DefaultLayout({
   children,
@@ -27,6 +28,7 @@ export default function DefaultLayout({
         {children}
         <Footer />
       </ScrollView>
+      <AuthPromptModal />
     </View>
   );
 }

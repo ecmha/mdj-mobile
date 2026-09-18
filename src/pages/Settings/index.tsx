@@ -5,6 +5,7 @@ import { alignItems, my, fontFamily, textTiny } from '@/theme';
 import { useTheme } from '@/hooks/useTheme';
 import LinksGroup from '@/components/LinksGroup';
 import { useNavigation } from '@/hooks/useNavigation';
+import { useAuth } from '@/hooks/useAuth';
 import { useTranslation } from 'react-i18next';
 import {
   APP_VERSION,
@@ -17,10 +18,7 @@ import {
 
 const handleShareApp = () => {
   const url = getStoreUrl();
-  Share.share(
-    { message: url, url },
-    { dialogTitle: 'MDJ' },
-  );
+  Share.share({ message: url, url }, { dialogTitle: 'MDJ' });
 };
 
 const handleLeaveReview = async () => {
@@ -38,9 +36,22 @@ const handleLeaveReview = async () => {
 export default function Settings() {
   const theme = useTheme() ?? 'light';
   const navigation = useNavigation();
+  const { requireAuth } = useAuth();
   const { t } = useTranslation();
   return (
     <DefaultLayout pageTitle={t('settings.title')}>
+      <LinksGroup
+        header={t('settings.section_account')}
+        links={[
+          {
+            id: 'my_informations',
+            icon: 'person-outline',
+            label: t('settings.my_informations'),
+            onPress: () =>
+              requireAuth(() => navigation.navigate('MyInformations')),
+          },
+        ]}
+      />
       <LinksGroup
         header={t('settings.section_customize')}
         links={[

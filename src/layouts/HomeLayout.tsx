@@ -5,7 +5,9 @@ import { bgDefault, flexContent, STATUS_BAR_HEIGHT } from '@/theme';
 import { useTheme } from '@/hooks/useTheme';
 import { useNavigation } from '@/hooks/useNavigation';
 import { useNotificationClick } from '@/features/notifications/useNotificationClick';
+import { usePasswordResetLink } from '@/features/auth/usePasswordResetLink';
 import Icon from '@/components/Icon';
+import AuthPromptModal from '@/components/AuthPromptModal';
 
 export default function HomeLayout({
   children,
@@ -13,6 +15,7 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   useNotificationClick();
+  usePasswordResetLink();
   const theme = useTheme() ?? 'light';
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
@@ -58,6 +61,7 @@ export default function HomeLayout({
           />
         </CTA>
       </View>
+      <AuthPromptModal />
     </View>
   );
 }

@@ -35,6 +35,68 @@ export default {
     },
     share: 'Partager le message',
   },
+  auth: {
+    back: 'Retour',
+    prompt: {
+      title: 'Soyons plus proches',
+      description:
+        'Connecte-toi ou crée un compte pour enregistrer ta progression',
+      close: 'Fermer',
+    },
+    fields: {
+      email: 'Email',
+      password: 'Mot de passe',
+      firstname: 'Prénom',
+      lastname: 'Nom',
+      new_password: 'Nouveau mot de passe',
+      password_confirmation: 'Confirmer le mot de passe',
+    },
+    login: {
+      title: 'Connexion',
+      cta: 'Se connecter',
+      forgot_password: 'Mot de passe oublié ?',
+    },
+    forgot_password: {
+      title: 'Mot de passe oublié',
+      description:
+        'Entrez votre email : nous vous enverrons un lien pour choisir un nouveau mot de passe.',
+      cta: 'Envoyer le lien',
+      sent: 'Si un compte existe pour cet email, un lien de réinitialisation vient de vous être envoyé. Pensez à vérifier vos spams.',
+      back_to_login: 'Retour à la connexion',
+    },
+    reset_password: {
+      title: 'Nouveau mot de passe',
+      description:
+        'Choisissez un nouveau mot de passe d’au moins 8 caractères.',
+      cta: 'Enregistrer',
+      done: 'Votre mot de passe a été modifié. Vous pouvez maintenant vous connecter.',
+      go_to_login: 'Se connecter',
+      link_invalid:
+        'Ce lien n’est plus valide : il a expiré (10 minutes) ou a déjà été utilisé.',
+      request_new: 'Demander un nouveau lien',
+    },
+    signup: {
+      title: 'Créer un compte',
+      cta: "S'inscrire",
+      created_pending:
+        'Votre compte a été créé. Vous pourrez vous connecter dès sa validation.',
+      legal:
+        'En créant votre compte, vous acceptez nos <terms>CGU</terms> et notre <privacy>politique de confidentialité</privacy>.',
+    },
+    errors: {
+      email: 'Veuillez entrer un email valide.',
+      password_required: 'Veuillez entrer votre mot de passe.',
+      password_length: 'Le mot de passe doit contenir au moins 8 caractères.',
+      password_mismatch: 'Les mots de passe ne correspondent pas.',
+      firstname: 'Veuillez entrer votre prénom.',
+      lastname: 'Veuillez entrer votre nom.',
+      invalid_credentials: 'Email ou mot de passe incorrect.',
+      account_pending: "Votre compte n'est pas encore activé.",
+      email_taken: 'Un compte existe déjà avec cet email.',
+      too_many_attempts: 'Trop de tentatives, réessayez plus tard.',
+      generic: 'Une erreur est survenue, réessayez.',
+    },
+  },
   audio: {
     error: 'Lecture indisponible, réessayez',
     listen: 'Écouter',
@@ -42,6 +104,8 @@ export default {
   },
   settings: {
     title: 'Paramètres',
+    section_account: 'Compte',
+    my_informations: 'Mes informations',
     section_customize: 'Personnaliser',
     section_support: "Soutenir l'action",
     section_follow: 'Nous suivre',
@@ -57,6 +121,11 @@ export default {
     privacy_policy: 'Politique de confidentialité',
     terms: "Conditions d'utilisation",
     version: 'MDJ - Version {{version}}',
+  },
+  my_informations: {
+    title: 'Mes informations',
+    avatar: 'Photo de profil',
+    change_password: 'Changer le mot de passe',
   },
   language_setting: {
     title: 'Langue',
