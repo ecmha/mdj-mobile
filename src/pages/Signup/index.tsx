@@ -4,6 +4,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import AuthLayout from '@/layouts/AuthLayout';
 import Button from '@/components/Button';
 import FormInput from '@/components/FormInput';
+import AuthSuccessModal from '@/components/AuthSuccessModal';
 import MText from '@/components/Text';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigation } from '@/hooks/useNavigation';
@@ -29,7 +30,7 @@ export default function Signup() {
   const { t } = useTranslation();
   const theme = useTheme() ?? 'light';
   const navigation = useNavigation();
-  const { signup } = useAuth();
+  const { signup, user } = useAuth();
   const [form, setForm] = useState<SignupForm>({
     firstname: '',
     lastname: '',
@@ -40,6 +41,8 @@ export default function Signup() {
   const [formError, setFormError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  // Shown on success; leaving the page waits for its Continue button.
+  const [welcoming, setWelcoming] = useState(false);
 
   const setField = (field: keyof SignupForm) => (value: string) =>
     setForm(current => ({ ...current, [field]: value }));
@@ -69,7 +72,7 @@ export default function Signup() {
         email: form.email.trim(),
         password: form.password,
       });
-      if (signedIn) navigation.goBack();
+      if (signedIn) setWelcoming(true);
       else setNotice(t('auth.signup.created_pending'));
     } catch (error) {
       setFormError(t(authErrorKey(error)));
@@ -78,11 +81,23 @@ export default function Signup() {
     }
   };
 
+  const handleContinue = () => {
+    setWelcoming(false);
+    navigation.goBack();
+  };
+
   const linkStyle = [textPrimary(theme), textDecorationLine.underline];
 
   return (
     <AuthLayout
       title={t('auth.signup.title')}
+      overlay={
+        <AuthSuccessModal
+          visible={welcoming}
+          firstname={user?.firstname ?? form.firstname.trim()}
+          onContinue={handleContinue}
+        />
+      }
       footer={
         <MText style={[textMini, fontFamily.sfRegular, textAlign.center]}>
           <Trans

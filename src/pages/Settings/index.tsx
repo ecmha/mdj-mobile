@@ -127,6 +127,14 @@ export default function Settings() {
         header={t('settings.section_other')}
         links={[
           {
+            id: 'about',
+            icon: 'information-circle-outline',
+            label: t('settings.about'),
+            onPress: () => {
+              navigation.navigate('Supremat');
+            },
+          },
+          {
             id: 'privacy',
             icon: 'lock-closed-outline',
             label: t('settings.privacy_policy'),

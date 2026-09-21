@@ -60,7 +60,9 @@ Context API only (no Redux or Zustand).
 - **AuthContext** (`src/contexts/authProvider.tsx`): reader account session (`user`, `accessToken`, `isAuthenticated`, `login`, `signup`, `logout`), persisted as JSON under `STORAGE_KEYS.AUTH_SESSION`. Also owns the sign-in prompt: `requireAuth(action)` runs `action` when signed in, otherwise opens `AuthPromptModal` (`promptVisible` / `closePrompt`). The prompt stays open while the user visits `Login` / `Signup` and closes when a session opens. Read it with `useAuth()`.
 - **HomeTutorialContext** (`src/contexts/homeTutorialProvider.tsx`): one-shot "swipe to see other messages" hint (`visible`, `requestShow`, `dismiss`), persisted under `STORAGE_KEYS.HOME_TUTORIAL`.
 
-Provider hierarchy in `App.tsx`: `ThemeProvider` → `SafeAreaProvider` → `WelcomeProvider` → `LanguageProvider` → `AuthProvider` → `AudioPlayerProvider` → `Navigation`
+Provider hierarchy in `App.tsx`: `KeyboardProvider` → `ThemeProvider` → `SafeAreaProvider` → `WelcomeProvider` → `LanguageProvider` → `AuthProvider` → `AudioPlayerProvider` → `Navigation`
+
+`KeyboardProvider` (`react-native-keyboard-controller`) must stay outermost: it is what feeds the keyboard frame to `KeyboardAwareScrollView` (see `AuthLayout`).
 
 `AudioPlayerProvider` must stay inside `LanguageProvider`: it clears the player whenever the language changes.
 
@@ -73,7 +75,10 @@ Design token system with utility functions instead of a CSS-in-JS library. Use t
 
 ### Layouts
 - **`src/layouts/HomeLayout.tsx`**: Home-only wrapper. Renders the status bar, two floating CTAs at the top (app icon on the left → `Supremat`, settings icon on the right → `Settings`), and mounts `useNotificationClick()`. Uses `useSafeAreaInsets` for bottom padding.
-- **`src/layouts/AuthLayout.tsx`**: `Login` / `Signup` / `ForgotPassword` / `ResetPassword` wrapper: back button, app logo and `title` above a keyboard-aware `ScrollView`; an optional `footer` stays pinned under it.
+- **`src/layouts/AuthLayout.tsx`**: `Login` / `Signup` / `ForgotPassword` / `ResetPassword` wrapper: back button, app logo and `title` above the form; an optional `footer` (Signup's legal notice) sits at the end of the scroll content, not pinned, so the keyboard can't cover it.
+  - The scroll container is `KeyboardAwareScrollView` from **`react-native-keyboard-controller`**, with `bottomOffset={24}` for the gap between the focused field and the keyboard. It follows the keyboard natively and scrolls the focused input into view on both platforms.
+  - An `overlay` prop renders above the form, outside the scroll view — that's where `Login` / `Signup` mount `AuthSuccessModal`.
+  - Don't go back to `KeyboardAvoidingView` here: Android's edge-to-edge window is no longer resized by the keyboard, so `behavior={undefined}` (its Android default) left nothing to scroll and the keyboard covered the fields.
 - **`src/layouts/DefaultLayout.tsx`**: reusable wrapper for Settings and sub-pages. Renders `Header` with back navigation, wraps content in a `ScrollView`, and includes a `Footer` at the bottom. Also mounts `AuthPromptModal`.
 
 ### Account
@@ -145,7 +150,9 @@ Theme-aware components that should be preferred over their React Native equivale
 - **`MiniPlayerBar`** (`src/components/AudioPlayer/`): bottom player with progress, play/pause and close. Currently unmounted (see Home Screen).
 - **`Button`** (`src/components/Button/`): full-width text button, `variant` `primary` (filled) or `outline`, with `loading` (spinner) and `disabled`.
 - **`FormInput`** (`src/components/FormInput/`): labelled `TextInput` with an optional `error` line; accepts every `TextInput` prop.
-- **`AuthPromptModal`** (`src/components/AuthPromptModal/`): animated bottom sheet (98% width, 45% height, 20 px above the bottom inset) asking a guest to log in or sign up. Driven by `AuthContext`. It's an absolute overlay inside the screen, **not** a native `Modal`, so `Login` / `Signup` slide over it and it's still open on return. Android back closes it only while its screen is focused (`useFocusEffect`). It stays mounted until the Reanimated slide-out finishes.
+- **`BottomSheet`** (`src/components/BottomSheet/`): the animated sheet both auth modals are built from (98% width, 45% height, 20 px above the bottom inset, fading backdrop). Props: `visible`, optional `onDismiss` (backdrop tap + Android back; omit it for a sheet the user must answer) and `dismissLabel`. It's an absolute overlay inside the screen, **not** a native `Modal`, so a screen pushed while it's open slides over it and it's still there on return. Android back is handled only while its screen is focused (`useFocusEffect`), and it stays mounted until the Reanimated slide-out finishes.
+- **`AuthPromptModal`** (`src/components/AuthPromptModal/`): `BottomSheet` with the logo, "Soyons plus proches" and the Login / Signup buttons. Driven by `AuthContext` (`promptVisible` / `closePrompt`).
+- **`AuthSuccessModal`** (`src/components/AuthSuccessModal/`): `BottomSheet` shown by `Login` / `Signup` once a session opens — "Bienvenue {firstname}" and a `Continue` button. It has no `onDismiss`: **`Continue` closes it and only then runs `goBack()`**, so the redirect waits for the user.
 - **`Footer`** (`src/components/Footer/`): footer rendered at the bottom of `DefaultLayout` pages.
 - **`Header`** (`src/components/Header/`): header with back navigation, used in `DefaultLayout`.
 - **`CheckboxGroup`** (`src/components/CheckboxGroup/`), **`LinksGroup`** (`src/components/LinksGroup/`), **`PageLoader`** (`src/components/PageLoader/`): utility UI components.

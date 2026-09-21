@@ -48,11 +48,20 @@ export default {
       lastname: 'Last name',
       new_password: 'New password',
       password_confirmation: 'Confirm the password',
+      show_password: 'Show the password',
+      hide_password: 'Hide the password',
     },
     login: {
       title: 'Log in',
       cta: 'Log in',
       forgot_password: 'Forgot password?',
+    },
+    success: {
+      title: 'Welcome {{firstname}}',
+      title_no_name: 'Welcome',
+      description:
+        'We are pleased to have you in this journey with our Lord Jesus Christ.',
+      continue: 'Continue',
     },
     forgot_password: {
       title: 'Forgot password',
@@ -115,6 +124,7 @@ export default {
     donate: 'Make a donation',
     twitter: 'Twitter',
     facebook: 'Facebook',
+    about: 'About',
     privacy_policy: 'Privacy policy',
     terms: 'Terms of use',
     version: 'MDJ - Version {{version}}',

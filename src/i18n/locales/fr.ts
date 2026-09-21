@@ -50,11 +50,20 @@ export default {
       lastname: 'Nom',
       new_password: 'Nouveau mot de passe',
       password_confirmation: 'Confirmer le mot de passe',
+      show_password: 'Afficher le mot de passe',
+      hide_password: 'Masquer le mot de passe',
     },
     login: {
       title: 'Connexion',
       cta: 'Se connecter',
       forgot_password: 'Mot de passe oublié ?',
+    },
+    success: {
+      title: 'Bienvenue {{firstname}}',
+      title_no_name: 'Bienvenue',
+      description:
+        'Nous sommes heureux de t’accueillir dans ce cheminement avec notre Seigneur Jésus-Christ.',
+      continue: 'Continuer',
     },
     forgot_password: {
       title: 'Mot de passe oublié',
@@ -118,6 +127,7 @@ export default {
     donate: 'Faire un don',
     twitter: 'Twitter',
     facebook: 'Facebook',
+    about: 'À propos',
     privacy_policy: 'Politique de confidentialité',
     terms: "Conditions d'utilisation",
     version: 'MDJ - Version {{version}}',

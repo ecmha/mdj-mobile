@@ -1,13 +1,11 @@
 import {
   Image,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
   StatusBar,
   StyleSheet,
   TouchableOpacity,
   View,
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import Icon from '@/components/Icon';
@@ -16,16 +14,24 @@ import { useNavigation } from '@/hooks/useNavigation';
 import { useTheme } from '@/hooks/useTheme';
 import { bgDefault, fontFamily, mt, textAlign, textLargeX1 } from '@/theme';
 
-// Login / Signup wrapper: back button, app logo and page title above a
-// keyboard-aware form. `footer` stays pinned under the scrolling form.
+// Gap kept between the focused field and the top of the keyboard.
+const KEYBOARD_GAP = 24;
+
+// Login / Signup / ForgotPassword / ResetPassword wrapper: back button, app
+// logo and page title above the form, with `footer` at the end of the content.
+// KeyboardAwareScrollView (react-native-keyboard-controller) follows the
+// keyboard natively and scrolls the focused field into view on both platforms.
 export default function AuthLayout({
   title,
   children,
   footer,
+  overlay,
 }: {
   title: string;
   children: React.ReactNode;
   footer?: React.ReactNode;
+  // Rendered above the form, outside the scroll view (e.g. a BottomSheet).
+  overlay?: React.ReactNode;
 }) {
   const theme = useTheme() ?? 'light';
   const navigation = useNavigation();
@@ -53,34 +59,33 @@ export default function AuthLayout({
       >
         <Icon name="arrow-back" color="default" size={25} />
       </TouchableOpacity>
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      <KeyboardAwareScrollView
+        bottomOffset={KEYBOARD_GAP}
+        contentContainerStyle={styles.content}
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="on-drag"
+        showsVerticalScrollIndicator={false}
       >
-        <ScrollView
-          contentContainerStyle={styles.content}
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
+        <Image
+          source={require('@/assets/imgs/app_logo.png')}
+          style={styles.logo}
+        />
+        <MText
+          accessibilityRole="header"
+          style={[
+            fontFamily.cormorantBold,
+            textLargeX1,
+            textAlign.center,
+            mt(16),
+          ]}
         >
-          <Image
-            source={require('@/assets/imgs/app_logo.png')}
-            style={styles.logo}
-          />
-          <MText
-            accessibilityRole="header"
-            style={[
-              fontFamily.cormorantBold,
-              textLargeX1,
-              textAlign.center,
-              mt(16),
-            ]}
-          >
-            {title}
-          </MText>
-          {children}
-        </ScrollView>
+          {title}
+        </MText>
+        {children}
+        {/* In the scroll content, not pinned: pinned, the keyboard covers it. */}
         {footer ? <View style={styles.footer}>{footer}</View> : null}
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
+      {overlay}
     </View>
   );
 }
@@ -96,6 +101,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   content: {
+    flexGrow: 1,
     paddingHorizontal: 24,
     paddingBottom: 24,
   },
@@ -106,7 +112,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   footer: {
-    paddingHorizontal: 32,
-    paddingTop: 12,
+    paddingHorizontal: 8,
+    paddingTop: 24,
   },
 });

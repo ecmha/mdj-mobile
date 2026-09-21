@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import AuthLayout from '@/layouts/AuthLayout';
 import Button from '@/components/Button';
 import FormInput from '@/components/FormInput';
+import AuthSuccessModal from '@/components/AuthSuccessModal';
 import MText from '@/components/Text';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigation } from '@/hooks/useNavigation';
@@ -27,12 +28,14 @@ export default function Login() {
   const { t } = useTranslation();
   const theme = useTheme() ?? 'light';
   const navigation = useNavigation();
-  const { login } = useAuth();
+  const { login, user } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<FieldErrors>({});
   const [formError, setFormError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  // Shown on success; leaving the page waits for its Continue button.
+  const [welcoming, setWelcoming] = useState(false);
 
   const handleLogin = async () => {
     const fieldErrors: FieldErrors = {
@@ -46,7 +49,7 @@ export default function Login() {
     setLoading(true);
     try {
       await login({ email: email.trim(), password });
-      navigation.goBack();
+      setWelcoming(true);
     } catch (error) {
       setFormError(t(authErrorKey(error)));
     } finally {
@@ -54,8 +57,22 @@ export default function Login() {
     }
   };
 
+  const handleContinue = () => {
+    setWelcoming(false);
+    navigation.goBack();
+  };
+
   return (
-    <AuthLayout title={t('auth.login.title')}>
+    <AuthLayout
+      title={t('auth.login.title')}
+      overlay={
+        <AuthSuccessModal
+          visible={welcoming}
+          firstname={user?.firstname}
+          onContinue={handleContinue}
+        />
+      }
+    >
       <FormInput
         label={t('auth.fields.email')}
         value={email}

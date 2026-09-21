@@ -7,6 +7,7 @@
 
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 import Navigation from './src/Navigation';
 import { ThemeProvider } from './src/contexts/themeProvider';
 import { WelcomeProvider } from './src/contexts/welcomeProvider';
@@ -18,21 +19,25 @@ import { useOneSignalInit } from './src/features/notifications/useOneSignalInit'
 function App() {
   useOneSignalInit();
   return (
-    <ThemeProvider>
-      <SafeAreaProvider>
-        <WelcomeProvider>
-          <LanguageProvider>
-            <AuthProvider>
-              <AudioPlayerProvider>
-                <View style={styles.root}>
-                  <Navigation />
-                </View>
-              </AudioPlayerProvider>
-            </AuthProvider>
-          </LanguageProvider>
-        </WelcomeProvider>
-      </SafeAreaProvider>
-    </ThemeProvider>
+    // Outermost, as the library requires: it feeds the keyboard frame to every
+    // KeyboardAwareScrollView below it.
+    <KeyboardProvider>
+      <ThemeProvider>
+        <SafeAreaProvider>
+          <WelcomeProvider>
+            <LanguageProvider>
+              <AuthProvider>
+                <AudioPlayerProvider>
+                  <View style={styles.root}>
+                    <Navigation />
+                  </View>
+                </AudioPlayerProvider>
+              </AuthProvider>
+            </LanguageProvider>
+          </WelcomeProvider>
+        </SafeAreaProvider>
+      </ThemeProvider>
+    </KeyboardProvider>
   );
 }
 
