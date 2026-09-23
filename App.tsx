@@ -14,6 +14,7 @@ import { WelcomeProvider } from './src/contexts/welcomeProvider';
 import { LanguageProvider } from './src/contexts/languageProvider';
 import { AudioPlayerProvider } from './src/contexts/audioPlayerProvider';
 import { AuthProvider } from './src/contexts/authProvider';
+import { BookmarksProvider } from './src/contexts/bookmarksProvider';
 import { useOneSignalInit } from './src/features/notifications/useOneSignalInit';
 
 function App() {
@@ -27,11 +28,15 @@ function App() {
           <WelcomeProvider>
             <LanguageProvider>
               <AuthProvider>
-                <AudioPlayerProvider>
-                  <View style={styles.root}>
-                    <Navigation />
-                  </View>
-                </AudioPlayerProvider>
+                {/* Inside AuthProvider: the cache is per account, and it
+                    clears itself when the session changes. */}
+                <BookmarksProvider>
+                  <AudioPlayerProvider>
+                    <View style={styles.root}>
+                      <Navigation />
+                    </View>
+                  </AudioPlayerProvider>
+                </BookmarksProvider>
               </AuthProvider>
             </LanguageProvider>
           </WelcomeProvider>

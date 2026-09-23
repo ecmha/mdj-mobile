@@ -1,8 +1,10 @@
 import { API_URL } from '@env';
 import { retrieveItem, STORAGE_KEYS } from '@/lib/storage';
+import { readAccessToken } from '@/services/auth/session';
 import type { SupportedLanguage } from '@/i18n';
 
 export type CustomHeaders = {
+  Authorization?: string;
   'x-mdj-device-token'?: string | null;
   'x-mdj-platform'?: string;
   'x-mdj-lang'?: string;
@@ -52,7 +54,15 @@ export const getHeaders = async (
   lang?: SupportedLanguage,
 ): Promise<CustomHeaders> => {
   const language = lang ?? (await retrieveItem(STORAGE_KEYS.LANGUAGE));
+  // Read from storage rather than from AuthContext, so this helper stays
+  // outside React — same as the device token above. `AuthProvider` is the only
+  // writer of that key, so the two never drift. A guest has no token and
+  // `buildHeaders` drops the header entirely; public routes ignore it anyway.
+  const accessToken = readAccessToken(
+    await retrieveItem(STORAGE_KEYS.AUTH_SESSION),
+  );
   return {
+    Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
     'x-mdj-device-token': await retrieveItem(STORAGE_KEYS.DEVICE_TOKEN),
     'x-mdj-lang': language === 'en' ? 'en' : 'fr',
     'x-mdj-platform': 'mobile',

@@ -7,12 +7,14 @@ import { useTheme } from '@/hooks/useTheme';
 import HomeTool from './Tool';
 import CTAListen from './CTAListen';
 import CTAShare from './CTAShare';
+import CTABookmark from './CTABookmark';
 
 export type HomeToolBarProps = {
   message?: Message | null;
   onPrevious: () => void;
   onNext: () => void;
-  onBookmark: () => void;
+  // Home owns the toast: it has to sit above the toolbar, not inside it.
+  onToast: (message: string) => void;
   canGoPrevious?: boolean;
   canGoNext?: boolean;
 };
@@ -21,7 +23,7 @@ export default function HomeToolBar({
   message,
   onPrevious,
   onNext,
-  onBookmark,
+  onToast,
   canGoPrevious = false,
   canGoNext = false,
 }: HomeToolBarProps) {
@@ -42,11 +44,7 @@ export default function HomeToolBar({
       <View style={styles.center}>
         <CTAListen message={message} />
         <CTAShare message={message} />
-        <HomeTool
-          onPress={onBookmark}
-          accessibilityLabel={t('home.bookmark.add')}
-          icon="bookmark-outline"
-        />
+        <CTABookmark message={message} onToast={onToast} />
       </View>
       <View style={styles.side}>
         {canGoNext && (

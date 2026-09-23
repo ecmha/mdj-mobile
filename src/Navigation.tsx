@@ -14,6 +14,8 @@ import Signup from './pages/Signup';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import MyInformations from './pages/MyInformations';
+import Bookmarks from './pages/Bookmarks';
+import BookmarkMessage from './pages/BookmarkMessage';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -29,6 +31,10 @@ export type RootStackParamList = {
   ForgotPassword: { email?: string } | undefined;
   ResetPassword: { token: string };
   MyInformations: undefined;
+  Bookmarks: undefined;
+  // The title rides along so the header has something to show while the
+  // bookmark is being fetched.
+  BookmarkMessage: { bookmarkId: string; title?: string };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -65,6 +71,16 @@ export default function Navigation() {
             name="Suggestion"
             component={Suggestion}
             options={{ animation: 'slide_from_left' }}
+          />
+          <Stack.Screen
+            name="Bookmarks"
+            component={Bookmarks}
+            options={{ animation: 'slide_from_left' }}
+          />
+          <Stack.Screen
+            name="BookmarkMessage"
+            component={BookmarkMessage}
+            options={{ animation: 'slide_from_right' }}
           />
           <Stack.Screen
             name="Login"
