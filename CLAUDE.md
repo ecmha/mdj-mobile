@@ -47,7 +47,7 @@ React Navigation Native Stack with a typed `RootStackParamList`. Navigation flow
 
 Routes: `SplashScreen`, `Welcome`, `Home`, `Settings`, `Supremat`, `Menu`, `ThemeSetting`, `LanguageSetting`, `Suggestion`, `Login`, `Signup`, `ForgotPassword`, `ResetPassword`, `MyInformations`, `Bookmarks`, `BookmarkMessage`
 
-`AuthPromptModal` is rendered by `HomeLayout` and `DefaultLayout`. Add it to any other layout whose screen calls `requireAuth()`. Every mounted copy shares the same `promptVisible`; only the focused screen's copy is visible. `Login` / `Signup` `goBack()` on success, so the user returns to the screen that opened the prompt (Home or Settings).
+`AuthPromptModal` is rendered by `HomeLayout` and `DefaultLayout`. Add it to any other layout whose screen calls `requireAuth()`. Every mounted copy shares the same `promptVisible`; only the focused screen's copy is visible. `Login` / `Signup` reset the stack to `Home` on success, whichever screen opened the prompt (Home, Settings, Menu…): the action that triggered `requireAuth()` is not replayed, so a guest who tapped "Mes favoris" lands on Home after signing in.
 
 Screen transitions: `Settings`, `Login`, `Signup` and `ResetPassword` slide from bottom; `ForgotPassword` and `BookmarkMessage` slide from right; `Supremat`, `Menu`, `ThemeSetting`, `LanguageSetting`, `Suggestion`, `MyInformations`, `Bookmarks` slide from left.
 
@@ -171,7 +171,7 @@ Theme-aware components that should be preferred over their React Native equivale
 - **`FormInput`** (`src/components/FormInput/`): labelled `TextInput` with an optional `error` line; accepts every `TextInput` prop.
 - **`BottomSheet`** (`src/components/BottomSheet/`): the animated sheet both auth modals are built from (98% width, 45% height, 20 px above the bottom inset, fading backdrop). Props: `visible`, optional `onDismiss` (backdrop tap + Android back; omit it for a sheet the user must answer) and `dismissLabel`. It's an absolute overlay inside the screen, **not** a native `Modal`, so a screen pushed while it's open slides over it and it's still there on return. Android back is handled only while its screen is focused (`useFocusEffect`), and it stays mounted until the Reanimated slide-out finishes.
 - **`AuthPromptModal`** (`src/components/AuthPromptModal/`): `BottomSheet` with the logo, "Soyons plus proches" and the Login / Signup buttons. Driven by `AuthContext` (`promptVisible` / `closePrompt`).
-- **`AuthSuccessModal`** (`src/components/AuthSuccessModal/`): `BottomSheet` shown by `Login` / `Signup` once a session opens — "Bienvenue {firstname}" and a `Continue` button. It has no `onDismiss`: **`Continue` closes it and only then runs `goBack()`**, so the redirect waits for the user.
+- **`AuthSuccessModal`** (`src/components/AuthSuccessModal/`): `BottomSheet` shown by `Login` / `Signup` once a session opens — "Bienvenue {firstname}" and a `Continue` button. It has no `onDismiss`: **`Continue` closes it and only then resets the stack to `Home`**, so the redirect waits for the user.
 - **`Footer`** (`src/components/Footer/`): footer rendered at the bottom of `DefaultLayout` pages.
 - **`Header`** (`src/components/Header/`): header with back navigation, used in `DefaultLayout`.
 - **`CheckboxGroup`** (`src/components/CheckboxGroup/`), **`LinksGroup`** (`src/components/LinksGroup/`), **`PageLoader`** (`src/components/PageLoader/`): utility UI components.
