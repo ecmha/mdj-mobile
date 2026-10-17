@@ -31,6 +31,12 @@ export const MENU_ITEMS: MenuItem[] = [
     requiresAuth: true,
   },
   {
+    id: 'topics',
+    icon: 'grid-outline',
+    background: { light: '#f0dca0', dark: '#4a3f24' },
+    route: 'Topics',
+  },
+  {
     id: 'teachings',
     icon: 'library-outline',
     background: { light: '#e9d8b4', dark: '#3b3355' },

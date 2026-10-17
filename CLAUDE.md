@@ -45,11 +45,11 @@ React Navigation Native Stack with a typed `RootStackParamList`. Navigation flow
 
 `SplashScreen` reads `STORAGE_KEYS.SHOW_WELCOME` from AsyncStorage and navigates directly, with no context involved. `Welcome` calls `navigation.replace('Home')` after onboarding.
 
-Routes: `SplashScreen`, `Welcome`, `Home`, `Settings`, `Supremat`, `Menu`, `ThemeSetting`, `LanguageSetting`, `Suggestion`, `Login`, `Signup`, `ForgotPassword`, `ResetPassword`, `MyInformations`, `Bookmarks`, `BookmarkMessage`
+Routes: `SplashScreen`, `Welcome`, `Home`, `Settings`, `Supremat`, `Menu`, `ThemeSetting`, `LanguageSetting`, `Suggestion`, `Login`, `Signup`, `ForgotPassword`, `ResetPassword`, `MyInformations`, `Bookmarks`, `BookmarkMessage`, `Topics`
 
 `AuthPromptModal` is rendered by `HomeLayout` and `DefaultLayout`. Add it to any other layout whose screen calls `requireAuth()`. Every mounted copy shares the same `promptVisible`; only the focused screen's copy is visible. `Login` / `Signup` reset the stack to `Home` on success, whichever screen opened the prompt (Home, Settings, Menu…): the action that triggered `requireAuth()` is not replayed, so a guest who tapped "Mes favoris" lands on Home after signing in.
 
-Screen transitions: `Settings`, `Login`, `Signup` and `ResetPassword` slide from bottom; `ForgotPassword` and `BookmarkMessage` slide from right; `Supremat`, `Menu`, `ThemeSetting`, `LanguageSetting`, `Suggestion`, `MyInformations`, `Bookmarks` slide from left.
+Screen transitions: `Settings`, `Login`, `Signup` and `ResetPassword` slide from bottom; `ForgotPassword` and `BookmarkMessage` slide from right; `Supremat`, `Menu`, `ThemeSetting`, `LanguageSetting`, `Suggestion`, `MyInformations`, `Bookmarks`, `Topics` slide from left.
 
 ### State Management
 Context API only (no Redux or Zustand).
@@ -112,6 +112,9 @@ Work in progress on `feat/new-homepage-messages`: `MiniPlayerBar` (`src/componen
 
 ### Menu (`src/pages/Menu/`)
 The menu behind Home's app icon: a 2-column grid of `MenuCard` (`src/components/MenuCard/`: foreground icon in a light disc, label beneath, on the item's own `background` tint per theme). The entries live in `menuItems.ts` (`MENU_ITEMS`); each one's `id` is also its label key under `menu.items`. An item with a `route` navigates there (through `requireAuth()` when `requiresAuth` is set: "Mes favoris" → `Bookmarks`); one without a `route` isn't built yet and shows the `menu.unavailable` toast. `Supremat` ("À propos") stays reachable from Settings.
+
+### Topics (`src/pages/Topics/`)
+"Thèmes" in the Menu: a 2-column grid of `TopicCard` (`src/components/TopicCard/`: a vivid card with a white label at the bottom left and a tilted cover square, holding an Ionicons glyph, clipped at the top right). The list is static, in `topics.ts` (`TOPICS`); each `id` is also its label key under `topics.items`, and the card colors are the same in both themes. The server doesn't tag messages by topic yet, so tapping a card shows the `topics.unavailable` toast.
 
 ### Audio Playback (TTS)
 Messages can be listened to as server-generated speech, played through `react-native-audio-pro` (a GitHub fork: `github:tchamio/react-native-audio-pro`).
