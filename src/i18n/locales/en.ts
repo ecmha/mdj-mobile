@@ -184,6 +184,16 @@ export default {
     description:
       'A comment, a word of encouragement, a suggestion for improvement? We would be happy to receive your feedback.\n\nFraternally',
   },
+  menu: {
+    title: 'Menu',
+    unavailable: 'Coming soon',
+    items: {
+      teachings: 'Teachings',
+      bookmarks: 'My bookmarks',
+      talk_to_preacher: 'Talk to a preacher',
+      liturgical_guide: 'Liturgical guide',
+    },
+  },
   supremat: {
     title: 'About',
     tagline:

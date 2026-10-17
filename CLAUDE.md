@@ -45,11 +45,11 @@ React Navigation Native Stack with a typed `RootStackParamList`. Navigation flow
 
 `SplashScreen` reads `STORAGE_KEYS.SHOW_WELCOME` from AsyncStorage and navigates directly, with no context involved. `Welcome` calls `navigation.replace('Home')` after onboarding.
 
-Routes: `SplashScreen`, `Welcome`, `Home`, `Settings`, `Supremat`, `ThemeSetting`, `LanguageSetting`, `Suggestion`, `Login`, `Signup`, `ForgotPassword`, `ResetPassword`, `MyInformations`, `Bookmarks`, `BookmarkMessage`
+Routes: `SplashScreen`, `Welcome`, `Home`, `Settings`, `Supremat`, `Menu`, `ThemeSetting`, `LanguageSetting`, `Suggestion`, `Login`, `Signup`, `ForgotPassword`, `ResetPassword`, `MyInformations`, `Bookmarks`, `BookmarkMessage`
 
 `AuthPromptModal` is rendered by `HomeLayout` and `DefaultLayout`. Add it to any other layout whose screen calls `requireAuth()`. Every mounted copy shares the same `promptVisible`; only the focused screen's copy is visible. `Login` / `Signup` `goBack()` on success, so the user returns to the screen that opened the prompt (Home or Settings).
 
-Screen transitions: `Settings`, `Login`, `Signup` and `ResetPassword` slide from bottom; `ForgotPassword` and `BookmarkMessage` slide from right; `Supremat`, `ThemeSetting`, `LanguageSetting`, `Suggestion`, `MyInformations`, `Bookmarks` slide from left.
+Screen transitions: `Settings`, `Login`, `Signup` and `ResetPassword` slide from bottom; `ForgotPassword` and `BookmarkMessage` slide from right; `Supremat`, `Menu`, `ThemeSetting`, `LanguageSetting`, `Suggestion`, `MyInformations`, `Bookmarks` slide from left.
 
 ### State Management
 Context API only (no Redux or Zustand).
@@ -77,7 +77,7 @@ Design token system with utility functions instead of a CSS-in-JS library. Use t
 - Access the current theme via the `useTheme()` hook. `MText` and `Cta` are already theme-aware.
 
 ### Layouts
-- **`src/layouts/HomeLayout.tsx`**: Home-only wrapper. Renders the status bar, two floating CTAs at the top (app icon on the left → `Supremat`, settings icon on the right → `Settings`), and mounts `useNotificationClick()`. Uses `useSafeAreaInsets` for bottom padding.
+- **`src/layouts/HomeLayout.tsx`**: Home-only wrapper. Renders the status bar, two floating CTAs at the top (app icon on the left → `Menu`, settings icon on the right → `Settings`), and mounts `useNotificationClick()`. Uses `useSafeAreaInsets` for bottom padding.
 - **`src/layouts/AuthLayout.tsx`**: `Login` / `Signup` / `ForgotPassword` / `ResetPassword` wrapper: back button, app logo and `title` above the form; an optional `footer` (Signup's legal notice) sits at the end of the scroll content, not pinned, so the keyboard can't cover it.
   - The scroll container is `KeyboardAwareScrollView` from **`react-native-keyboard-controller`**, with `bottomOffset={24}` for the gap between the focused field and the keyboard. It follows the keyboard natively and scrolls the focused input into view on both platforms.
   - An `overlay` prop renders above the form, outside the scroll view — that's where `Login` / `Signup` mount `AuthSuccessModal`.
@@ -109,6 +109,9 @@ Work in progress on `feat/new-homepage-messages`: `MiniPlayerBar` (`src/componen
   - List/grid toggle sits in a page row (count on the left, icon on the right), not in the shared `Header`, whose right slot is the app icon. Grid is the same list with `numColumns={2}`; React Native needs a remount when that changes, hence `key={mode}`. Grid cards take a fixed `width: '48.5%'` rather than `flex: 1`, so a lone card on the last row (an odd number of bookmarks) keeps its column width instead of stretching across; the gutter comes from the row's `justifyContent: 'space-between'`, which is why the content style sets `rowGap` and not `gap`. The choice persists under `STORAGE_KEYS.BOOKMARKS_VIEW`.
   - **`BookmarkCard`** (`src/components/BookmarkCard/`): one component, `variant: 'list' | 'grid'`. Cover via `/files/:id/view`, falling back to `app_logo.png`; title; `bookmarks.by_author` beneath it. A row whose `message` is `null` — the message was deleted after being saved — renders the "no longer available" notice and stays pressable, so it can still be removed.
 - **`BookmarkMessage`** (`src/pages/BookmarkMessage/`): fetches `GET /bookmarks/:id` and renders `MessageItem`, so it reads exactly like Home. Laid out like `HomeLayout` rather than `DefaultLayout`: floating CTAs over the message, back on the left, a filled `bookmark` icon on the right that removes it. Removing calls `removeBookmark()`, then `setStatus(messageId, null)` so Home's icon empties, then `goBack()`.
+
+### Menu (`src/pages/Menu/`)
+The menu behind Home's app icon: a 2-column grid of `MenuCard` (`src/components/MenuCard/`: foreground icon in a light disc, label beneath, on the item's own `background` tint per theme). The entries live in `menuItems.ts` (`MENU_ITEMS`); each one's `id` is also its label key under `menu.items`. An item with a `route` navigates there (through `requireAuth()` when `requiresAuth` is set: "Mes favoris" → `Bookmarks`); one without a `route` isn't built yet and shows the `menu.unavailable` toast. `Supremat` ("À propos") stays reachable from Settings.
 
 ### Audio Playback (TTS)
 Messages can be listened to as server-generated speech, played through `react-native-audio-pro` (a GitHub fork: `github:tchamio/react-native-audio-pro`).

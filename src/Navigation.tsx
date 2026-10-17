@@ -4,6 +4,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Home from './pages/Home';
 import Settings from './pages/Settings';
 import Supremat from './pages/Supremat';
+import Menu from './pages/Menu';
 import ThemeSetting from './pages/ThemeSetting';
 import LanguageSetting from './pages/LanguageSetting';
 import Suggestion from './pages/Suggestion';
@@ -21,6 +22,7 @@ export type RootStackParamList = {
   Home: undefined;
   Settings: undefined;
   Supremat: undefined;
+  Menu: undefined;
   ThemeSetting: undefined;
   LanguageSetting: undefined;
   Suggestion: undefined;
@@ -55,6 +57,11 @@ export default function Navigation() {
           <Stack.Screen
             name="Supremat"
             component={Supremat}
+            options={{ animation: 'slide_from_left' }}
+          />
+          <Stack.Screen
+            name="Menu"
+            component={Menu}
             options={{ animation: 'slide_from_left' }}
           />
           <Stack.Screen

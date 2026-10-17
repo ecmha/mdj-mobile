@@ -187,6 +187,16 @@ export default {
     description:
       "Un commentaire, un mot d'encouragement, une suggestion d'amélioration ? Nous serons ravi d'avoir un feedback de votre part.\n\nFraternellement",
   },
+  menu: {
+    title: 'Menu',
+    unavailable: 'Bientôt disponible',
+    items: {
+      teachings: 'Enseignements',
+      bookmarks: 'Mes favoris',
+      talk_to_preacher: 'Parler à un prédicateur',
+      liturgical_guide: 'Guide liturgique',
+    },
+  },
   supremat: {
     title: 'À Propos',
     tagline:
