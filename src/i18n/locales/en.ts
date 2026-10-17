@@ -188,7 +188,6 @@ export default {
     title: 'Menu',
     unavailable: 'Coming soon',
     items: {
-      topics: 'Topics',
       teachings: 'Teachings',
       bookmarks: 'My bookmarks',
       talk_to_preacher: 'Talk to a preacher',

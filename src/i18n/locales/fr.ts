@@ -191,7 +191,6 @@ export default {
     title: 'Menu',
     unavailable: 'Bientôt disponible',
     items: {
-      topics: 'Thèmes',
       teachings: 'Enseignements',
       bookmarks: 'Mes favoris',
       talk_to_preacher: 'Parler à un prédicateur',
