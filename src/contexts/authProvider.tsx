@@ -41,6 +41,10 @@ export type AuthContextProps = {
   // which stays open until a session opens or the user dismisses it.
   requireAuth: (action: () => void) => void;
   promptVisible: boolean;
+  // Opens the prompt without an action to run: for a session that turns out
+  // to be dead mid-request (a 401), where `requireAuth` would still see the
+  // stale session and run the action instead of asking to sign in.
+  openPrompt: () => void;
   closePrompt: () => void;
 };
 
@@ -53,6 +57,7 @@ export const AuthContext = createContext<AuthContextProps>({
   logout: () => {},
   requireAuth: () => {},
   promptVisible: false,
+  openPrompt: () => {},
   closePrompt: () => {},
 });
 
@@ -106,6 +111,8 @@ export const AuthProvider = ({ children }: ProviderProps) => {
     [session],
   );
 
+  const openPrompt = useCallback(() => setPromptVisible(true), []);
+
   const closePrompt = useCallback(() => setPromptVisible(false), []);
 
   const value = useMemo(
@@ -118,9 +125,19 @@ export const AuthProvider = ({ children }: ProviderProps) => {
       logout,
       requireAuth,
       promptVisible,
+      openPrompt,
       closePrompt,
     }),
-    [session, login, signup, logout, requireAuth, promptVisible, closePrompt],
+    [
+      session,
+      login,
+      signup,
+      logout,
+      requireAuth,
+      promptVisible,
+      openPrompt,
+      closePrompt,
+    ],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

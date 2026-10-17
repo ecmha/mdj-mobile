@@ -27,12 +27,31 @@ export default {
     },
     bookmark: {
       add: 'Add to bookmarks',
+      // `remove` / `removed` wait for the bookmarks list: a message is never
+      // unsaved from Home.
       remove: 'Remove from bookmarks',
       added: 'Message added to bookmarks',
       removed: 'Message removed from bookmarks',
+      error: 'Could not add to bookmarks',
+      open_list: 'See my bookmarks',
       unavailable: 'Feature not yet available',
     },
     share: 'Share the message',
+  },
+  bookmarks: {
+    title: 'My bookmarks',
+    back: 'Back',
+    count_one: '{{count}} saved message',
+    count_other: '{{count}} saved messages',
+    by_author: 'By {{name}}',
+    empty: 'No bookmarks yet',
+    empty_hint: 'Tap the bookmark icon on a message to save it',
+    error: 'Could not load your bookmarks',
+    error_hint: 'Pull down to try again',
+    unavailable_message: 'This message is no longer available',
+    remove_error: 'Could not remove from bookmarks',
+    view_grid: 'Show as grid',
+    view_list: 'Show as list',
   },
   auth: {
     back: 'Back',
@@ -132,7 +151,15 @@ export default {
   my_informations: {
     title: 'My information',
     avatar: 'Profile picture',
-    change_password: 'Change password',
+    logout: 'Log out',
+    logout_confirm: {
+      title: 'Log out?',
+      description:
+        'You will need to sign in again to find your bookmarks and your information.',
+      confirm: 'Log out',
+      cancel: 'Cancel',
+      close: 'Close',
+    },
   },
   language_setting: {
     title: 'Language',
@@ -156,6 +183,16 @@ export default {
     error_message: 'Please enter your message.',
     description:
       'A comment, a word of encouragement, a suggestion for improvement? We would be happy to receive your feedback.\n\nFraternally',
+  },
+  menu: {
+    title: 'Menu',
+    unavailable: 'Coming soon',
+    items: {
+      teachings: 'Teachings',
+      bookmarks: 'My bookmarks',
+      talk_to_preacher: 'Talk to a preacher',
+      liturgical_guide: 'Liturgical guide',
+    },
   },
   supremat: {
     title: 'About',

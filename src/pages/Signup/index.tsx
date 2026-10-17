@@ -83,7 +83,10 @@ export default function Signup() {
 
   const handleContinue = () => {
     setWelcoming(false);
-    navigation.goBack();
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Home' }],
+    });
   };
 
   const linkStyle = [textPrimary(theme), textDecorationLine.underline];

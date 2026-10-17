@@ -45,11 +45,11 @@ React Navigation Native Stack with a typed `RootStackParamList`. Navigation flow
 
 `SplashScreen` reads `STORAGE_KEYS.SHOW_WELCOME` from AsyncStorage and navigates directly, with no context involved. `Welcome` calls `navigation.replace('Home')` after onboarding.
 
-Routes: `SplashScreen`, `Welcome`, `Home`, `Settings`, `Supremat`, `ThemeSetting`, `LanguageSetting`, `Suggestion`, `Login`, `Signup`, `ForgotPassword`, `ResetPassword`, `MyInformations`
+Routes: `SplashScreen`, `Welcome`, `Home`, `Settings`, `Supremat`, `Menu`, `ThemeSetting`, `LanguageSetting`, `Suggestion`, `Login`, `Signup`, `ForgotPassword`, `ResetPassword`, `MyInformations`, `Bookmarks`, `BookmarkMessage`
 
-`AuthPromptModal` is rendered by `HomeLayout` and `DefaultLayout`. Add it to any other layout whose screen calls `requireAuth()`. Every mounted copy shares the same `promptVisible`; only the focused screen's copy is visible. `Login` / `Signup` `goBack()` on success, so the user returns to the screen that opened the prompt (Home or Settings).
+`AuthPromptModal` is rendered by `HomeLayout` and `DefaultLayout`. Add it to any other layout whose screen calls `requireAuth()`. Every mounted copy shares the same `promptVisible`; only the focused screen's copy is visible. `Login` / `Signup` reset the stack to `Home` on success, whichever screen opened the prompt (Home, Settings, Menu…): the action that triggered `requireAuth()` is not replayed, so a guest who tapped "Mes favoris" lands on Home after signing in.
 
-Screen transitions: `Settings`, `Login`, `Signup` and `ResetPassword` slide from bottom; `ForgotPassword` slides from right; `Supremat`, `ThemeSetting`, `LanguageSetting`, `Suggestion`, `MyInformations` slide from left.
+Screen transitions: `Settings`, `Login`, `Signup` and `ResetPassword` slide from bottom; `ForgotPassword` and `BookmarkMessage` slide from right; `Supremat`, `Menu`, `ThemeSetting`, `LanguageSetting`, `Suggestion`, `MyInformations`, `Bookmarks` slide from left.
 
 ### State Management
 Context API only (no Redux or Zustand).
@@ -57,10 +57,13 @@ Context API only (no Redux or Zustand).
 - **WelcomeContext** (`src/contexts/welcomeProvider.tsx`): tracks whether onboarding was completed, persisted to AsyncStorage
 - **LanguageContext** (`src/contexts/languageProvider.tsx`): active language (`SupportedLanguage` = `'fr'` | `'en'`, exported from `src/i18n`), persisted to AsyncStorage, synced with i18next
 - **AudioPlayerContext** (`src/contexts/audioPlayerProvider.tsx`): TTS playback actions (`play`, `togglePlayPause`, `close`) plus `isDownloading` / `error` / `barHeight`. See Audio Playback.
-- **AuthContext** (`src/contexts/authProvider.tsx`): reader account session (`user`, `accessToken`, `isAuthenticated`, `login`, `signup`, `logout`), persisted as JSON under `STORAGE_KEYS.AUTH_SESSION`. Also owns the sign-in prompt: `requireAuth(action)` runs `action` when signed in, otherwise opens `AuthPromptModal` (`promptVisible` / `closePrompt`). The prompt stays open while the user visits `Login` / `Signup` and closes when a session opens. Read it with `useAuth()`.
+- **AuthContext** (`src/contexts/authProvider.tsx`): reader account session (`user`, `accessToken`, `isAuthenticated`, `login`, `signup`, `logout`), persisted as JSON under `STORAGE_KEYS.AUTH_SESSION`. Also owns the sign-in prompt: `requireAuth(action)` runs `action` when signed in, otherwise opens `AuthPromptModal` (`promptVisible` / `closePrompt`). `openPrompt()` opens it with no action to run — for a session that turns out to be dead mid-request (a 401), where `requireAuth` would still see the stale session and run the action. The prompt stays open while the user visits `Login` / `Signup` and closes when a session opens. Read it with `useAuth()`.
+- **BookmarksContext** (`src/contexts/bookmarksProvider.tsx`): which messages the reader has saved, as a `messageId → bookmark id | null` cache (a missing entry means "not looked up yet"). `ensureStatus(id)` does one lazy, cached `GET /bookmarks?messageId=…` per viewed message — guests skip it, since the route 401s. `save(id)` is **add-only** and optimistic: the icon fills on the tap and empties again if the request fails. It returns `'saved' | 'failed' | 'signed-out'`, and `'signed-out'` needs no toast because the prompt is already up. `setStatus()` is the write-back seam for the future bookmarks list, so a removal there updates Home's icon. The cache clears on every `user._id` change: without that, the next account would inherit the previous reader's filled icons. Read it with `useBookmarks()`.
 - **HomeTutorialContext** (`src/contexts/homeTutorialProvider.tsx`): one-shot "swipe to see other messages" hint (`visible`, `requestShow`, `dismiss`), persisted under `STORAGE_KEYS.HOME_TUTORIAL`.
 
-Provider hierarchy in `App.tsx`: `KeyboardProvider` → `ThemeProvider` → `SafeAreaProvider` → `WelcomeProvider` → `LanguageProvider` → `AuthProvider` → `AudioPlayerProvider` → `Navigation`
+Provider hierarchy in `App.tsx`: `KeyboardProvider` → `ThemeProvider` → `SafeAreaProvider` → `WelcomeProvider` → `LanguageProvider` → `AuthProvider` → `BookmarksProvider` → `AudioPlayerProvider` → `Navigation`
+
+`BookmarksProvider` must stay inside `AuthProvider`: its cache is per account and it resets itself when the session changes.
 
 `KeyboardProvider` (`react-native-keyboard-controller`) must stay outermost: it is what feeds the keyboard frame to `KeyboardAwareScrollView` (see `AuthLayout`).
 
@@ -74,15 +77,17 @@ Design token system with utility functions instead of a CSS-in-JS library. Use t
 - Access the current theme via the `useTheme()` hook. `MText` and `Cta` are already theme-aware.
 
 ### Layouts
-- **`src/layouts/HomeLayout.tsx`**: Home-only wrapper. Renders the status bar, two floating CTAs at the top (app icon on the left → `Supremat`, settings icon on the right → `Settings`), and mounts `useNotificationClick()`. Uses `useSafeAreaInsets` for bottom padding.
+- **`src/layouts/HomeLayout.tsx`**: Home-only wrapper. Renders the status bar, two floating CTAs at the top (app icon on the left → `Menu`, settings icon on the right → `Settings`), and mounts `useNotificationClick()`. Uses `useSafeAreaInsets` for bottom padding.
 - **`src/layouts/AuthLayout.tsx`**: `Login` / `Signup` / `ForgotPassword` / `ResetPassword` wrapper: back button, app logo and `title` above the form; an optional `footer` (Signup's legal notice) sits at the end of the scroll content, not pinned, so the keyboard can't cover it.
   - The scroll container is `KeyboardAwareScrollView` from **`react-native-keyboard-controller`**, with `bottomOffset={24}` for the gap between the focused field and the keyboard. It follows the keyboard natively and scrolls the focused input into view on both platforms.
   - An `overlay` prop renders above the form, outside the scroll view — that's where `Login` / `Signup` mount `AuthSuccessModal`.
   - Don't go back to `KeyboardAvoidingView` here: Android's edge-to-edge window is no longer resized by the keyboard, so `behavior={undefined}` (its Android default) left nothing to scroll and the keyboard covered the fields.
-- **`src/layouts/DefaultLayout.tsx`**: reusable wrapper for Settings and sub-pages. Renders `Header` with back navigation, wraps content in a `ScrollView`, and includes a `Footer` at the bottom. Also mounts `AuthPromptModal`.
+- **`src/layouts/DefaultLayout.tsx`**: reusable wrapper for Settings and sub-pages. Renders `Header` with back navigation, wraps content in a `ScrollView`, and includes a `Footer` at the bottom. Also mounts `AuthPromptModal`. Its scroll content uses `flexGrow: 1`, so a page shorter than the screen still fills it and can push something to the bottom; children stay top-aligned regardless. Pass `scrollable={false}` for a page that scrolls itself (`Bookmarks`): nesting a `FlatList` in that `ScrollView` breaks virtualization, so `onEndReached` never fires. The `Footer` is dropped along with the `ScrollView`, and the page owns its own bottom spacing.
 
 ### Account
-Settings' first block, "Account", has a "My information" entry that goes through `requireAuth()`: guests get `AuthPromptModal`, signed-in readers open `MyInformations`. That page shows a placeholder avatar (Ionicons `person`), the user's full name and a "Change password" button. The button opens `ForgotPassword` pre-filled with the user's email (the emailed reset link flow), since there is no authenticated change-password screen yet.
+Settings' first block, "Account", has a "My information" entry that goes through `requireAuth()`: guests get `AuthPromptModal`, signed-in readers open `MyInformations`. That page shows a placeholder avatar (Ionicons `person`), the user's full name, their email in a pill (light background, mail icon, primary text), and a "Log out" link pinned to the bottom of the screen (a `flex: 1` spacer above it, which works because `DefaultLayout`'s scroll content now has `flexGrow: 1`). The link opens `LogoutConfirmModal` (`src/pages/MyInformations/LogoutConfirmModal.tsx`), a `BottomSheet` with confirm and cancel buttons — the same sheet as the sign-in prompt, so both account moments look alike. Confirming calls `logout()` then `goBack()` to Settings, since the page's own `!user` guard would otherwise blank it.
+
+There is **no change-password entry here any more**: the only way to a new password is `ForgotPassword`, reached from the Login screen, which still pre-fills the typed email.
 
 ### Home Screen (`src/pages/Home/`)
 `index.tsx` fetches the day's messages with `getDayMessages(language)` and renders one `MessageItem` per message in a swipeable `TabView` (`react-native-tab-view`, backed by `react-native-pager-view`) with the tab bar hidden. `currentIndex` is controlled by Home state.
@@ -90,12 +95,23 @@ Settings' first block, "Account", has a "My information" entry that goes through
 - **`MessageItem`** (`src/components/MessageItem/`): one scrollable message ("Today's message" heading, locale-formatted date, title, cover image, verses, `RenderHTML` body, author line) with pull-to-refresh via `RefreshControl`.
 - **`HomeToolBar`** (`src/components/HomeToolBar/`): bottom toolbar pinned over the pager. Previous/next arrows appear on the sides only when navigation is possible. The center holds the actions for the current message:
   - `CTAListen`: starts/toggles TTS playback of the message, shows a spinner while downloading/buffering and a small play/pause badge once a track is loaded
-  - bookmark button: requires an account. Home's `handleBookmark` goes through `requireAuth()`, so a guest gets `AuthPromptModal`. Bookmarks themselves are **not implemented yet**: a signed-in reader gets a `Toast` with `home.bookmark.unavailable` ("Feature not yet available"). The other `home.bookmark.*` keys (`add`/`remove`/`added`/`removed`) are ready for the real feature.
+  - `CTABookmark`: saves the message for the signed-in reader. A guest gets `AuthPromptModal` through `requireAuth()`. The icon is `bookmark-outline` until the message is saved and `bookmark` after, and the tap is **save-only** — tapping a filled icon does *not* unsave, it opens the bookmarks list (not built yet, so it shows the `home.bookmark.unavailable` toast; the swap is one marked `TODO(bookmarks-list)` line). Removing a bookmark will live in that list, which is why `home.bookmark.remove`/`removed` are still unused. State comes from `useBookmarks()`; feedback goes through Home's `Toast` via the `onToast` prop, since the toast must sit above the toolbar rather than inside it.
   - `CTAShare`: shares title, verses, plain-text body (`htmlToPlainText`), author line, and a footer with `WEBSITE_URL`, using React Native's built-in `Share`
   - `Tool.tsx` (`HomeTool`) is the shared icon button used for every toolbar action.
 - **`EmptyList`**: shown when there are no messages, with pull-to-refresh.
 
 Work in progress on `feat/new-homepage-messages`: `MiniPlayerBar` (`src/components/AudioPlayer/`) still exists but is no longer mounted anywhere, and nothing calls `HomeTutorialContext.requestShow()` now that the `HomeTutorial` toast component has been removed. Check whether these should be re-wired or deleted before relying on them.
+
+### Bookmarks
+- **`Bookmarks`** (`src/pages/Bookmarks/`): the reader's saved messages, reached from Home's filled bookmark icon (there is deliberately no Settings entry). A `FlatList` in `DefaultLayout` with `scrollable={false}`.
+  - `useBookmarkList()` paginates with `limit: 12` (divides by the grid's two columns). `onEndReached` loads the next page while `page < pages`; a `requestIdRef` guard drops responses a newer request has replaced. `reload()` is wired to `useFocusEffect`: a full load with a spinner the first time, a silent refresh on every return, which is how a removal on `BookmarkMessage` disappears from the list.
+  - `mergeBookmarkPages()` dedupes by id when appending. Rows are newest-first, so saving a message while the list is open shifts every row down and the same bookmark can arrive on two pages. It has a Jest test.
+  - List/grid toggle sits in a page row (count on the left, icon on the right), not in the shared `Header`, whose right slot is the app icon. Grid is the same list with `numColumns={2}`; React Native needs a remount when that changes, hence `key={mode}`. Grid cards take a fixed `width: '48.5%'` rather than `flex: 1`, so a lone card on the last row (an odd number of bookmarks) keeps its column width instead of stretching across; the gutter comes from the row's `justifyContent: 'space-between'`, which is why the content style sets `rowGap` and not `gap`. The choice persists under `STORAGE_KEYS.BOOKMARKS_VIEW`.
+  - **`BookmarkCard`** (`src/components/BookmarkCard/`): one component, `variant: 'list' | 'grid'`. Cover via `/files/:id/view`, falling back to `app_logo.png`; title; `bookmarks.by_author` beneath it. A row whose `message` is `null` — the message was deleted after being saved — renders the "no longer available" notice and stays pressable, so it can still be removed.
+- **`BookmarkMessage`** (`src/pages/BookmarkMessage/`): fetches `GET /bookmarks/:id` and renders `MessageItem`, so it reads exactly like Home. Laid out like `HomeLayout` rather than `DefaultLayout`: floating CTAs over the message, back on the left, a filled `bookmark` icon on the right that removes it. Removing calls `removeBookmark()`, then `setStatus(messageId, null)` so Home's icon empties, then `goBack()`.
+
+### Menu (`src/pages/Menu/`)
+The menu behind Home's app icon: a 2-column grid of `MenuCard` (`src/components/MenuCard/`: foreground icon in a light disc, label beneath, on the item's own `background` tint per theme). The entries live in `menuItems.ts` (`MENU_ITEMS`); each one's `id` is also its label key under `menu.items`. An item with a `route` navigates there (through `requireAuth()` when `requiresAuth` is set: "Mes favoris" → `Bookmarks`); one without a `route` isn't built yet and shows the `menu.unavailable` toast. `Supremat` ("À propos") stays reachable from Settings.
 
 ### Audio Playback (TTS)
 Messages can be listened to as server-generated speech, played through `react-native-audio-pro` (a GitHub fork: `github:tchamio/react-native-audio-pro`).
@@ -109,6 +125,9 @@ All notification logic is colocated here:
 - `useOneSignalInit`: SDK initialization with `ONE_SIGNAL_APP_ID` from `@env`, called in `App.tsx`. Foreground notifications are delayed 5 s before display.
 - `useNotificationClick`: click handler that navigates to `Home` for `NEW_DAILY_MEDITATION` notifications, mounted in `src/layouts/HomeLayout.tsx`
 - `types.ts`: `NotificationTypes` enum and `PushNotificationData` type
+
+### API access (`src/lib/fetch.ts`)
+`getHeaders()` builds every request's headers: `x-mdj-device-token`, `x-mdj-lang`, `x-mdj-platform`, and `Authorization: Bearer <accessToken>` when a session is stored. The token is read from AsyncStorage (`readAccessToken()`, `src/services/auth/session.ts`) rather than from `AuthContext`, so the helper stays outside React — `AuthProvider` is the only writer of that key. A guest simply has no token and `buildHeaders` drops the header. `HttpError` carries the status and the server's error `code`; a 401 on an authenticated route means the 7-day access token expired, and since **there is no refresh endpoint server-side**, the only recovery is signing in again (`BookmarksProvider` does `logout()` + `openPrompt()`).
 
 ### Password Reset Deep Link
 The app registers the `mdj://` URL scheme (Android: an `intent-filter` for `mdj://reset-password` in `AndroidManifest.xml`; iOS: `CFBundleURLTypes` in `Info.plist` plus `application(_:open:options:)` in `AppDelegate.swift` forwarding to `RCTLinkingManager`).
@@ -152,7 +171,7 @@ Theme-aware components that should be preferred over their React Native equivale
 - **`FormInput`** (`src/components/FormInput/`): labelled `TextInput` with an optional `error` line; accepts every `TextInput` prop.
 - **`BottomSheet`** (`src/components/BottomSheet/`): the animated sheet both auth modals are built from (98% width, 45% height, 20 px above the bottom inset, fading backdrop). Props: `visible`, optional `onDismiss` (backdrop tap + Android back; omit it for a sheet the user must answer) and `dismissLabel`. It's an absolute overlay inside the screen, **not** a native `Modal`, so a screen pushed while it's open slides over it and it's still there on return. Android back is handled only while its screen is focused (`useFocusEffect`), and it stays mounted until the Reanimated slide-out finishes.
 - **`AuthPromptModal`** (`src/components/AuthPromptModal/`): `BottomSheet` with the logo, "Soyons plus proches" and the Login / Signup buttons. Driven by `AuthContext` (`promptVisible` / `closePrompt`).
-- **`AuthSuccessModal`** (`src/components/AuthSuccessModal/`): `BottomSheet` shown by `Login` / `Signup` once a session opens — "Bienvenue {firstname}" and a `Continue` button. It has no `onDismiss`: **`Continue` closes it and only then runs `goBack()`**, so the redirect waits for the user.
+- **`AuthSuccessModal`** (`src/components/AuthSuccessModal/`): `BottomSheet` shown by `Login` / `Signup` once a session opens — "Bienvenue {firstname}" and a `Continue` button. It has no `onDismiss`: **`Continue` closes it and only then resets the stack to `Home`**, so the redirect waits for the user.
 - **`Footer`** (`src/components/Footer/`): footer rendered at the bottom of `DefaultLayout` pages.
 - **`Header`** (`src/components/Header/`): header with back navigation, used in `DefaultLayout`.
 - **`CheckboxGroup`** (`src/components/CheckboxGroup/`), **`LinksGroup`** (`src/components/LinksGroup/`), **`PageLoader`** (`src/components/PageLoader/`): utility UI components.

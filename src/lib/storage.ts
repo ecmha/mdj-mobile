@@ -8,6 +8,7 @@ export const STORAGE_KEYS = {
   DEVICE_TOKEN: 'device_token',
   HOME_TUTORIAL: 'home_tutorial_v2',
   AUTH_SESSION: 'auth_session',
+  BOOKMARKS_VIEW: 'bookmarks_view',
 } as const;
 
 export const saveItem = (key: string, value: string) =>

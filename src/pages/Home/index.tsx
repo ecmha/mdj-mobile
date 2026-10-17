@@ -1,12 +1,10 @@
 import { useState, useCallback, useEffect, JSX, useRef } from 'react';
 import { StyleSheet } from 'react-native';
-import { useTranslation } from 'react-i18next';
 import HomeLayout from '@/layouts/HomeLayout';
 import HomeToolBar from '@/components/HomeToolBar';
 import { HOME_TOOLBAR_HEIGHT } from '@/components/HomeToolBar/styles';
 import Toast from '@/components/Toast';
 import { useLanguage } from '@/hooks/useLanguage';
-import { useAuth } from '@/hooks/useAuth';
 import { Message } from '@/services/messages/types';
 import { getDayMessages } from '@/services/messages';
 import MessageItem from '@/components/MessageItem/index';
@@ -21,8 +19,6 @@ export default function Home() {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const requestIdRef = useRef(0);
   const { language } = useLanguage();
-  const { requireAuth } = useAuth();
-  const { t } = useTranslation();
 
   const getMedidations = useCallback(async () => {
     try {
@@ -56,12 +52,6 @@ export default function Home() {
   const handleNext = useCallback(() => {
     setCurrentIndex(prevIndex => Math.min(messages.length - 1, prevIndex + 1));
   }, [messages.length]);
-
-  // Bookmarks need an account. The feature itself isn't implemented yet, so a
-  // signed-in reader is told instead of nothing happening.
-  const handleBookmark = useCallback(() => {
-    requireAuth(() => setToastMessage(t('home.bookmark.unavailable')));
-  }, [requireAuth, t]);
 
   const hideToast = useCallback(() => setToastMessage(null), []);
 
@@ -106,7 +96,7 @@ export default function Home() {
         onPrevious={handlePrevious}
         onNext={handleNext}
         message={messages[currentIndex]}
-        onBookmark={handleBookmark}
+        onToast={setToastMessage}
       />
       <Toast message={toastMessage} onHide={hideToast} style={styles.toast} />
     </HomeLayout>

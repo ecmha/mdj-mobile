@@ -26,8 +26,8 @@ import { useTheme } from '@/hooks/useTheme';
 
 type MessageItemProps = {
   item: Message;
-  refreshing: boolean;
-  onRefresh: () => void;
+  refreshing?: boolean;
+  onRefresh?: () => void;
 };
 
 export default function MessageItem({
@@ -54,7 +54,12 @@ export default function MessageItem({
         style={[flexContent(1)]}
         showsVerticalScrollIndicator
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          onRefresh ? (
+            <RefreshControl
+              refreshing={refreshing ?? false}
+              onRefresh={onRefresh}
+            />
+          ) : undefined
         }
       >
         <MText

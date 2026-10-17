@@ -28,12 +28,31 @@ export default {
     },
     bookmark: {
       add: 'Ajouter aux favoris',
+      // `remove` / `removed` attendent la liste des favoris : on ne retire
+      // pas un message depuis l'accueil.
       remove: 'Retirer des favoris',
       added: 'Message ajouté aux favoris',
       removed: 'Message retiré des favoris',
+      error: "Impossible d'ajouter aux favoris",
+      open_list: 'Voir mes favoris',
       unavailable: 'Fonctionnalité pas encore disponible',
     },
     share: 'Partager le message',
+  },
+  bookmarks: {
+    title: 'Mes favoris',
+    back: 'Retour',
+    count_one: '{{count}} message enregistré',
+    count_other: '{{count}} messages enregistrés',
+    by_author: 'Par {{name}}',
+    empty: 'Aucun favori pour le moment',
+    empty_hint: 'Touchez le marque-page sur un message pour l’enregistrer',
+    error: 'Impossible de charger vos favoris',
+    error_hint: 'Tirez vers le bas pour réessayer',
+    unavailable_message: "Ce message n'est plus disponible",
+    remove_error: 'Impossible de retirer des favoris',
+    view_grid: 'Afficher en grille',
+    view_list: 'Afficher en liste',
   },
   auth: {
     back: 'Retour',
@@ -135,7 +154,15 @@ export default {
   my_informations: {
     title: 'Mes informations',
     avatar: 'Photo de profil',
-    change_password: 'Changer le mot de passe',
+    logout: 'Se déconnecter',
+    logout_confirm: {
+      title: 'Se déconnecter ?',
+      description:
+        'Vous devrez vous reconnecter pour retrouver vos favoris et vos informations.',
+      confirm: 'Se déconnecter',
+      cancel: 'Annuler',
+      close: 'Fermer',
+    },
   },
   language_setting: {
     title: 'Langue',
@@ -159,6 +186,16 @@ export default {
     error_message: 'Veuillez entrer votre message.',
     description:
       "Un commentaire, un mot d'encouragement, une suggestion d'amélioration ? Nous serons ravi d'avoir un feedback de votre part.\n\nFraternellement",
+  },
+  menu: {
+    title: 'Menu',
+    unavailable: 'Bientôt disponible',
+    items: {
+      teachings: 'Enseignements',
+      bookmarks: 'Mes favoris',
+      talk_to_preacher: 'Parler à un prédicateur',
+      liturgical_guide: 'Guide liturgique',
+    },
   },
   supremat: {
     title: 'À Propos',

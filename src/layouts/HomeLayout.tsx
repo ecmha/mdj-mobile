@@ -50,7 +50,7 @@ export default function HomeLayout({
       <View style={styles.ctaLeft}>
         <CTA
           onPress={() => {
-            navigation.navigate('Supremat');
+            navigation.navigate('Menu');
           }}
           disabled={false}
           color="foreground"
