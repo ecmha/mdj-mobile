@@ -29,6 +29,12 @@ export default StyleSheet.create({
     shadowRadius: 4,
     elevation: 6,
   },
+  coverImage: {
+    width: '100%',
+    height: '100%',
+    // The tile's own overflow can't clip: that would drop its shadow.
+    borderRadius: 12,
+  },
   label: {
     // The card colors are vivid in both themes, so the label is always white.
     color: '#ffffff',
