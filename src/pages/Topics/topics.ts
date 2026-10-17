@@ -18,6 +18,11 @@ const TOPIC_COLORS = [
   '#e8590c',
   '#5b4b9a',
   '#3d6fb0',
+  '#b23a48',
+  '#00897b',
+  '#8e3b8e',
+  '#4f6272',
+  '#5f7d1f',
 ];
 
 // Picked from the id rather than the list position, so a topic keeps its
