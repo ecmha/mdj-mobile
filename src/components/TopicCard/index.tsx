@@ -1,7 +1,7 @@
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@react-native-vector-icons/ionicons';
 import { API_URL } from '@env';
-import { fontFamily, textBig } from '@/theme';
+import { fontFamily, textMedium } from '@/theme';
 import styles from './styles';
 
 export type TopicCardProps = {
@@ -37,11 +37,14 @@ export default function TopicCard({
         ) : (
           // Plain Ionicons: the `Icon` wrapper only takes theme colors, and
           // this one is white whatever the theme.
-          <Ionicons name="pricetag" color="#ffffff" size={40} />
+          <Ionicons name="pricetag" color="#ffffff" size={28} />
         )}
       </View>
       {/* Not MText: its theme color would lose against the vivid card. */}
-      <Text style={[styles.label, textBig, fontFamily.sfBold]} numberOfLines={1}>
+      <Text
+        style={[styles.label, textMedium, fontFamily.sfBold]}
+        numberOfLines={1}
+      >
         {label}
       </Text>
     </TouchableOpacity>
