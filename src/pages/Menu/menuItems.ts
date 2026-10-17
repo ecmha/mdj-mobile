@@ -34,6 +34,7 @@ export const MENU_ITEMS: MenuItem[] = [
     id: 'teachings',
     icon: 'library-outline',
     background: { light: '#e9d8b4', dark: '#3b3355' },
+    route: 'Topics',
   },
   {
     id: 'talk_to_preacher',

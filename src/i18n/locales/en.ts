@@ -194,6 +194,14 @@ export default {
       liturgical_guide: 'Liturgical guide',
     },
   },
+  topics: {
+    title: 'Topics',
+    unavailable: 'Coming soon',
+    empty: 'No topics yet',
+    empty_hint: 'Pull down to refresh',
+    error: 'Could not load topics',
+    error_hint: 'Pull down to try again',
+  },
   supremat: {
     title: 'About',
     tagline:

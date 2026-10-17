@@ -17,6 +17,7 @@ import ResetPassword from './pages/ResetPassword';
 import MyInformations from './pages/MyInformations';
 import Bookmarks from './pages/Bookmarks';
 import BookmarkMessage from './pages/BookmarkMessage';
+import Topics from './pages/Topics';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -34,6 +35,7 @@ export type RootStackParamList = {
   ResetPassword: { token: string };
   MyInformations: undefined;
   Bookmarks: undefined;
+  Topics: undefined;
   // The title rides along so the header has something to show while the
   // bookmark is being fetched.
   BookmarkMessage: { bookmarkId: string; title?: string };
@@ -62,6 +64,11 @@ export default function Navigation() {
           <Stack.Screen
             name="Menu"
             component={Menu}
+            options={{ animation: 'slide_from_left' }}
+          />
+          <Stack.Screen
+            name="Topics"
+            component={Topics}
             options={{ animation: 'slide_from_left' }}
           />
           <Stack.Screen

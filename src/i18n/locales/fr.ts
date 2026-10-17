@@ -197,6 +197,14 @@ export default {
       liturgical_guide: 'Guide liturgique',
     },
   },
+  topics: {
+    title: 'Thèmes',
+    unavailable: 'Bientôt disponible',
+    empty: 'Aucun thème pour le moment',
+    empty_hint: 'Tirez vers le bas pour actualiser',
+    error: 'Impossible de charger les thèmes',
+    error_hint: 'Tirez vers le bas pour réessayer',
+  },
   supremat: {
     title: 'À Propos',
     tagline:
