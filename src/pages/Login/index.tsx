@@ -59,7 +59,10 @@ export default function Login() {
 
   const handleContinue = () => {
     setWelcoming(false);
-    navigation.goBack();
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Home' }],
+    });
   };
 
   return (
