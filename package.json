@@ -91,5 +91,19 @@
         "storage"
       ]
     }
+  },
+  "overrides": {
+    "shell-quote": "^1.11.0",
+    "launch-editor": "^2.14.2",
+    "compression": "^1.8.2",
+    "minimatch@3": {
+      "brace-expansion": "^1.1.21"
+    },
+    "minimatch@8": {
+      "brace-expansion": "^2.1.7"
+    },
+    "minimatch@10": {
+      "brace-expansion": "^5.0.10"
+    }
   }
 }
